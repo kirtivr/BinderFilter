@@ -1,0 +1,67 @@
+Binder Debug Logging:
+
+	printk()-
+		binder_debug() checks binder_debug_mask before printk() which prints to the kernel log
+		binder_debug_mask is a registered kernel module parameter via module_param_named()
+		this logging will show (for BINDER_DEBUG_TRANSACTION) pids, buffer addresses, but not data
+
+		--------------------------------------------------------------------
+		adb shell "su -c 'echo 7 > /proc/sys/kernel/printk'"
+		adb shell "su -c 'echo 519 > /sys/module/binder/parameters/debug_mask'"
+
+		***where 519 is the bit mask you want based on the binder_debug_mask enum
+
+		adb shell dmesg | grep binder
+		--------------------------------------------------------------------
+
+		http://unix.stackexchange.com/questions/122918/change-kernel-parameters-at-runtime 
+
+		log: binder_debug_log.txt
+
+	TRACE_EVENT()-
+		trace_binder_ioctl etc are kernel trace events (binder_trace.h)
+		trace_binder_##func## is registered in binder_trace.h as TRACE_EVENT(binder_ioctl, ...)
+		TRACE_EVENT() macro prints tracepoint output to the debugfs tracing directory
+
+		--------------------------------------------------------------------
+		adb shell "su -c 'echo 1 > /sys/kernel/debug/tracing/events/binder/binder_ioctl/enable'"
+		adb shell "su -c 'cat /sys/kernel/debug/tracing/trace'"
+
+		where binder_ioctl is the event you want to trace 
+			(events are located in /sys/kernel/debug/tracing/events/binder/)
+		--------------------------------------------------------------------
+
+		http://lwn.net/Articles/381064/
+
+		log: binder_trace_log.txt
+
+	seq_printf()-
+		binder_proc_show(), binder_state_show(), etc are binder.c functions to print out state
+			including buffer data address
+		calls seq_printf(m, ...) to print out the state via seq_file API to the debugfs kernel module directory
+
+		binder.c uses the debugfs to print out info for proc, state, stats, transactions, transation_log
+		binder_init() calls debugfs_create_dir() and debugfs_create_file("name", ..., binder_name_fops)
+
+		struct file_operations binder_##name##_fops {
+			...,
+			.open = binder_##name##_open,
+			...
+		}
+
+		binder_##name##_open() expands to single_open(..., binder_##name##_show, ...) [seq_file API]
+			where binder_##name##_show is the binder.c function that uses seq_printf()
+
+		BINDER_DEBUG_ENTRY() macro expands to binder_##name##_open() expands to single_open()
+			and is called on proc, state, stats, transactions, transation_log
+
+		--------------------------------------------------------------------
+		adb shell "su -c 'cat /sys/kernel/debug/binder/transactions'"
+
+		where transactions is the debugfs seq_file output for binder_transactions_show()
+		--------------------------------------------------------------------
+
+		https://lwn.net/Articles/22355/
+		http://rahulonblog.blogspot.com/2013/06/how-to-enable-debugfs-in-kernel.html
+
+		log: binder_seq_log.txt

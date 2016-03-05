@@ -1,0 +1,30 @@
+Root Google Nexus 7 2013 Wifi (flo) - Armv7-a 32 bit
+
+Root:
+    http://forum.xda-developers.com/showthread.php?t=2382051
+
+    download CF-root, extract, chmod +x root-mac.sh
+        http://download.chainfire.eu/347/CF-Root/CF-Auto-Root/CF-Auto-Root-flo-razor-nexus7.zip?retrieve_file=1
+    download adb, fastboot
+    enable usb debugging
+
+    adb reboot bootloader
+    fastboot oem unlock
+    confirm yes
+    press power button to select start
+
+    wait for device to reboot
+    enable usb debugging again
+    go into bootloader: adb reboot bootloader
+    ./root-mac.sh
+
+To flash custom recovery:
+	fastboot oem unlock
+	enable usb debugging
+	adb reboot bootloader
+	fastboot flash recovery recoveryfile.img
+		for nexus 7, make sure it's ending in "flo"
+		**** Because these nexus 7's were shipped with android 5.0 lollipop, and twrp original image was made for kit kat (4.4),
+			the regular recovery images won't work. Get the multirom TWRP for flo and flash that instead
+			http://forum.xda-developers.com/nexus-7-2013/nexus-7-2013-qa/mount-recovery-t3064562
+	once it shows that it's flashed in term, use power and volume buttons in bootloader page to go to "recovery"

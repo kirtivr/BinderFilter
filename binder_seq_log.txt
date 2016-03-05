@@ -1,0 +1,60 @@
+root@flo:/sys/kernel/debug/binder/proc # ps | grep binderservice
+u0_a88    7086  202   918808 46268 sys_epoll_ b6c70894 S edu.dartmouth.dwu.binderservice
+u0_a88    7128  202   881464 37192 sys_epoll_ b6c70894 S edu.dartmouth.dwu.binderservice:my_process
+
+root@flo:/sys/kernel/debug/binder/proc # ps | grep 637                         
+system    637   202   1690304 112836 sys_epoll_ b6c70894 S system_server
+
+root@flo:/sys/kernel/debug/binder/proc # cat 7128                              
+binder proc state:
+proc 7128
+  thread 7128: l 10
+    outgoing transaction 180028: de5f3b40 from 7128:7128 to 637:4873 code c flags 10 pri 0 r1 node 174787 size 80:4 data eed000dc
+  
+
+adb shell "su -c 'cat /sys/kernel/debug/binder/transaction_log'"
+
+192758: async from 187:187 to 7086:0 node 174056 handle 1 size 68:0
+192759: call  from 637:658 to 187:0 node 65 handle 1 size 204:8
+192760: reply from 187:1246 to 637:658 node 0 handle -1 size 0:0
+192761: async from 7086:7145 to 187:0 node 173713 handle 15 size 80:0
+192762: call  from 7086:7145 to 187:0 node 173996 handle 19 size 84:0
+192763: reply from 187:254 to 7086:7145 node 0 handle -1 size 8:0
+192764: call  from 7086:7145 to 187:0 node 173996 handle 19 size 100:0
+192765: reply from 187:436 to 7086:7145 node 0 handle -1 size 40:4
+192766: call  from 7086:7145 to 187:0 node 173996 handle 19 size 84:0
+192767: reply from 187:252 to 7086:7145 node 0 handle -1 size 8:0
+192768: call  from 7086:7145 to 187:0 node 173996 handle 19 size 180:4
+192769: reply from 187:1246 to 7086:7145 node 0 handle -1 size 20:0
+192770: async from 637:660 to 187:0 node 7653 handle 19 size 80:0
+192771: async from 187:187 to 7086:0 node 174056 handle 1 size 68:0
+192772: async from 637:658 to 187:0 node 6344 handle 5 size 80:0
+192773: call  from 637:658 to 187:0 node 65 handle 1 size 204:8
+192774: reply from 187:6491 to 637:658 node 0 handle -1 size 0:0
+192775: async from 7086:7145 to 187:0 node 173713 handle 15 size 80:0
+192776: call  from 7086:7145 to 187:0 node 173996 handle 19 size 84:0
+192777: reply from 187:254 to 7086:7145 node 0 handle -1 size 8:0
+192778: call  from 7086:7145 to 187:0 node 173996 handle 19 size 100:0
+192779: reply from 187:252 to 7086:7145 node 0 handle -1 size 40:4
+192780: call  from 7086:7145 to 187:0 node 173996 handle 19 size 84:0
+192781: reply from 187:1246 to 7086:7145 node 0 handle -1 size 8:0
+192782: call  from 7086:7145 to 187:0 node 173996 handle 19 size 180:4
+192783: reply from 187:6491 to 7086:7145 node 0 handle -1 size 20:0
+192784: async from 637:660 to 187:0 node 7653 handle 19 size 80:0
+192785: async from 187:187 to 7086:0 node 174056 handle 1 size 68:0
+192786: async from 637:658 to 7128:0 node 192254 handle 600 size 52:0
+192787: async from 637:658 to 7128:0 node 192254 handle 600 size 52:0
+192788: call  from 637:658 to 187:0 node 65 handle 1 size 76:0
+192789: reply from 187:436 to 637:658 node 0 handle -1 size 0:0
+
+
+adb shell "su -c 'cat /sys/kernel/debug/binder/transactions'"
+
+binder transactions:
+proc 7307
+  buffer 177395: ec600028 size 8:0 delivered
+proc 7128
+  buffer 193066: f0100028 size 4:0 delivered
+proc 7086
+  buffer 192997: eff00028 size 20:0 delivered
+  
