@@ -26,18 +26,47 @@ CONFIG_MODULE_FORCE_LOAD=y
 CONFIG_MODULE_UNLOAD=y
 CONFIG_MODULE_FORCE_UNLOAD=y
 
-# for kernel:
-make 
 
 # for modules:
 make modules_prepare
 
-root@dwu-VirtualBox:/media/sf_msm# make ARCH=arm CONFIG_AHH_HELLOWORLD=m M=drivers/ahh_helloworld 
+root@dwu-VirtualBox:/media/sf_msm# make ARCH=arm CONFIG_AHH_HELLOWORLD=m -fno-pic M=drivers/ahh_helloworld 
 
 # in mac
 cp /media/sf_msm/drivers/ahh_helloworld/ahh_helloworld_mod.ko .
 adb push ahh_helloworld_mod.ko /data/local/tmp
-
+adb shell 
+cd /data/local/tmp
+insmod ahh_helloworld_mod.ko
+dmesg | grep HELLO
 
 # make sure the android kernel has CONFIG_MODULES=y when built (i.e. rebuild kernel for that)
+
+
+# for kernel:
+make 
+
+
+# building kernel results in zimage at /media/sf_msm/arch/arm/boot/zImage
+# in linux, apt-get abootimg
+# get existing boot image from phone:
+	adb shell
+	su
+	cd /sdcard/Download
+	dd if=/dev/block/platform/*/by-name/boot of=cur-boot.img
+	chmod 644 cur-boot.img
+	exit
+	exit
+	adb pull /sdcard/Download/cur-boot.img .
+
+# add recently built kernel to that image
+	cp /media/sf_msm/arch/arm/boot/zImage .
+	abootimg -u cur-boot.img -k zImage
+
+# flash to phone
+	adb reboot bootloader
+	fastboot boot cur-boot.img
+
+
+
 
