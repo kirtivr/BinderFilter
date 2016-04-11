@@ -47,6 +47,7 @@ def translateLog(line):
 	timestamp = translateTimestamp(timestamp)
 	line = line[line.find(']')+2:]	# strip the timestamp
 
+	# BINDER_DEBUG_OPEN_CLOSE
 	if "binder_open" in line:
 		translateBinderOpen(line, timestamp)
 	elif "binder_mmap" in line:
@@ -59,6 +60,8 @@ def translateLog(line):
 		translateBinderOpenVma(line, timestamp)
 	elif "close vm area" in line:
 		translateBinderCloseVma(line, timestamp)
+
+	# BINDER_DEBUG_TRANSACTION
 	elif "BR_TRANSACTION" in line and "cmd" in line:
 		translateBinderReturn(line, timestamp)
 	elif "BR_REPLY" in line:
@@ -67,6 +70,14 @@ def translateLog(line):
 		translateBinderCommandTransaction(line, timestamp)
 	elif "BC_REPLY" in line:
 		translateBinderCommandReply(line, timestamp)
+	elif "buffer release" in line:
+		translateBinderBufferRelease(line, timestamp)
+
+	# BINDER_DEBUG_READ_WRITE
+	elif "write" in line:
+		traslateBinderWrite(line, timestamp)
+	elif "wrote" in line:
+		translateBinderWrote(line, timestamp)
 	else:
 		print "not found"
 
@@ -217,7 +228,7 @@ def translateBinderReturn(line, timestamp):
 		fromString = "n/a"
 
 	print("[%s] binder_return %s: process pid %s (%s), thread pid %s, from %s, \
-transaction id %s, command value %s, buffer address %s, buffer size %s, offsets address %s, offsets size %s" % 
+transaction id %s, command value %s, data address %s, data size %s, offsets address %s, offsets size %s" % 
 		(timestamp, cmd, procPid, getProcessNameFor(procPid), threadPid, fromString, transactionDebugId, 
 			cmdUInt, bufferDataAddress, bufferDataSize, bufferOffsetsAddress, bufferOffsetsSize))
 
@@ -256,10 +267,12 @@ def translateBinderCommandReply(line, timestamp):
 	bufferSize = sizes[sizes.find(' ') : sizes.find('-')].strip()
 	offsetsSize = sizes[sizes.find('-')+1:].strip()
 
+	extra = translateBinderCommandExtras(line, line.find('size')+1+len(sizes))
+
 	print("[%s] binder_command BC_REPLY: process pid %s (%s), thread pid %s -> process pid %s (%s), thread pid %s \
-transaction id %s, buffer address %s, buffer size %s, offsets address %s, offsets size %s" % 
+transaction id %s, data address %s, data size %s, offsets address %s, offsets size %s %s" % 
 		(timestamp, senderPid, getProcessNameFor(senderPid), senderThread, targetPid, getProcessNameFor(targetPid),
-		targetThread, debugId, bufferAddr, bufferSize, offsetsAddr, offsetsSize))
+		targetThread, debugId, bufferAddr, bufferSize, offsetsAddr, offsetsSize, extra))
 
 # binder.c#1550
 # binder: 635:653 BC_TRANSACTION 1449664 -> 188 - node 6351, data 9cb20400-  (null) size 80-0
@@ -294,12 +307,121 @@ def translateBinderCommandTransaction(line, timestamp):
 	bufferSize = sizes[sizes.find(' ') : sizes.find('-')].strip()
 	offsetsSize = sizes[sizes.find('-')+1:].strip()
 
-	print("[%s] binder_command BC_TRANSACTION: process pid %s (%s), thread pid %s -> process pid %s (%s), node id %s \
-transaction id %s, buffer address %s, buffer size %s, offsets address %s, offsets size %s" % 
-		(timestamp, senderPid, getProcessNameFor(senderPid), senderThread, targetPid, getProcessNameFor(targetPid),
-		targetNodeDebugId, debugId, bufferAddr, bufferSize, offsetsAddr, offsetsSize))
+	extra = translateBinderCommandExtras(line, line.find('size')+1+len(sizes))
 
-	time.sleep(3)
+	print("[%s] binder_command BC_TRANSACTION: process pid %s (%s), thread pid %s -> process pid %s (%s), node id %s \
+transaction id %s, data address %s, data size %s, offsets address %s, offsets size %s %s" % 
+		(timestamp, senderPid, getProcessNameFor(senderPid), senderThread, targetPid, getProcessNameFor(targetPid),
+		targetNodeDebugId, debugId, bufferAddr, bufferSize, offsetsAddr, offsetsSize, extra))
+
+# binder_debug(BINDER_DEBUG_TRANSACTION,
+#      "        node %d u%p -> ref %d desc %d\n",
+#      node->debug_id, node->ptr, ref->debug_id,
+#      ref->desc);
+# binder_debug(BINDER_DEBUG_TRANSACTION,
+#      "        ref %d desc %d -> node %d u%p\n",
+#      ref->debug_id, ref->desc, ref->node->debug_id,
+#      ref->node->ptr);
+# binder_debug(BINDER_DEBUG_TRANSACTION,
+#      "        ref %d desc %d -> ref %d desc %d (node %d)\n",
+#      ref->debug_id, ref->desc, new_ref->debug_id,
+#      new_ref->desc, ref->node->debug_id);
+def translateBinderCommandExtras(line, end):
+	extra = ""
+	pos = line.find('node', end)
+	pos2 = line.find('ref', end)
+	if pos2 != -1 and pos2 < pos:
+		pos = pos2
+
+	if pos != -1:
+		return line[pos:]
+		print "here"
+		time.sleep(5)
+	else:
+		return ""
+
+# binder.c:1332
+# binder: 14054 buffer release 325831, size 0-0, failed at   (null)
+# binder_debug(BINDER_DEBUG_TRANSACTION,
+#		     "binder: %d buffer release %d, size %zd-%zd, failed at %p\n",
+#		     proc->pid, buffer->debug_id,
+#		     buffer->data_size, buffer->offsets_size, failed_at);
+# binder_debug(BINDER_DEBUG_TRANSACTION, "        fd %ld\n", fp->handle);
+# binder_debug(BINDER_DEBUG_TRANSACTION, "        ref %d desc %d (node %d)\n",
+#      ref->debug_id, ref->desc, ref->node->debug_id);
+# binder_debug(BINDER_DEBUG_TRANSACTION, "        node %d u%p\n",
+#      node->debug_id, node->ptr);
+def translateBinderBufferRelease(line, timestamp):
+	splitLine = line.split(' ')
+	pid = splitLine[1]
+	debugId = splitLine[4][:-1]
+	size = splitLine[6]
+	sizeData = size[:size.find('-')]
+	sizeOffsets = size[size.find('-')+1:-1]
+	failedAt = line[line.find('at')+2:]
+	if "null" in failedAt:
+		failedAt = ""
+	else:
+		failedAt = ", " + failedAt
+
+	extra = ""
+	end = line.find('at') + 2
+	pos = line.find('fd', end)
+	pos2 = line.find('ref', end)
+	if pos != -1 and pos2 < pos:
+		pos = pos2
+	pos2 = line.find('node', end)
+	if pos != -1 and pos2 < pos:
+		pos = pos2
+	if pos != -1:
+		extra = line[pos:]
+		print "here"
+		time.sleep(5)
+
+	print("[%s] binder: process pid %s (%s) buffer release id %s, data size %s, offsets size %s %s %s" %
+	 (timestamp, pid, getProcessNameFor(pid), debugId, sizeData, sizeOffsets, failedAt, extra))
+
+# binder.c#2707
+# binder: 9489:9489 write 44 at acb0aa00, read 256 at acb0a500
+# binder_debug(BINDER_DEBUG_READ_WRITE,
+#    "binder: %d:%d write %ld at %08lx, read %ld at %08lx\n",
+#     proc->pid, thread->pid, bwr.write_size, bwr.write_buffer,
+#     bwr.read_size, bwr.read_buffer);
+def traslateBinderWrite(line, timestamp):
+	splitLine = line.split(' ')
+	pid = splitLine[1]
+	procPid = pid[:pid.find(':')]
+	threadPid = pid[pid.find(':')+1:]
+
+	writeSize = splitLine[3]
+	readSize = splitLine[7]
+
+	writeAddr = splitLine[5]
+	readAddr =  splitLine[9]
+
+	print("[%s] binder: process pid %s (%s), thread pid %s, writing %s bytes at addr %s reading %s bytes at addr %s" %
+	 (timestamp, procPid, getProcessNameFor(procPid), threadPid, writeSize, writeAddr, readSize, readAddr))
+
+# binder.c#2733
+# binder: 635:646 wrote 8 of 8, read return 48 of 256
+# binder_debug(BINDER_DEBUG_READ_WRITE,
+#     "binder: %d:%d wrote %ld of %ld, read return %ld of %ld\n",
+#     proc->pid, thread->pid, bwr.write_consumed, bwr.write_size,
+#     bwr.read_consumed, bwr.read_size);
+def translateBinderWrote(line, timestamp):
+	splitLine = line.split(' ')
+	pid = splitLine[1]
+	procPid = pid[:pid.find(':')]
+	threadPid = pid[pid.find(':')+1:]
+
+	writeConsumed = splitLine[3]
+	writeSize = splitLine[5][:-1]
+
+	readConsumed = splitLine[8]
+	readSize = splitLine[10]
+
+	print("[%s] binder: process pid %s (%s), thread pid %s, wrote %s of %s bytes, read %s of %s bytes" %
+	 (timestamp, procPid, getProcessNameFor(procPid), threadPid, writeConsumed, writeSize, readConsumed, readSize))
 
 
 # [122214.186086]   [seconds.milliseconds]
@@ -433,8 +555,3 @@ def main(argv):
 
 if __name__ == "__main__":
    	main(sys.argv[1:])
-
-
-
-
-
