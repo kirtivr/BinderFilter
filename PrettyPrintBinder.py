@@ -1,13 +1,15 @@
 #!/usr/bin/python
 # David Wu
-# todo: add filters, change for different kernel versions (i.e. 3.18 BR_TRANSACTION logging)
+# todo: add filters, 
+# 		change for different kernel versions (i.e. 3.18 BR_TRANSACTION logging)
+# 		
 # line numbers from http://androidxref.com/kernel_3.4/xref/drivers/staging/android/binder.c
 
 
 '''
 -k see kernel debug messages (i.e. binder printks)
 followed by the number for types of debug messages to see
-i.e. -k 1 9 would show BINDER_DEBUG_USER_ERROR and BINDER_DEBUG_TRANSACTION  
+i.e. -k1 -k9 would show BINDER_DEBUG_USER_ERROR and BINDER_DEBUG_TRANSACTION  
  a see all BINDER_DEBUG messages
  0 see BINDER_DEBUG_USER_ERROR
  1 see BINDER_DEBUG_FAILED_TRANSACTION 
@@ -547,7 +549,7 @@ def main(argv):
 			outputList.insert(0, line)
 
 		for o in outputList:
-			print o
+			#print o
 			translateLog(o)
 
 		firstTime = nextTime
