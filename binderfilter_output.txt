@@ -1,0 +1,2191 @@
+([."'\$"'
+[   78.285491] BINDERFILTER: rr[."'\$"'
+[   78.285614] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.285736] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.286315] BINDERFILTER: rr(Q7"'HB'\$'`H
+[   78.286468] BINDERFILTER: rrQ7"'HB'\$'`H
+[   78.286651] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.286865] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.287109] BINDERFILTER: rr(Q7Y"'|DgrX@rX@rT7`rT7`rererOirOi
+[   78.287322] BINDERFILTER: rrQ7Y"'|DgrX@rX@rT7`rT7`rererOirOi
+[   78.287506] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.287689] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.287933] BINDERFILTER: rr([."'\$#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.288146] BINDERFILTER: rr[."'\$#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.288330] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.288452] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.289154] BINDERFILTER: rr(Q7"'Lr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.289367] BINDERFILTER: rrQ7"'Lr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.289550] BINDERFILTER: rr(PL(,ZGGGa9#=c>`36_3%Q4
+[   78.289672] BINDERFILTER: rrPL(,ZGGGa9#=c>`36_3%Q4
+[   78.289978] BINDERFILTER: rr(Q7Y"'H@g
+[   78.290130] BINDERFILTER: rrQ7Y"'H@g
+[   78.290344] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.290527] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.290924] BINDERFILTER: rr([."'\$$'\$-
+[   78.291076] BINDERFILTER: rr[."'\$$'\$-
+[   78.291168] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.291290] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.291931] BINDERFILTER: rr(Q7"'` r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.292083] BINDERFILTER: rrQ7"'` r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.292266] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.292419] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.292694] BINDERFILTER: rr(Q7Y"'\ *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.292877] BINDERFILTER: rrQ7Y"'\ *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.293060] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.293273] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.293518] BINDERFILTER: rr([."'\$p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.293762] BINDERFILTER: rr[."'\$p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.293914] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.294036] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.294616] BINDERFILTER: rr(Q7"'T4r([@+^'Xp
+[   78.294830] BINDERFILTER: rrQ7"'T4r([@+^'Xp
+[   78.295074] BINDERFILTER: rr(PP(,ZGGGa9#=c>`36_3%Q4
+[   78.295257] BINDERFILTER: rrPP(,ZGGGa9#=c>`36_3%Q4
+[   78.295501] BINDERFILTER: rr(Q7Y"'Prr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.295715] BINDERFILTER: rrQ7Y"'Prr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.295928] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.296051] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.296295] BINDERFILTER: rr([."'\$"'
+[   78.296508] BINDERFILTER: rr[."'\$"'
+[   78.296630] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.296752] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.297393] BINDERFILTER: rr(Q7"'TB'\$'`H
+[   78.297546] BINDERFILTER: rrQ7"'TB'\$'`H
+[   78.297760] BINDERFILTER: rr(PP(,ZGGGa9#=c>`36_3%Q4
+[   78.297882] BINDERFILTER: rrPP(,ZGGGa9#=c>`36_3%Q4
+[   78.298126] BINDERFILTER: rr(Q7Y"'PgrX@rX@rT7`rT7`rererOirOi
+[   78.298339] BINDERFILTER: rrQ7Y"'PgrX@rX@rT7`rT7`rererOirOi
+[   78.298553] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.298736] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.299011] BINDERFILTER: rr([."'\$#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.299224] BINDERFILTER: rr[."'\$#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.299377] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.299530] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.300018] BINDERFILTER: rr(Q7"'Pr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.300262] BINDERFILTER: rrQ7"'Pr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.300415] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.300598] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.300903] BINDERFILTER: rr(Q7Y"'L@g
+[   78.301055] BINDERFILTER: rrQ7Y"'L@g
+[   78.301239] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.301422] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.301666] BINDERFILTER: rr([."'\$$'\$-
+[   78.301879] BINDERFILTER: rr[."'\$$'\$-
+[   78.302001] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.302124] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.302673] BINDERFILTER: rr(Q7"'` r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.302856] BINDERFILTER: rrQ7"'` r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.303039] BINDERFILTER: rr(P<(,ZGGGa9#=c>`36_3%Q4
+[   78.303161] BINDERFILTER: rrP<(,ZGGGa9#=c>`36_3%Q4
+[   78.303466] BINDERFILTER: rr(Q7Y"'\ *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.303680] BINDERFILTER: rrQ7Y"'\ *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.303894] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.304107] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.304351] BINDERFILTER: rr([."'\$p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.304565] BINDERFILTER: rr[."'\$p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.304748] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.304870] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.305541] BINDERFILTER: rr(Q7"'\4r([@+^'Xp
+[   78.305694] BINDERFILTER: rrQ7"'\4r([@+^'Xp
+[   78.305877] BINDERFILTER: rr(P8(,ZGGGa9#=c>`36_3%Q4
+[   78.306091] BINDERFILTER: rrP8(,ZGGGa9#=c>`36_3%Q4
+[   78.306304] BINDERFILTER: rr(Q7Y"'Xrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.306549] BINDERFILTER: rrQ7Y"'Xrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.306732] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.306854] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.307189] BINDERFILTER: rr([."'\$"'
+[   78.307342] BINDERFILTER: rr[."'\$"'
+[   78.307434] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.307617] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.308197] BINDERFILTER: rr(Q7"'dB'\$'`H
+[   78.308380] BINDERFILTER: rrQ7"'dB'\$'`H
+[   78.308532] BINDERFILTER: rr(Pl(,ZGGGa9#=c>`36_3%Q4
+[   78.308685] BINDERFILTER: rrPl(,ZGGGa9#=c>`36_3%Q4
+[   78.308990] BINDERFILTER: rr(Q7Y"'`grX@rX@rT7`rT7`rererOirOi
+[   78.309143] BINDERFILTER: rrQ7Y"'`grX@rX@rT7`rT7`rererOirOi
+[   78.309326] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.309448] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.309722] BINDERFILTER: rr([."'\$#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.309936] BINDERFILTER: rr[."'\$#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.310089] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.310241] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.310852] BINDERFILTER: rr(Q7"'pr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.311035] BINDERFILTER: rrQ7"'pr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.311218] BINDERFILTER: rr(\P(,ZGGGa9#=c>`36_3%Q4
+[   78.311401] BINDERFILTER: rr\P(,ZGGGa9#=c>`36_3%Q4
+[   78.311645] BINDERFILTER: rr(Q7Y"'l@g
+[   78.311798] BINDERFILTER: rrQ7Y"'l@g
+[   78.312011] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.312133] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.312377] BINDERFILTER: rr([."'\$$'\$-
+[   78.312591] BINDERFILTER: rr[."'\$$'\$-
+[   78.315704] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.316558] BINDERFILTER: rr(Q7"'l r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.316711] BINDERFILTER: rrQ7"'l r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.317260] BINDERFILTER: rrr(0P(,ZGGGa9#=c>`36_3%Q4
+[   78.317626] BINDERFILTER: rr(Q7Y"'h *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.317810] BINDERFILTER: rr(
+[   78.318206] BINDERFILTER: rrQ7Y"'h *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.318695] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.319030] BINDERFILTER: rr([."'\$rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.319274] BINDERFILTER: rr[."'\$rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.319549] BINDERFILTER: 
+[   78.319641] BINDERFILTER: rrr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.320068] BINDERFILTER: rrDrDr
+[   78.320465] BINDERFILTER: rr(Q7"'`"'
+[   78.320678] BINDERFILTER: rrQ7"'`"'
+[   78.321044] BINDERFILTER: rrr(PH(,ZGGGa9#=c>`36_3%Q4
+[   78.321441] BINDERFILTER: rr(Q7Y"'\B'\$'`H
+[   78.321594] BINDERFILTER: rrQ7Y"'\B'\$'`H
+[   78.322113] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.322479] BINDERFILTER: rr([."'\$grX@rX@rT7`rT7`rererOirOi
+[   78.322692] BINDERFILTER: rr[."'\$grX@rX@rT7`rT7`rererOirOi
+[   78.322967] BINDERFILTER: rrr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.323486] BINDERFILTER: rr(`<"'H *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.323760] BINDERFILTER: rr(Q7"'\#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.323944] BINDERFILTER: rr9 !r9 !rH *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.324432] BINDERFILTER: rr9 !r9 !rH *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.324707] BINDERFILTER: rr(Trp6rp6
+[   78.324981] BINDERFILTER: rrt|rrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.325134] BINDERFILTER: rr(Lrp6rp6
+[   78.325408] BINDERFILTER: rrQ7"'\#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.325500] BINDERFILTER: rrt|rrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.325714] BINDERFILTER: rrt|rrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.325866] BINDERFILTER: rr(@R7='`d#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.326263] BINDERFILTER: rrr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.326690] BINDERFILTER: rrr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.327087] BINDERFILTER: rr(Q7Y"'p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.327270] BINDERFILTER: rr(Q7h'Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.327484] BINDERFILTER: rrQ7Y"'p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.327606] BINDERFILTER: rrQ7h'Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.328033] BINDERFILTER: rr(Trrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.328216] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.328399] BINDERFILTER: rrTrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.328613] BINDERFILTER: rr(Q7.h',04r([@+^'Xp
+[   78.328796] BINDERFILTER: rr([."'\$"'
+[   78.328948] BINDERFILTER: rr[."'\$"'
+[   78.329040] BINDERFILTER: rrQ7.h',04r([@+^'Xp
+[   78.329193] BINDERFILTER: rr9 !r9 !rH *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.329467] BINDERFILTER: rr(rrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.330444] BINDERFILTER: rr(@R7&h'Xrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.330749] BINDERFILTER: rr@R7&h'Xrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.331024] BINDERFILTER: 
+[   78.331298] BINDERFILTER: rrZ/rZ/r(,,'l
+[   78.331512] BINDERFILTER: 
+[   78.331817] BINDERFILTER: 
+[   78.332031] BINDERFILTER: rr(sT&****&&''$$
+[   78.332153] BINDERFILTER: rrsT&****&&''$$
+[   78.332489] BINDERFILTER: rr(@R75h'`grX@rX@rT7`rT7`rererOirOi
+[   78.332641] BINDERFILTER: rr@R75h'`grX@rX@rT7`rT7`rererOirOi
+[   78.332824] BINDERFILTER: rrr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.333007] BINDERFILTER: rrr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.333129] BINDERFILTER: rr(&****&&''$$
+[   78.333343] BINDERFILTER: rr&****&&''$$
+[   78.334045] BINDERFILTER: rr(Q7"'d@g
+[   78.334228] BINDERFILTER: rrQ7"'d@g
+[   78.334533] BINDERFILTER: rr(Q7h'l@g
+[   78.334716] BINDERFILTER: rrQ7h'l@g
+[   78.334808] BINDERFILTER: rr(t|&****&&''$$
+[   78.334991] BINDERFILTER: rrt|&****&&''$$
+[   78.335357] BINDERFILTER: rr(P((,ZGGGa9#=c>`36_3%Q4
+[   78.335693] BINDERFILTER: rr(`<h'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.335906] BINDERFILTER: rr(Q7Y"'X$'\$-
+[   78.336120] BINDERFILTER: rrQ7Y"'X$'\$-
+[   78.336212] BINDERFILTER: rr`<h'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.336730] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.336883] BINDERFILTER: rr(&****&&''$$
+[   78.337005] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.337341] BINDERFILTER: rr&****&&''$$
+[   78.337432] BINDERFILTER: rr([."'\$4r([@+^'Xp
+[   78.337677] BINDERFILTER: rr[."'\$4r([@+^'Xp
+[   78.338073] BINDERFILTER: rr(Q7h'L"'
+[   78.338256] BINDERFILTER: rrQ7h'L"'
+[   78.338928] BINDERFILTER: rr(0&****&&''$$
+[   78.339080] BINDERFILTER: rr0&****&&''$$
+[   78.339416] BINDERFILTER: rr(Q7"h'Trr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.339660] BINDERFILTER: rrQ7"h'Trr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.339935] BINDERFILTER: rr(4@&****&&''$$
+[   78.340057] BINDERFILTER: rr4@&****&&''$$
+[   78.340911] BINDERFILTER: rr(Q7h'LB'\$'`H
+[   78.341125] BINDERFILTER: rrQ7h'LB'\$'`H
+[   78.341583] BINDERFILTER: rr(&****&&''$$
+[   78.343139] BINDERFILTER: rr(Q7h'TgrX@rX@rT7`rT7`rererOirOi
+[   78.343383] BINDERFILTER: rrQ7h'TgrX@rX@rT7`rT7`rererOirOi
+[   78.343811] BINDERFILTER: rrr(&****&&''$$
+[   78.344207] BINDERFILTER: rr(Q7"h'T@g
+[   78.344360] BINDERFILTER: rrQ7"h'T@g
+[   78.344543] BINDERFILTER: rrr(4@&****&&''$$
+[   78.344970] BINDERFILTER: rr(Q7"h'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.345153] BINDERFILTER: rrQ7"h'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.345428] BINDERFILTER: rrr(&****&&''$$
+[   78.346710] BINDERFILTER: rr(Q7h'Tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.346954] BINDERFILTER: rrQ7h'Tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.347564] BINDERFILTER: rrr(&****&&''$$
+[   78.347930] BINDERFILTER: rr(Q7"h'T#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.348144] BINDERFILTER: rrQ7"h'T#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.348419] BINDERFILTER: rrr(&****&&''$$
+[   78.349761] BINDERFILTER: rr(Q7h'T$'\$-
+[   78.349914] BINDERFILTER: rrQ7h'T$'\$-
+[   78.350769] BINDERFILTER: rrr(&****&&''$$
+[   78.350921] BINDERFILTER: rrr(&****&&''$$
+[   78.351196] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.351440] BINDERFILTER: rr(Q7"h'Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.351623] BINDERFILTER: rrQ7"h'Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.351806] BINDERFILTER: rr(&****&&''$$
+[   78.352020] BINDERFILTER: rr&****&&''$$
+[   78.352386] BINDERFILTER: rr(Q7"'Dr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.352630] BINDERFILTER: rrQ7"'Dr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.353332] BINDERFILTER: rr(Q7h'4r([@+^'Xp
+[   78.353546] BINDERFILTER: rrQ7h'4r([@+^'Xp
+[   78.354095] BINDERFILTER: rr(&****&&''$$
+[   78.354248] BINDERFILTER: rr&****&&''$$
+[   78.354614] BINDERFILTER: rr(@R75h'B'\$'`H
+[   78.354766] BINDERFILTER: rr@R75h'B'\$'`H
+[   78.355285] BINDERFILTER: rr(t|&****&&''$$
+[   78.355499] BINDERFILTER: rrt|&****&&''$$
+[   78.355834] BINDERFILTER: rr(@R75h'grX@rX@rT7`rT7`rererOirOi
+[   78.356048] BINDERFILTER: rr@R75h'grX@rX@rT7`rT7`rererOirOi
+[   78.356475] BINDERFILTER: rr(&****&&''$$
+[   78.356689] BINDERFILTER: rr&****&&''$$
+[   78.356811] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.357116] BINDERFILTER: rr(@R75h'@g
+[   78.357330] BINDERFILTER: rr@R75h'@g
+[   78.357574] BINDERFILTER: rr(t|&****&&''$$
+[   78.357696] BINDERFILTER: rrt|&****&&''$$
+[   78.358032] BINDERFILTER: rr(@R75h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.358184] BINDERFILTER: rr@R75h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.358642] BINDERFILTER: rr(&****&&''$$
+[   78.358795] BINDERFILTER: rr&****&&''$$
+[   78.359283] BINDERFILTER: rr(`<h'@p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.359527] BINDERFILTER: rr`<h'@p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.359863] BINDERFILTER: rr( ,&****&&''$$
+[   78.360015] BINDERFILTER: rr ,&****&&''$$
+[   78.360473] BINDERFILTER: rr(`<h'H#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.360748] BINDERFILTER: rr`<h'H#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.361236] BINDERFILTER: rr(&****&&''$$
+[   78.361389] BINDERFILTER: rr&****&&''$$
+[   78.361785] BINDERFILTER: rr(@R75h'$'\$-
+[   78.361938] BINDERFILTER: rr@R75h'$'\$-
+[   78.362243] BINDERFILTER: rr(t|&****&&''$$
+[   78.362426] BINDERFILTER: rrt|&****&&''$$
+[   78.362701] BINDERFILTER: rr(@R75h'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.362945] BINDERFILTER: rr@R75h'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.363220] BINDERFILTER: rr(&****&&''$$
+[   78.363372] BINDERFILTER: rr&****&&''$$
+[   78.363464] BINDERFILTER: rr(P (,ZGGGa9#=c>`36_3%Q4
+[   78.363708] BINDERFILTER: rr(@R75h' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.363922] BINDERFILTER: rr@R75h' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.364196] BINDERFILTER: rr(Q7Y"'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.364379] BINDERFILTER: rr(t|&****&&''$$
+[   78.364624] BINDERFILTER: rrQ7Y"'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.364715] BINDERFILTER: rrt|&****&&''$$
+[   78.364929] BINDERFILTER: rrP (,ZGGGa9#=c>`36_3%Q4
+[   78.365234] BINDERFILTER: 
+[   78.365417] BINDERFILTER: 
+[   78.365570] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.365936] BINDERFILTER: rr([."'\$grX@rX@rT7`rT7`rererOirOi
+[   78.366149] BINDERFILTER: rr[."'\$grX@rX@rT7`rT7`rererOirOi
+[   78.366363] BINDERFILTER: rr(@Z)'Dt *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.366607] BINDERFILTER: rrr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.366912] BINDERFILTER: rr@rXFr'Dt *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.367095] BINDERFILTER: rr(TdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.367614] BINDERFILTER: rr@rXFr'Dt *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.367919] BINDERFILTER: rr(Q7"'L@g
+[   78.368041] BINDERFILTER: rr@rXFr'Dt *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.368255] BINDERFILTER: rrQ7"'L@g
+[   78.368499] BINDERFILTER: rrsrsrr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.368957] BINDERFILTER: rr(@R7='`(p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.369354] BINDERFILTER: rr(X\dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.369537] BINDERFILTER: rr(D8P
+[   78.369689] BINDERFILTER: rrsrsrr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.370025] BINDERFILTER: rr(
+[   78.370452] BINDERFILTER: rr(@R7='`(#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.370849] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.371276] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.371765] BINDERFILTER: rr(Q7Y"'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.371978] BINDERFILTER: rr(Q7"'T$'\$-
+[   78.372131] BINDERFILTER: rrQ7Y"'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.372283] BINDERFILTER: rrQ7"'T$'\$-
+[   78.372680] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.373107] BINDERFILTER: rr([."'\$rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.373260] BINDERFILTER: rrr(PD
+[   78.380615] BINDERFILTER: rr[."'\$rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.380767] BINDERFILTER: rrr(PD
+[   78.381103] BINDERFILTER: rrr(l((,ZGGGa9#=c>`36_3%Q4
+[   78.381286] BINDERFILTER: rr(Q7b"'L"'
+[   78.381469] BINDERFILTER: rrr(l((,ZGGGa9#=c>`36_3%Q4
+[   78.381652] BINDERFILTER: rrQ7b"'L"'
+[   78.381835] BINDERFILTER: rr(D
+[   78.382080] BINDERFILTER: rr(Q7"'4r([@+^'Xp
+[   78.382232] BINDERFILTER: rrQ7"'4r([@+^'Xp
+[   78.382598] BINDERFILTER: rr(xP((,ZGGGa9#=c>`36_3%Q4
+[   78.382812] BINDERFILTER: rr(Q7"'LB'\$'`H
+[   78.382965] BINDERFILTER: rrQ7"'LB'\$'`H
+[   78.383117] BINDERFILTER: rr(Q7Y"'tgrX@rX@rT7`rT7`rererOirOi
+[   78.383331] BINDERFILTER: rrQ7Y"'tgrX@rX@rT7`rT7`rererOirOi
+[   78.383789] BINDERFILTER: rrr(0P
+[   78.384246] BINDERFILTER: rrr(0P
+[   78.384338] BINDERFILTER: rrxP((,ZGGGa9#=c>`36_3%Q4
+[   78.384765] BINDERFILTER: rr(((,ZGGGa9#=c>`36_3%Q4
+[   78.384979] BINDERFILTER: rr(Q7"'L@g
+[   78.385101] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.385375] BINDERFILTER: rrQ7"'L@g
+[   78.385498] BINDERFILTER: rr([."'\tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.385711] BINDERFILTER: rr[."'\tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.385955] BINDERFILTER: rr(X((,ZGGGa9#=c>`36_3%Q4
+[   78.386535] BINDERFILTER: rr(Q7"'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.386688] BINDERFILTER: rrQ7"'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.387084] BINDERFILTER: rrr(0X(,ZGGGa9#=c>`36_3%Q4
+[   78.387237] BINDERFILTER: rrr(0X(,ZGGGa9#=c>`36_3%Q4
+[   78.387573] BINDERFILTER: rr(Q7Y"'P#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.387817] BINDERFILTER: rrQ7Y"'P#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.388031] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.388214] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.388336] BINDERFILTER: rr(P0
+[   78.388488] BINDERFILTER: rr([."'\$r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.388732] BINDERFILTER: rr[."'\$r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.389038] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.389343] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.389892] BINDERFILTER: rr(Q7"'L$'\$-
+[   78.390045] BINDERFILTER: rr(Q7"'rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.390258] BINDERFILTER: rrQ7"'L$'\$-
+[   78.390411] BINDERFILTER: rrQ7"'rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.391052] BINDERFILTER: rr(l|(,ZGGGa9#=c>`36_3%Q4
+[   78.391235] BINDERFILTER: rrl|(,ZGGGa9#=c>`36_3%Q4
+[   78.391571] BINDERFILTER: rr(Q7Y"'d"'
+[   78.391784] BINDERFILTER: rrQ7Y"'d"'
+[   78.392028] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.392242] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.392364] BINDERFILTER: rrr(PD
+[   78.392700] BINDERFILTER: rr(Q7b"'L4r([@+^'Xp
+[   78.392852] BINDERFILTER: rr([."'\$B'\$'`H
+[   78.393005] BINDERFILTER: rrQ7b"'L4r([@+^'Xp
+[   78.393188] BINDERFILTER: rr[."'\$B'\$'`H
+[   78.394012] BINDERFILTER: 
+[   78.395416] BINDERFILTER: rr(X`(0
+[   78.396697] BINDERFILTER: 
+[   78.398254] BINDERFILTER: rr(`<"'<grX@rX@rT7`rT7`rererOirOi
+[   78.398498] BINDERFILTER: rr;.r;.r<grX@rX@rT7`rT7`rererOirOi
+[   78.398986] BINDERFILTER: rrr(PD
+[   78.399047] BINDERFILTER: rr(Tdr@X=r@X=rX@=rX@=
+[   78.399169] BINDERFILTER: rr;.r;.r<grX@rX@rT7`rT7`rererOirOi
+[   78.399322] BINDERFILTER: rr(Ldr@X=r@X=rX@=rX@=
+[   78.399444] BINDERFILTER: rr;.r;.r<grX@rX@rT7`rT7`rererOirOi
+[   78.399597] BINDERFILTER: rr(D
+[   78.399688] BINDERFILTER: rrD
+[   78.399841] BINDERFILTER: rrsrsrr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.400115] BINDERFILTER: rr(@R7='`tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.400238] BINDERFILTER: rrsrsrr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.400360] BINDERFILTER: rrsrsrr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.401245] BINDERFILTER: rr(Q7h't r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.401367] BINDERFILTER: rrQ7h't r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.401580] BINDERFILTER: rr(Q7"'L@g
+[   78.401672] BINDERFILTER: rr(Ttxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.401824] BINDERFILTER: rrTtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.401885] BINDERFILTER: rrQ7"'L@g
+[   78.402099] BINDERFILTER: rr(Q7.h',tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.402282] BINDERFILTER: rrQ7.h',tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.402557] BINDERFILTER: rr(0PD
+[   78.402801] BINDERFILTER: rr(t|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.403137] BINDERFILTER: rr .r .r0PD
+[   78.403503] BINDERFILTER: rr0sr0srt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.403656] BINDERFILTER: rr(@R7&h'd"'
+[   78.403778] BINDERFILTER: rr@R7&h'd"'
+[   78.403839] BINDERFILTER: 
+[   78.403961] BINDERFILTER: 
+[   78.404266] BINDERFILTER: rr@Z)r@Z)r(,,'l
+[   78.404418] BINDERFILTER: 
+[   78.404846] BINDERFILTER: rr(0sT ;r`sr`sr;r;
+[   78.405029] BINDERFILTER: rr0sT ;r`sr`sr;r;
+[   78.405212] BINDERFILTER: rr(@R75h'd4r([@+^'Xp
+[   78.405364] BINDERFILTER: rr@R75h'd4r([@+^'Xp
+[   78.405670] BINDERFILTER: rr(@R7$"'l4rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.405853] BINDERFILTER: rr( ;r`sr`sr;r;
+[   78.406036] BINDERFILTER: rr ;r`sr`sr;r;
+[   78.406158] BINDERFILTER: rr(Q7h'dD *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.406311] BINDERFILTER: rrQ7h'dD *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.406463] BINDERFILTER: rr(@l,?rP`?rP`?r@r@
+[   78.406646] BINDERFILTER: rr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.406799] BINDERFILTER: rr(t| ;r`sr`sr;r;
+[   78.406921] BINDERFILTER: rrt| ;r`sr`sr;r;
+[   78.407226] BINDERFILTER: rr; r; rl4rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.407470] BINDERFILTER: rr(`<h'grX@rX@rT7`rT7`rererOirOi
+[   78.407653] BINDERFILTER: rr(@ l
+[   78.407745] BINDERFILTER: rr`<h'grX@rX@rT7`rT7`rererOirOi
+[   78.407897] BINDERFILTER: rrr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.408081] BINDERFILTER: rr`r`rr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.408386] BINDERFILTER: rr( ;r`sr`sr;r;
+[   78.408508] BINDERFILTER: rr ;r`sr`sr;r;
+[   78.409423] BINDERFILTER: rr(Q7h'Dr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.409606] BINDERFILTER: rrQ7h'Dr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.409820] BINDERFILTER: rr( ;r`sr`sr;r;
+[   78.410095] BINDERFILTER: rr(Q7"h'TD$'\$-
+[   78.410247] BINDERFILTER: rr(@R7='`dp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.410369] BINDERFILTER: rrQ7"h'TD$'\$-
+[   78.410583] BINDERFILTER: rr(@R7&B'$#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.410766] BINDERFILTER: rrr(44r`sr`sr;r;
+[   78.410919] BINDERFILTER: rrr(44r`sr`sr;r;
+[   78.411163] BINDERFILTER: rr(Q7"h'Td"'
+[   78.411285] BINDERFILTER: rr( .P@h
+[   78.411407] BINDERFILTER: rrQ7"h'Td"'
+[   78.411499] BINDERFILTER: rr@R7&B'$#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.411651] BINDERFILTER: rr@R7&B'$#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.411743] BINDERFILTER: rr(4r`sr`sr;r;
+[   78.411865] BINDERFILTER: rr4r`sr`sr;r;
+[   78.411956] BINDERFILTER: rr; r; rl4rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.412109] BINDERFILTER: 
+[   78.412231] BINDERFILTER: rr; r; rl4rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.412414] BINDERFILTER: 
+[   78.413177] BINDERFILTER: rr(Q7h'dB'\$'`H
+[   78.413391] BINDERFILTER: rrQ7h'dB'\$'`H
+[   78.413635] BINDERFILTER: rr(4r`sr`sr;r;
+[   78.413726] BINDERFILTER: rr(D
+[   78.413940] BINDERFILTER: rr4r`sr`sr;r;
+[   78.414031] BINDERFILTER: rr(Q7"h'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.414215] BINDERFILTER: rrQ7"h'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.414337] BINDERFILTER: rr(4r`sr`sr;r;
+[   78.414428] BINDERFILTER: rr4r`sr`sr;r;
+[   78.414581] BINDERFILTER: rr(`"'xl?r;sr;sr><@9r><@9
+[   78.414794] BINDERFILTER: rr`"'xl?r;sr;sr><@9r><@9
+[   78.414978] BINDERFILTER: 
+[   78.415161] BINDERFILTER: rr@8P
+[   78.415313] BINDERFILTER: rr(Q7h'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.415405] BINDERFILTER: rrQ7h'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.415832] BINDERFILTER: rr(4r`sr`sr;r;
+[   78.415954] BINDERFILTER: rr4r`sr`sr;r;
+[   78.416046] BINDERFILTER: rrr('PH
+[   78.416229] BINDERFILTER: rrr('PH
+[   78.416351] BINDERFILTER: rr(Q7"h'TgrX@rX@rT7`rT7`rererOirOi
+[   78.416442] BINDERFILTER: rrQ7"h'TgrX@rX@rT7`rT7`rererOirOi
+[   78.416564] BINDERFILTER: rr(4r`sr`sr;r;
+[   78.417419] BINDERFILTER: rr(@R7%"'TDgrX@rX@rT7`rT7`rererOirOi
+[   78.417663] BINDERFILTER: rr(Q7h'P$'\$-
+[   78.417785] BINDERFILTER: rr@R7%"'TDgrX@rX@rT7`rT7`rererOirOi
+[   78.417907] BINDERFILTER: rrQ7h'P$'\$-
+[   78.418121] BINDERFILTER: rr@R7%"'TDgrX@rX@rT7`rT7`rererOirOi
+[   78.418243] BINDERFILTER: rr@R7%"'TDgrX@rX@rT7`rT7`rererOirOi
+[   78.418518] BINDERFILTER: rrr(r`sr`sr;r;
+[   78.418640] BINDERFILTER: rr(@lr;r;
+[   78.418762] BINDERFILTER: rrr(r`sr`sr;r;
+[   78.418853] BINDERFILTER: rr(@Xhr;r;
+[   78.419006] BINDERFILTER: rr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.419158] BINDERFILTER: rr(@R75h'"'
+[   78.419281] BINDERFILTER: rr@R75h'"'
+[   78.419372] BINDERFILTER: rrr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.419616] BINDERFILTER: rr(@R7='`"'
+[   78.420074] BINDERFILTER: rr(@R7='`("'
+[   78.420654] BINDERFILTER: rr(t|r`sr`sr;r;
+[   78.420776] BINDERFILTER: rrt|r`sr`sr;r;
+[   78.421203] BINDERFILTER: rr(`<h'44r([@+^'Xp
+[   78.421417] BINDERFILTER: rr`<h'44r([@+^'Xp
+[   78.421661] BINDERFILTER: rr(r`sr`sr;r;
+[   78.421783] BINDERFILTER: rrr`sr`sr;r;
+[   78.422180] BINDERFILTER: rr(`<h'<B'\$'`H
+[   78.422332] BINDERFILTER: rr`<h'<B'\$'`H
+[   78.422698] BINDERFILTER: rr(t|r`sr`sr;r;
+[   78.422912] BINDERFILTER: rrt|r`sr`sr;r;
+[   78.423217] BINDERFILTER: rr(@R75h' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.423553] BINDERFILTER: rr@R75h' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.423980] BINDERFILTER: rr(r`sr`sr;r;
+[   78.424102] BINDERFILTER: rrr`sr`sr;r;
+[   78.424346] BINDERFILTER: rr(@R75h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.424530] BINDERFILTER: rr@R75h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.424896] BINDERFILTER: rr(t|r`sr`sr;r;
+[   78.425598] BINDERFILTER: 
+[   78.425750] BINDERFILTER: 
+[   78.426361] BINDERFILTER: rr(; *'$'\$-
+[   78.426788] BINDERFILTER: rr(rp6rp6
+[   78.426879] BINDERFILTER: rrrr'$'\$-
+[   78.427032] BINDERFILTER: rr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.427337] BINDERFILTER: rr(@R7='`4@g
+[   78.427429] BINDERFILTER: rr(XXdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.427581] BINDERFILTER: rrrr'$'\$-
+[   78.427734] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.427978] BINDERFILTER: rrrr'$'\$-
+[   78.428161] BINDERFILTER: rr(E@;P(h
+[   78.428405] BINDERFILTER: rr(@R7='`4$'\$-
+[   78.428558] BINDERFILTER: rrt|r`sr`sr;r;
+[   78.428924] BINDERFILTER: rrE@;rE@;rr(X\
+[   78.429077] BINDERFILTER: rrE@;rE@;rr(X\
+[   78.430419] BINDERFILTER: rr(Q7"'Trr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.430633] BINDERFILTER: rrQ7"'Trr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.430877] BINDERFILTER: rr(PDX\
+[   78.431060] BINDERFILTER: rrPDX\
+[   78.431274] BINDERFILTER: rr(Q7b"'T"'
+[   78.431427] BINDERFILTER: rrQ7b"'T"'
+[   78.431518] BINDERFILTER: rr(X`X\
+[   78.431671] BINDERFILTER: rrX`X\
+[   78.432312] BINDERFILTER: rr(Q7"'Lr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.432525] BINDERFILTER: rrQ7"'Lr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.433319] BINDERFILTER: rr(0PX\
+[   78.433441] BINDERFILTER: rr0PX\
+[   78.434051] BINDERFILTER: rr(Q7"'Lp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.434234] BINDERFILTER: rrQ7"'Lp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.434417] BINDERFILTER: rr(P0X\
+[   78.434539] BINDERFILTER: rrP0X\
+[   78.435699] BINDERFILTER: rr(Q7"'T4r([@+^'Xp
+[   78.435913] BINDERFILTER: rrQ7"'T4r([@+^'Xp
+[   78.436157] BINDERFILTER: rr(PDX\
+[   78.436248] BINDERFILTER: rrPDX\
+[   78.436523] BINDERFILTER: rr(Q7b"'TB'\$'`H
+[   78.436645] BINDERFILTER: rrQ7b"'TB'\$'`H
+[   78.436798] BINDERFILTER: rr(X`X\
+[   78.436950] BINDERFILTER: rrX`X\
+[   78.437561] BINDERFILTER: rr(Q7"'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.437774] BINDERFILTER: rr(P(,ZGGGa9#=c>`36_3%Q4
+[   78.437927] BINDERFILTER: rrQ7"'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.438079] BINDERFILTER: rrP(,ZGGGa9#=c>`36_3%Q4
+[   78.438232] BINDERFILTER: rr(0PX\
+[   78.438690] BINDERFILTER: rrPF@;rPF@;r0PX\
+[   78.440338] BINDERFILTER: rr(@R7""'t r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.440795] BINDERFILTER: rr(PTDP
+[   78.440887] BINDERFILTER: rr2r2rt r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.441101] BINDERFILTER: rr2r2rt r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.441253] BINDERFILTER: rr(PTPDh
+[   78.441345] BINDERFILTER: rr2r2rt r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.443481] BINDERFILTER: rr(@R7$"'l  *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.443817] BINDERFILTER: rr:@qr:@qrl  *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.443969] BINDERFILTER: rr(@l, rr
+[   78.444122] BINDERFILTER: rr:@qr:@qrl  *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.444305] BINDERFILTER: rr(@ Xx rr
+[   78.444427] BINDERFILTER: rr:@qr:@qrl  *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.444580] BINDERFILTER: rr('$(
+[   78.444702] BINDERFILTER: rrr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.444824] BINDERFILTER: rr'$(
+[   78.445007] BINDERFILTER: rrr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.445220] BINDERFILTER: rrPrPrr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.445343] BINDERFILTER: rr(@R7='`|rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.445648] BINDERFILTER: rr(@R7&B'$,"'
+[   78.445892] BINDERFILTER: rr(Q7"'T$'\$-
+[   78.446044] BINDERFILTER: rrQ7"'T$'\$-
+[   78.446197] BINDERFILTER: rr(0$
+[   78.446289] BINDERFILTER: rr0$
+[   78.446350] BINDERFILTER: rr(PF@;
+[   78.446472] BINDERFILTER: rr(Q7b"'Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.446594] BINDERFILTER: rr@R7&B'$,"'
+[   78.446746] BINDERFILTER: rr@R7&B'$,"'
+[   78.446807] BINDERFILTER: rrQ7b"'Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.447021] BINDERFILTER: 
+[   78.447204] BINDERFILTER: rr(
+[   78.447296] BINDERFILTER: rr(p(,ZGGGa9#=c>`36_3%Q4
+[   78.447479] BINDERFILTER: rr
+[   78.447998] BINDERFILTER: rr(@R7?"'pt4r([@+^'Xp
+[   78.448120] BINDERFILTER: rr(Q7"'Lp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.448272] BINDERFILTER: rrQ7"'Lp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.448394] BINDERFILTER: rr <r <rpt4r([@+^'Xp
+[   78.448699] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.448852] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.448974] BINDERFILTER: rr(0(
+[   78.449188] BINDERFILTER: rrH;rH;r0(
+[   78.449279] BINDERFILTER: rr(@o"'x@@g
+[   78.449432] BINDERFILTER: rr@o"'x@@g
+[   78.449584] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.449920] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.450683] BINDERFILTER: rr(`<"'|D *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.450836] BINDERFILTER: rr(@R7$"'xl r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.450958] BINDERFILTER: rr`<"'|D *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.451080] BINDERFILTER: rr@R7$"'xl r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.451232] BINDERFILTER: rr@R7$"'xl r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.451385] BINDERFILTER: rr(,Tdr@X=r@X=rX@=rX@=
+[   78.451904] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.452148] BINDERFILTER: rrrrrrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.452392] BINDERFILTER: rr(@R7&h'0rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.452697] BINDERFILTER: rr(H;0 P
+[   78.452758] BINDERFILTER: rr@R7&h'0rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.452911] BINDERFILTER: rr@R7&h'0rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.453002] BINDERFILTER: 
+[   78.455230] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.455627] BINDERFILTER: rr(@R7?"'d,$'\$-
+[   78.455780] BINDERFILTER: rr:*r:*rd,$'\$-
+[   78.456085] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.456207] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   78.456573] BINDERFILTER: rr(@o"'x@grX@rX@rT7`rT7`rererOirOi
+[   78.456726] BINDERFILTER: rr@o"'x@grX@rX@rT7`rT7`rererOirOi
+[   78.456878] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.457000] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.457366] BINDERFILTER: rr(@R70"'"'
+[   78.457611] BINDERFILTER: rr@R70"'"'
+[   78.457702] BINDERFILTER: rr(PTXh
+[   78.457824] BINDERFILTER: rr@R70"'"'
+[   78.458099] BINDERFILTER: rr(<D(,ZGGGa9#=c>`36_3%Q4
+[   78.458312] BINDERFILTER: rr(@R7="'`(r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.458557] BINDERFILTER: rr<D(,ZGGGa9#=c>`36_3%Q4
+[   78.458648] BINDERFILTER: rr<D(,ZGGGa9#=c>`36_3%Q4
+[   78.459228] BINDERFILTER: rr(`<"'|D#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.459381] BINDERFILTER: rr`<"'|D#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.468353] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   78.468505] BINDERFILTER: rr((,
+[   78.468658] BINDERFILTER: rr(,
+[   78.468750] BINDERFILTER: 
+[   78.468933] BINDERFILTER: 
+[   78.469024] BINDERFILTER: rr(@R7="'`(B'\$'`H
+[   78.469177] BINDERFILTER: rr(X`X\
+[   78.469268] BINDERFILTER: rrX`X\
+[   78.469635] BINDERFILTER: rr(P"'xl?rP`?rP`?r@r@
+[   78.469787] BINDERFILTER: rrP"'xl?rP`?rP`?r@r@
+[   78.469848] BINDERFILTER: 
+[   78.469970] BINDERFILTER: rr(Q7"'T4r([@+^'Xp
+[   78.470092] BINDERFILTER: rr(' X\
+[   78.470703] BINDERFILTER: rr;0 P
+[   78.470794] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.470977] BINDERFILTER: rrQ7"'T4r([@+^'Xp
+[   78.471160] BINDERFILTER: rr(@R7%"'T@g
+[   78.471496] BINDERFILTER: rr(@l
+[   78.471679] BINDERFILTER: rr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.471771] BINDERFILTER: rr(
+[   78.471954] BINDERFILTER: rrH;rH;r
+[   78.472045] BINDERFILTER: rr' X\
+[   78.472198] BINDERFILTER: rr@R7%"'T@g
+[   78.472381] BINDERFILTER: rr( 
+[   78.472686] BINDERFILTER: rr(Q7b"' rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.472808] BINDERFILTER: rr@R7%"'T@g
+[   78.472930] BINDERFILTER: rr(r."'TPrp6rp6
+[   78.473052] BINDERFILTER: rrQ7b"' rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.473175] BINDERFILTER: rr@R7%"'T@g
+[   78.473266] BINDERFILTER: rrr."'TPrp6rp6
+[   78.473480] BINDERFILTER: rr(@Xh?r;sr;sr><@9r><@9
+[   78.473571] BINDERFILTER: rrr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.473693] BINDERFILTER: rr(Q7bh'hHrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.473846] BINDERFILTER: rrQ7bh'hHrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.473968] BINDERFILTER: rr(rp6rp6
+[   78.474060] BINDERFILTER: rrr((0
+[   78.474151] BINDERFILTER: rrr((0
+[   78.474243] BINDERFILTER: rr(@R7="'`h4r([@+^'Xp
+[   78.474334] BINDERFILTER: 
+[   78.474487] BINDERFILTER: rr(h'T(|@@@E!
+[   78.474548] BINDERFILTER: rrh'T(|@@@E!
+[   78.474609] BINDERFILTER: rr(@R7='`T4r([@+^'Xp
+[   78.474884] BINDERFILTER: rrr(|rp6rp6
+[   78.474975] BINDERFILTER: rrr(|rp6rp6
+[   78.475128] BINDERFILTER: rr(@R7='`(4r([@+^'Xp
+[   78.475280] BINDERFILTER: rr(,#h'T"'
+[   78.475341] BINDERFILTER: rr(Q7"'#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.475524] BINDERFILTER: rr,#h'T"'
+[   78.475585] BINDERFILTER: rrQ7"'#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.476196] BINDERFILTER: rr(00
+[   78.476531] BINDERFILTER: rrp/@rp/@r00
+[   78.476623] BINDERFILTER: rr(rp6rp6
+[   78.476745] BINDERFILTER: rrrp6rp6
+[   78.476928] BINDERFILTER: rr(@R75h'P r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.477081] BINDERFILTER: rr@R75h'P r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.477203] BINDERFILTER: rr(t|rp6rp6
+[   78.477294] BINDERFILTER: rr(@R7$"'X B'\$'`H
+[   78.477478] BINDERFILTER: rrP rP rt|rp6rp6
+[   78.477539] BINDERFILTER: rr@R7$"'X B'\$'`H
+[   78.477813] BINDERFILTER: rr(H;h'D
+[   78.477996] BINDERFILTER: rrH;h'D
+[   78.478057] BINDERFILTER: rr@R7$"'X B'\$'`H
+[   78.478149] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.478302] BINDERFILTER: rr(,ZGGGa9#=c>`36_3%Q4
+[   78.478393] BINDERFILTER: rr(p/@pth
+[   78.478576] BINDERFILTER: rr(P FTN_"'ttdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.478698] BINDERFILTER: rr("'rp6rp6
+[   78.478881] BINDERFILTER: rr"'rp6rp6
+[   78.478942] BINDERFILTER: rrP FTN_"'ttdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.483825] BINDERFILTER: rr('P(,ZGGGa9#=c>`36_3%Q4
+[   78.483947] BINDERFILTER: rrI;rI;rP(,ZGGGa9#=c>`36_3%Q4
+[   78.485656] BINDERFILTER: rr(P "'T&****&&''$$
+[   78.485809] BINDERFILTER: rrP "'T&****&&''$$
+[   78.486541] BINDERFILTER: rr(Q7h'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.486663] BINDERFILTER: rrQ7h'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.487335] BINDERFILTER: rr(0&****&&''$$
+[   78.487548] BINDERFILTER: rr0&****&&''$$
+[   78.490447] BINDERFILTER: rr(@R7"h'P@g
+[   78.490722] BINDERFILTER: rr`r`rP@g
+[   78.490905] BINDERFILTER: rr(,@r`sr`sr;r;
+[   78.490966] BINDERFILTER: rr`r`rP@g
+[   78.491088] BINDERFILTER: rr`r`rP@g
+[   78.491210] BINDERFILTER: rr((r`sr`sr;r;
+[   78.491271] BINDERFILTER: rr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.491394] BINDERFILTER: rr(,&****&&''$$
+[   78.491546] BINDERFILTER: rr,&****&&''$$
+[   78.491638] BINDERFILTER: rr(@R7='`(grX@rX@rT7`rT7`rererOirOi
+[   78.492156] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.492584] BINDERFILTER: rr(@R7='`($'\$-
+[   78.492675] BINDERFILTER: 
+[   78.493164] BINDERFILTER: rr(anager*bscom.google.android.gms- 
+[   78.493286] BINDERFILTER: rr('x|
+[   78.493499] BINDERFILTER: rr@I ;r@I ;rx|
+[   78.493591] BINDERFILTER: rranager*bscom.google.android.gms- 
+[   78.493896] BINDERFILTER: rr(;."'TPrp6rp6
+[   78.494049] BINDERFILTER: rr;."'TPrp6rp6
+[   78.494262] BINDERFILTER: rr(Q7bh'h rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.494415] BINDERFILTER: rr(@R75h'4r([@+^'Xp
+[   78.494537] BINDERFILTER: rrQ7bh'h rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.494659] BINDERFILTER: rr(t|rp6rp6
+[   78.494750] BINDERFILTER: rr@R75h'4r([@+^'Xp
+[   78.494903] BINDERFILTER: rrt|rp6rp6
+[   78.494995] BINDERFILTER: rr(Q7h'@4r([@+^'Xp
+[   78.495117] BINDERFILTER: rrQ7h'@4r([@+^'Xp
+[   78.495269] BINDERFILTER: rr(t|rp6rp6
+[   78.495361] BINDERFILTER: rrt|rp6rp6
+[   78.495544] BINDERFILTER: rr(Q7h'd"'
+[   78.495727] BINDERFILTER: rrQ7h'd"'
+[   78.495819] BINDERFILTER: rr(t|rp6rp6
+[   78.495910] BINDERFILTER: rrt|rp6rp6
+[   78.496154] BINDERFILTER: rr(Q7h'\#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.496307] BINDERFILTER: rrQ7h'\#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.496459] BINDERFILTER: rr(anager*bscom.google.android.gms- 
+[   78.496612] BINDERFILTER: rr(t|rp6rp6
+[   78.496704] BINDERFILTER: rrt|rp6rp6
+[   78.496826] BINDERFILTER: rr(@R75h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.496978] BINDERFILTER: rr@R75h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.497039] BINDERFILTER: rr(rp6rp6
+[   78.497192] BINDERFILTER: rrrp6rp6
+[   78.497375] BINDERFILTER: rr(@I ;h'p
+[   78.497467] BINDERFILTER: rr@I ;h'p
+[   78.497528] BINDERFILTER: rranager*bscom.google.android.gms- 
+[   78.497650] BINDERFILTER: rr("'txrp6rp6
+[   78.497772] BINDERFILTER: rr"'txrp6rp6
+[   78.500549] BINDERFILTER: rr(I;h'D
+[   78.500732] BINDERFILTER: rrI;h'D
+[   78.502258] BINDERFILTER: rr('(,ZGGGa9#=c>`36_3%Q4
+[   78.502410] BINDERFILTER: rr'(,ZGGGa9#=c>`36_3%Q4
+[   78.502960] BINDERFILTER: rr(@R70"'B'\$'`H
+[   78.503173] BINDERFILTER: rr@R70"'B'\$'`H
+[   78.503326] BINDERFILTER: rr(PTXh
+[   78.503448] BINDERFILTER: rr@R70"'B'\$'`H
+[   78.503692] BINDERFILTER: rr(<D(,ZGGGa9#=c>`36_3%Q4
+[   78.503967] BINDERFILTER: rr(@R7="'`( *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.504241] BINDERFILTER: rr(PT2L
+[   78.504974] BINDERFILTER: rr@R7="'`( *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.505249] BINDERFILTER: rr(U2L(t
+[   78.506927] BINDERFILTER: rr@R7="'`( *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.507049] BINDERFILTER: rr
+[   78.507171] BINDERFILTER: rr
+[   78.507263] BINDERFILTER: rr(;P(x
+[   78.507446] BINDERFILTER: rr(;P
+[   78.865173] BINDERFILTER: rrr(0
+[   78.869018] BINDERFILTER: rr(Q77J'T@g
+[   78.869506] BINDERFILTER: rrQ77J'T@g
+[   78.870300] BINDERFILTER: rrr(dX
+[   78.872344] BINDERFILTER: rr(Q7b7J'TgrX@rX@rT7`rT7`rererOirOi
+[   78.872833] BINDERFILTER: rrQ7b7J'TgrX@rX@rT7`rT7`rererOirOi
+[   78.873260] BINDERFILTER: rrr(
+[   78.875122] BINDERFILTER: rr(Q77J'L$'\$-
+[   78.875457] BINDERFILTER: rrQ77J'L$'\$-
+[   78.878692] BINDERFILTER: rrr(0d
+[   78.887298] BINDERFILTER: rr*4r*4r0d
+[   78.892639] BINDERFILTER: rr(@R7$7J'p8r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.894134] BINDERFILTER: rr(@l4r;r;
+[   78.895782] BINDERFILTER: rrr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.896087] BINDERFILTER: rrr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.897308] BINDERFILTER: rrrrp8r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.898193] BINDERFILTER: rr(@l rr
+[   78.901702] BINDERFILTER: rr(@R7"B'h rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.902923] BINDERFILTER: rr(@l@?rP`?rP`?r@r@
+[   78.903533] BINDERFILTER: rr<r<rh rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.904449] BINDERFILTER: rr(@l
+[   78.904907] BINDERFILTER: rr<r<rh rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.906005] BINDERFILTER: rr(lr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.906311] BINDERFILTER: rrlr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.907379] BINDERFILTER: 
+[   78.908843] BINDERFILTER: rr(-# B'LDp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.909362] BINDERFILTER: rr-# B'LDp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.910278] BINDERFILTER: rr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.911102] BINDERFILTER: rr(@R7='`L4r([@+^'Xp
+[   78.912170] BINDERFILTER: rrr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.913604] BINDERFILTER: rr(@R7&B'Lh"'
+[   78.914642] BINDERFILTER: rr@R7&B'Lh"'
+[   78.914978] BINDERFILTER: rr@R7&B'Lh"'
+[   78.915954] BINDERFILTER: rr(*4d\@
+[   78.917114] BINDERFILTER: rr`r`rr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.917846] BINDERFILTER: rr(@R7='`L#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.918334] BINDERFILTER: rr<r<rh rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.919036] BINDERFILTER: rr`r`rr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.924713] BINDERFILTER: rr(@R7='`h r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.925476] BINDERFILTER: rrrrp8r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.925994] BINDERFILTER: rrrrp8r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.930999] BINDERFILTER: 
+[   78.937988] BINDERFILTER: rrr('(,h'<
+[   78.938873] BINDERFILTER: rr*#@;r*#@;r(`Br(`B
+[   78.939544] BINDERFILTER: rr.#`;r.#`;r'(,h'<
+[   78.941070] BINDERFILTER: rr(`.7J'lt?r;sr;sr><@9r><@9
+[   78.941375] BINDERFILTER: rr`.7J'lt?r;sr;sr><@9r><@9
+[   78.942199] BINDERFILTER: rr(Q7bB'h0B'\$'`H
+[   78.942687] BINDERFILTER: rrQ7bB'h0B'\$'`H
+[   78.943237] BINDERFILTER: rr(?r;sr;sr><@9r><@9
+[   78.945678] BINDERFILTER: rr(,#B'\ *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.945800] BINDERFILTER: rr,#B'\ *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.946380] BINDERFILTER: rrr("'
+[   78.946472] BINDERFILTER: rrr("'
+[   78.946990] BINDERFILTER: rr(Q7B'X@g
+[   78.947113] BINDERFILTER: rrQ7B'X@g
+[   78.947540] BINDERFILTER: rr(d"+'
+[   78.947692] BINDERFILTER: rrd"+'
+[   78.948120] BINDERFILTER: rr(Q7B'XgrX@rX@rT7`rT7`rererOirOi
+[   78.948242] BINDERFILTER: rrQ7B'XgrX@rX@rT7`rT7`rererOirOi
+[   78.948516] BINDERFILTER: rr('
+[   78.948638] BINDERFILTER: rrrr'
+[   78.948944] BINDERFILTER: rr(.#`;B'<Cr`$r`$r$}r$}rp%rp%
+[   78.949096] BINDERFILTER: rr.#`;B'<Cr`$r`$r$}r$}rp%rp%
+[   78.949401] BINDERFILTER: rrr(r;sr;sr><@9r><@9
+[   78.949554] BINDERFILTER: rrr(r;sr;sr><@9r><@9
+[   78.949676] BINDERFILTER: rrr((,rZGGGa9#=c>`36_3%Q4
+[   78.949920] BINDERFILTER: rr(FTN_7J'r;r;
+[   78.950042] BINDERFILTER: rrFTN_7J'r;r;
+[   78.950958] BINDERFILTER: 
+[   78.952484] BINDERFILTER: 
+[   78.955749] BINDERFILTER: rr@'#r@'#r
+[   78.956085] BINDERFILTER: rrr('  'D8|&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.956237] BINDERFILTER: rrr('  'D8|&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.956512] BINDERFILTER: rr(Q7"B'T$'\$-
+[   78.956634] BINDERFILTER: rrQ7"B'T$'\$-
+[   78.958160] BINDERFILTER: rr(@ 'D8|&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.959350] BINDERFILTER: rr(@'#',@
+[   78.959564] BINDERFILTER: rr(7J'l| rr
+[   78.959777] BINDERFILTER: rr7J'l| rr
+[   78.962005] BINDERFILTER: rr('<@ h'$
+[   78.962249] BINDERFILTER: rrrr<@ h'$
+[   78.965118] BINDERFILTER: rr(@R7$B'Lp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.965576] BINDERFILTER: rr(THdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.965972] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.968322] BINDERFILTER: rr@=qr@=qrLp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.968719] BINDERFILTER: rr(0Tr`sr`sr;r;
+[   78.968963] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.969116] BINDERFILTER: rr0r0rtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.970092] BINDERFILTER: rr(@R7='`|4r([@+^'Xp
+[   78.970275] BINDERFILTER: rr(@R7&h'4<"'
+[   78.971069] BINDERFILTER: rr(l|?rP`?rP`?r@r@
+[   78.971252] BINDERFILTER: 
+[   78.971832] BINDERFILTER: rr@R7&h'4<"'
+[   78.971984] BINDERFILTER: rr@R7&h'4<"'
+[   78.972137] BINDERFILTER: 
+[   78.972442] BINDERFILTER: rr@=qr@=qrLp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.973205] BINDERFILTER: rr(' h'|
+[   78.973327] BINDERFILTER: rrrr h'|
+[   78.973724] BINDERFILTER: rr(0.B'TX&****&&''$$
+[   78.973815] BINDERFILTER: rr0.B'TX&****&&''$$
+[   78.974029] BINDERFILTER: rr(Q7bh'h|#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.974182] BINDERFILTER: rrQ7bh'h|#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   78.974639] BINDERFILTER: rr(t|&****&&''$$
+[   78.974731] BINDERFILTER: rrt|&****&&''$$
+[   78.975006] BINDERFILTER: rr(@R75h'|Drr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.975128] BINDERFILTER: rr@R75h'|Drr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   78.975341] BINDERFILTER: rr(t|&****&&''$$
+[   78.975463] BINDERFILTER: rr@`8r@`8rt|&****&&''$$
+[   78.975738] BINDERFILTER: rr(h'D h'|
+[   78.975830] BINDERFILTER: rrh'D h'|
+[   78.975952] BINDERFILTER: rr`r`rr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.976074] BINDERFILTER: rr`r`rr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.976287] BINDERFILTER: rr(@`8FTN_B'dr@X=r@X=rX@=rX@=
+[   78.976379] BINDERFILTER: rr@`8FTN_B'dr@X=r@X=rX@=rX@=
+[   78.976684] BINDERFILTER: rr('tx&****&&''$$
+[   78.976776] BINDERFILTER: rr'tx&****&&''$$
+[   78.977142] BINDERFILTER: rr('Lr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.977294] BINDERFILTER: rrrrLr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.977630] BINDERFILTER: rr(@`8B'Trp6rp6
+[   78.977783] BINDERFILTER: rr@`8B'Trp6rp6
+[   78.980468] BINDERFILTER: rr(@R7"h'`| r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.981018] BINDERFILTER: rr($(LdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   78.981414] BINDERFILTER: rr(txtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.981872] BINDERFILTER: rr<'r<'r`| r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.982177] BINDERFILTER: rr(8(`r`sr`sr;r;
+[   78.982788] BINDERFILTER: rrtxtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   78.983093] BINDERFILTER: rr(@R7='`hr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.983673] BINDERFILTER: rr(@R7='`r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   78.983856] BINDERFILTER: rr<'r<'r`| r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.984100] BINDERFILTER: rr((rp6rp6
+[   78.984191] BINDERFILTER: rr(rp6rp6
+[   78.984375] BINDERFILTER: 
+[   78.984497] BINDERFILTER: rr<'r<'r`| r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   78.984680] BINDERFILTER: rr@=qr@=qrLp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   78.986663] BINDERFILTER: Y@$YMlenUS8en_US 
+[   78.987030] BINDERFILTER: rr('
+[   78.988281] BINDERFILTER: rrr('Dl@com.google.android.gms-
+[   78.988861] BINDERFILTER: 
+[   78.989440] BINDERFILTER: rr(-# B'PB'\$'`H
+[   78.989562] BINDERFILTER: rrWFrB'PB'\$'`H
+[   78.990509] BINDERFILTER: rrr(  'Dl@com.google.android.gms-
+[   78.991577] BINDERFILTER: rr(@R7#B'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.991821] BINDERFILTER: rr@R7#B'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.991973] BINDERFILTER: rr@R7#B'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   78.992279] BINDERFILTER: rr(@Xr;sr;sr><@9r><@9
+[   78.992492] BINDERFILTER: rr('  r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   78.993225] BINDERFILTER: rr(@R7='`(@g
+[   79.001129] BINDERFILTER: rrtxtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   79.001251] BINDERFILTER: rrtxtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   79.001953] BINDERFILTER: rr(@R70h',grX@rX@rT7`rT7`rererOirOi
+[   79.002166] BINDERFILTER: rr@R70h',grX@rX@rT7`rT7`rererOirOi
+[   79.002288] BINDERFILTER: rr@R70h',grX@rX@rT7`rT7`rererOirOi
+[   79.002532] BINDERFILTER: rr(XTdr@X=r@X=rX@=rX@=
+[   79.002838] BINDERFILTER: rr(t|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   79.003479] BINDERFILTER: 
+[   79.004089] BINDERFILTER: rr(@R7='`($'\$-
+[   79.004547] BINDERFILTER: rr('(,,h'<
+[   79.005706] BINDERFILTER: rr(Q77J'T4r([@+^'Xp
+[   79.005859] BINDERFILTER: rrQ77J'T4r([@+^'Xp
+[   79.006164] BINDERFILTER: rrr(h'<
+[   79.006408] BINDERFILTER: rr(Q7b7J'T"'
+[   79.006530] BINDERFILTER: rrQ7b7J'T"'
+[   79.006683] BINDERFILTER: rrr((0h'<
+[   79.007263] BINDERFILTER: rr(Q77J'L#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   79.007415] BINDERFILTER: rrQ77J'L#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   79.008270] BINDERFILTER: rr(
+[   79.008728] BINDERFILTER: rr(`.7J'r;r;
+[   79.008819] BINDERFILTER: rr`.7J'r;r;
+[   79.009063] BINDERFILTER: rr(Q7bB'h0rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   79.009185] BINDERFILTER: rrQ7bB'h0rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   79.009338] BINDERFILTER: rr(r;r;
+[   79.009460] BINDERFILTER: rrr;r;
+[   79.009674] BINDERFILTER: rr(,#B'\r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.009826] BINDERFILTER: rr,#B'\r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.010070] BINDERFILTER: rr(r;r;
+[   79.010223] BINDERFILTER: rrr;r;
+[   79.011566] BINDERFILTER: rr(@R7"B' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.011810] BINDERFILTER: rr`='r`='r r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.011993] BINDERFILTER: rr`='r`='r r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.012176] BINDERFILTER: rr`='r`='r r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.012512] BINDERFILTER: rr(@ rr
+[   79.012725] BINDERFILTER: rr(@| rr
+[   79.013092] BINDERFILTER: rr'  r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.013305] BINDERFILTER: rr'  r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.013580] BINDERFILTER: rr(@R7='`(p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   79.014099] BINDERFILTER: rr(@R7='`Tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   79.014373] BINDERFILTER: rr(Tr;r;
+[   79.014526] BINDERFILTER: rrTr;r;
+[   79.014831] BINDERFILTER: 
+[   79.015045] BINDERFILTER: rr(-# B'B'\$'`H
+[   79.015197] BINDERFILTER: rr-# B'B'\$'`H
+[   79.015502] BINDERFILTER: rr(  r;r;
+[   79.015625] BINDERFILTER: rr  r;r;
+[   79.015899] BINDERFILTER: rr(
+[   79.015991] BINDERFILTER: rr
+[   79.016510] BINDERFILTER: rr(Q7B'X *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.016662] BINDERFILTER: rrQ7B'X *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.017150] BINDERFILTER: rr(d
+[   79.017242] BINDERFILTER: rrd
+[   79.017639] BINDERFILTER: rr(Q7B'X@g
+[   79.017791] BINDERFILTER: rrQ7B'X@g
+[   79.018035] BINDERFILTER: rr(
+[   79.018157] BINDERFILTER: rrrr
+[   79.018524] BINDERFILTER: rr(*4B'4`B
+[   79.018676] BINDERFILTER: rr*4B'4`B
+[   79.019348] BINDERFILTER: rrr('@(,rZGGGa9#=c>`36_3%Q4
+[   79.019531] BINDERFILTER: rr(FTN_7J'?rP`?rP`?r@r@
+[   79.019683] BINDERFILTER: rrFTN_7J'?rP`?rP`?r@r@
+[   79.020080] BINDERFILTER: 
+[   79.024047] BINDERFILTER: rr('
+[   79.024810] BINDERFILTER: rrr('LmDavid Wu115910797976864627780~3/-ohlPUxOOUf0/UYFKropQKcI/AAAAAAAABik/eUblmdCg_5g/w1600-h900/default_cover_7_b6a70e983e161747a6b43731672f0d01.jpgTFTBTF\TF\
+[   79.024993] BINDERFILTER: rrr('LmDavid Wu115910797976864627780~3/-ohlPUxOOUf0/UYFKropQKcI/AAAAAAAABik/eUblmdCg_5g/w1600-h900/default_cover_7_b6a70e983e161747a6b43731672f0d01.jpgTFTBTF\TF\
+[   79.025207] BINDERFILTER: rr(7J'
+[   79.025329] BINDERFILTER: rr7J'
+[   79.025665] BINDERFILTER: rr(Q7"B'TgrX@rX@rT7`rT7`rererOirOi
+[   79.025817] BINDERFILTER: rrQ7"B'TgrX@rX@rT7`rT7`rererOirOi
+[   79.027221] BINDERFILTER: rr(@'LmDavid Wu115910797976864627780~3/-ohlPUxOOUf0/UYFKropQKcI/AAAAAAAABik/eUblmdCg_5g/w1600-h900/default_cover_7_b6a70e983e161747a6b43731672f0d01.jpgTFTBTF\TF\
+[   79.027648] BINDERFILTER: rr('#@',4`Cr`$r`$r$}r$}rp%rp%
+[   79.028015] BINDERFILTER: rr( h'$
+[   79.028106] BINDERFILTER: rr@r@r h'$
+[   79.028472] BINDERFILTER: rr(0.B'TX&****&&''$$
+[   79.028564] BINDERFILTER: rr0.B'TX&****&&''$$
+[   79.028808] BINDERFILTER: rr(Q7bh'h0$'\$-
+[   79.028930] BINDERFILTER: rrQ7bh'h0$'\$-
+[   79.029266] BINDERFILTER: rr(&****&&''$$
+[   79.029479] BINDERFILTER: rr&****&&''$$
+[   79.029693] BINDERFILTER: rr(@R75h'4r([@+^'Xp
+[   79.029815] BINDERFILTER: rr@R75h'4r([@+^'Xp
+[   79.030029] BINDERFILTER: rr(t|&****&&''$$
+[   79.030151] BINDERFILTER: rrp@;rp@;rt|&****&&''$$
+[   79.030395] BINDERFILTER: rr(@h' h'$
+[   79.030639] BINDERFILTER: rr'  r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.030731] BINDERFILTER: rr'  r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.030853] BINDERFILTER: rr@h' h'$
+[   79.031005] BINDERFILTER: rr(p@;FTN_B'ttdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.031127] BINDERFILTER: rr('&****&&''$$
+[   79.031250] BINDERFILTER: rr'&****&&''$$
+[   79.031372] BINDERFILTER: rrp@;FTN_B'ttdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.031768] BINDERFILTER: rr('r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.031890] BINDERFILTER: rr r rr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.032104] BINDERFILTER: rr(p@;B'Tr`sr`sr;r;
+[   79.032226] BINDERFILTER: rrp@;B'Tr`sr`sr;r;
+[   79.033111] BINDERFILTER: rr(@R7"h'`("'
+[   79.033294] BINDERFILTER: rr@R7"h'`("'
+[   79.033386] BINDERFILTER: rr@R7"h'`("'
+[   79.033721] BINDERFILTER: rr(8(`rp6rp6
+[   79.033966] BINDERFILTER: rrt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   79.034423] BINDERFILTER: rrYMlenUS8en_US 
+[   79.035095] BINDERFILTER: rr( 'Tr;sr;sr><@9r><@9
+[   79.035369] BINDERFILTER: rr(@R7='`(#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   79.035614] BINDERFILTER: rr(tr`sr`sr;r;
+[   79.035736] BINDERFILTER: rrtr`sr`sr;r;
+[   79.035858] BINDERFILTER: 
+[   79.039154] BINDERFILTER: rrr('Dl@com.google.android.gms-
+[   79.039276] BINDERFILTER: rrr('Dl@com.google.android.gms-
+[   79.039703] BINDERFILTER: 
+[   79.039978] BINDERFILTER: rr(-# B'Prr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   79.040191] BINDERFILTER: rrWFrB'Prr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   79.040435] BINDERFILTER: rr('Dl@com.google.android.gms-
+[   79.041198] BINDERFILTER: rr(@R7#B'Lr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.041381] BINDERFILTER: rr@R7#B'Lr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.041564] BINDERFILTER: rr@R7#B'Lr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.041778] BINDERFILTER: rr(@X rr
+[   79.041992] BINDERFILTER: rr*4r*4rr('(,
+[   79.042114] BINDERFILTER: rr('r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.042205] BINDERFILTER: rr*4r*4rr('(,
+[   79.042663] BINDERFILTER: rr(@R7='`| r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.043304] BINDERFILTER: rr(Q77J'Tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   79.043487] BINDERFILTER: rrQ77J'Tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   79.043640] BINDERFILTER: rr(4('(,
+[   79.043731] BINDERFILTER: rr4('(,
+[   79.043975] BINDERFILTER: rr(Q7b7J'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.044067] BINDERFILTER: rrQ7b7J'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.044189] BINDERFILTER: rr('(,
+[   79.044281] BINDERFILTER: rr'(,
+[   79.044830] BINDERFILTER: rr(Q77J'L@g
+[   79.044952] BINDERFILTER: rrQ77J'L@g
+[   79.045562] BINDERFILTER: rrr(0h'<
+[   79.045745] BINDERFILTER: rr.#;r.#;r0h'<
+[   79.046051] BINDERFILTER: rr(`.7J'r;r;
+[   79.046142] BINDERFILTER: rr`.7J'r;r;
+[   79.046356] BINDERFILTER: rr(Q7bB'h0grX@rX@rT7`rT7`rererOirOi
+[   79.046478] BINDERFILTER: rrQ7bB'h0grX@rX@rT7`rT7`rererOirOi
+[   79.046600] BINDERFILTER: rr(r;r;
+[   79.046691] BINDERFILTER: rrr;r;
+[   79.046875] BINDERFILTER: rr(,#B'\$'\$-
+[   79.046997] BINDERFILTER: rr,#B'\$'\$-
+[   79.047180] BINDERFILTER: rr(r;r;
+[   79.047271] BINDERFILTER: rrr;r;
+[   79.048431] BINDERFILTER: rr(@R7"B'4r([@+^'Xp
+[   79.048645] BINDERFILTER: rr@<`r@<`r4r([@+^'Xp
+[   79.048767] BINDERFILTER: rr@<`r@<`r4r([@+^'Xp
+[   79.048919] BINDERFILTER: rr(@?rP`?rP`?r@r@
+[   79.049011] BINDERFILTER: rr@<`r@<`r4r([@+^'Xp
+[   79.049102] BINDERFILTER: rr(@L?rP`?rP`?r@r@
+[   79.049316] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.049377] BINDERFILTER: rr(x$r;r;
+[   79.049530] BINDERFILTER: rrx$r;r;
+[   79.049621] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.049713] BINDERFILTER: rr(@R7='`("'
+[   79.050048] BINDERFILTER: 
+[   79.050231] BINDERFILTER: rr(@R7='`x"'
+[   79.050292] BINDERFILTER: rr(-# B'TLr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.050445] BINDERFILTER: rr-# B'TLr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.050598] BINDERFILTER: rr(r;r;
+[   79.050720] BINDERFILTER: rrr;r;
+[   79.050903] BINDERFILTER: rr(J'hl'
+[   79.051055] BINDERFILTER: rrJ'hl'
+[   79.051544] BINDERFILTER: rr(Q7B'XB'\$'`H
+[   79.051666] BINDERFILTER: rrQ7B'XB'\$'`H
+[   79.051940] BINDERFILTER: rr(d'
+[   79.052032] BINDERFILTER: rrd'
+[   79.052398] BINDERFILTER: rr(Q7B'X r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.052551] BINDERFILTER: rrQ7B'X r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.052703] BINDERFILTER: rr('
+[   79.052856] BINDERFILTER: rrrr'
+[   79.053070] BINDERFILTER: rr(.#;B'@
+[   79.053192] BINDERFILTER: rr.#;B'@
+[   79.053314] BINDERFILTER: rrr('4(,rZGGGa9#=c>`36_3%Q4
+[   79.053405] BINDERFILTER: rrr('4(,rZGGGa9#=c>`36_3%Q4
+[   79.053497] BINDERFILTER: rr(FTN_7J'
+[   79.053619] BINDERFILTER: rrFTN_7J'
+[   79.053771] BINDERFILTER: 
+[   79.054321] BINDERFILTER: rr('<@ h'|
+[   79.054473] BINDERFILTER: rrrr<@ h'|
+[   79.054626] BINDERFILTER: rr'#@r'#@rr('TX
+[   79.054809] BINDERFILTER: rr(0.B'TXdr@X=r@X=rX@=rX@=
+[   79.054962] BINDERFILTER: rr0.B'TXdr@X=r@X=rX@=rX@=
+[   79.055145] BINDERFILTER: rr(Q7bh'h0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   79.055267] BINDERFILTER: rr@ 'D8|&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.055419] BINDERFILTER: rr@ 'D8|&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.055511] BINDERFILTER: rrQ7bh'h0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   79.055725] BINDERFILTER: rr(Q7"B'TX *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.055877] BINDERFILTER: rrQ7"B'TX *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.055999] BINDERFILTER: rr(t|dr@X=r@X=rX@=rX@=
+[   79.056091] BINDERFILTER: rrt|dr@X=r@X=rX@=rX@=
+[   79.057373] BINDERFILTER: rr(@ 'D8|&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.057647] BINDERFILTER: rr((#`',T`B
+[   79.057769] BINDERFILTER: rr(@R75h'grX@rX@rT7`rT7`rererOirOi
+[   79.057861] BINDERFILTER: rr@R75h'grX@rX@rT7`rT7`rererOirOi
+[   79.057983] BINDERFILTER: rr(dr@X=r@X=rX@=rX@=
+[   79.058105] BINDERFILTER: rr0`sr0`srdr@X=r@X=rX@=rX@=
+[   79.058227] BINDERFILTER: rr(7J'r;sr;sr><@9r><@9
+[   79.058288] BINDERFILTER: rr(h'T h'|
+[   79.058410] BINDERFILTER: rrh'T h'|
+[   79.058532] BINDERFILTER: rr('txdr@X=r@X=rX@=rX@=
+[   79.058593] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.058746] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.058807] BINDERFILTER: rr'txdr@X=r@X=rX@=rX@=
+[   79.059020] BINDERFILTER: rr(0`sFTN_B'dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.059082] BINDERFILTER: rr7J'r;sr;sr><@9r><@9
+[   79.059234] BINDERFILTER: rr0`sFTN_B'dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.059722] BINDERFILTER: rr('\r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.059814] BINDERFILTER: rr0@r0@r\r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.060058] BINDERFILTER: rr(0`sB'Trp6rp6
+[   79.060180] BINDERFILTER: rr0`sB'Trp6rp6
+[   79.060791] BINDERFILTER: rr(@R7"h'`($'\$-
+[   79.060943] BINDERFILTER: rr@R7"h'`($'\$-
+[   79.061065] BINDERFILTER: rr@R7"h'`($'\$-
+[   79.061187] BINDERFILTER: rr(8(`r`sr`sr;r;
+[   79.061340] BINDERFILTER: rr(trp6rp6
+[   79.061431] BINDERFILTER: rrtrp6rp6
+[   79.061553] BINDERFILTER: 
+[   79.061706] BINDERFILTER: rrt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   79.062103] BINDERFILTER: rr(@R7='`(4r([@+^'Xp
+[   79.062286] BINDERFILTER: rrYMlenUS8en_US 
+[   79.062530] BINDERFILTER: rr(0@'T rr
+[   79.065673] BINDERFILTER: rrr('Dl@com.google.android.gms-
+[   79.065826] BINDERFILTER: rrr('Dl@com.google.android.gms-
+[   79.066131] BINDERFILTER: 
+[   79.066467] BINDERFILTER: rr(-# B'P#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   79.066589] BINDERFILTER: rrWFrB'P#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   79.066711] BINDERFILTER: rr('Dl@com.google.android.gms-
+[   79.066802] BINDERFILTER: rr'Dl@com.google.android.gms-
+[   79.067596] BINDERFILTER: rr(@R7#B'Lrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   79.067810] BINDERFILTER: rr@R7#B'Lrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   79.067962] BINDERFILTER: rr(@X?rP`?rP`?r@r@
+[   79.068054] BINDERFILTER: rr@R7#B'Lrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   79.068176] BINDERFILTER: rr('r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.068756] BINDERFILTER: rr(@R7='`("'
+[   79.072448] BINDERFILTER: rr('(,h'<
+[   79.072540] BINDERFILTER: rr'(,h'<
+[   79.073699] BINDERFILTER: rr(Q77J'Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.073883] BINDERFILTER: rrQ77J'Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.074005] BINDERFILTER: rr(h'<
+[   79.074096] BINDERFILTER: rrh'<
+[   79.074279] BINDERFILTER: rr(Q7b7J'TB'\$'`H
+[   79.074432] BINDERFILTER: rrQ7b7J'TB'\$'`H
+[   79.074523] BINDERFILTER: rr(h'<
+[   79.074584] BINDERFILTER: rrh'<
+[   79.075134] BINDERFILTER: rr(Q77J'L r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.075286] BINDERFILTER: rrQ77J'L r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.075897] BINDERFILTER: rr(04d'(,
+[   79.076049] BINDERFILTER: rr+5r+5r04d'(,
+[   79.076354] BINDERFILTER: rr(`.7J'r;r;
+[   79.076507] BINDERFILTER: rr`.7J'r;r;
+[   79.076690] BINDERFILTER: rr(Q7bB'h0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   79.076873] BINDERFILTER: rrQ7bB'h0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   79.076934] BINDERFILTER: rr(r;r;
+[   79.077087] BINDERFILTER: rrr;r;
+[   79.077239] BINDERFILTER: rr(,#B'\@g
+[   79.077362] BINDERFILTER: rr,#B'\@g
+[   79.077514] BINDERFILTER: rr(r;r;
+[   79.077606] BINDERFILTER: rrr;r;
+[   79.078887] BINDERFILTER: rr(@R7"B' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.079162] BINDERFILTER: rr;"r;"r *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.079315] BINDERFILTER: rr(@
+[   79.079376] BINDERFILTER: rr;"r;"r *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.079559] BINDERFILTER: rr;"r;"r *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.079681] BINDERFILTER: rr(@L
+[   79.079895] BINDERFILTER: rr(x$r;r;
+[   79.079986] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.080139] BINDERFILTER: rrx$r;r;
+[   79.080230] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.080505] BINDERFILTER: rr(@R7='`LgrX@rX@rT7`rT7`rererOirOi
+[   79.080657] BINDERFILTER: 
+[   79.080871] BINDERFILTER: rr(-# B'$'\$-
+[   79.081115] BINDERFILTER: rr(@R7='`xgrX@rX@rT7`rT7`rererOirOi
+[   79.081207] BINDERFILTER: rr-# B'$'\$-
+[   79.081451] BINDERFILTER: rr(r;r;
+[   79.081512] BINDERFILTER: rr(J'  
+[   79.081634] BINDERFILTER: rrJ'  
+[   79.081726] BINDERFILTER: rrr;r;
+[   79.082183] BINDERFILTER: rr(Q7B'X#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   79.082305] BINDERFILTER: rrQ7B'X#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   79.082550] BINDERFILTER: rr(d
+[   79.082672] BINDERFILTER: rrd
+[   79.083099] BINDERFILTER: rr(Q7B'Xrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   79.083221] BINDERFILTER: rrQ7B'Xrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   79.083374] BINDERFILTER: rr(
+[   79.083465] BINDERFILTER: rr r r
+[   79.083801] BINDERFILTER: rr(+5B'dCr`$r`$r$}r$}rp%rp%
+[   79.083923] BINDERFILTER: rr+5B'dCr`$r`$r$}r$}rp%rp%
+[   79.084075] BINDERFILTER: rr('(,rZGGGa9#=c>`36_3%Q4
+[   79.084167] BINDERFILTER: rr'(,rZGGGa9#=c>`36_3%Q4
+[   79.084320] BINDERFILTER: rr( FTN_7J'r;sr;sr><@9r><@9
+[   79.084411] BINDERFILTER: rr FTN_7J'r;sr;sr><@9r><@9
+[   79.084594] BINDERFILTER: 
+[   79.084747] BINDERFILTER: rr(#`r(#`rr('TX
+[   79.084838] BINDERFILTER: rrd<rd<rr('TX
+[   79.085174] BINDERFILTER: rr( 7J' rr
+[   79.085296] BINDERFILTER: rr@'LmDavid Wu115910797976864627780~3/-ohlPUxOOUf0/UYFKropQKcI/AAAAAAAABik/eUblmdCg_5g/w1600-h900/default_cover_7_b6a70e983e161747a6b43731672f0d01.jpgTFTBTF\TF\
+[   79.085449] BINDERFILTER: rr@'LmDavid Wu115910797976864627780~3/-ohlPUxOOUf0/UYFKropQKcI/AAAAAAAABik/eUblmdCg_5g/w1600-h900/default_cover_7_b6a70e983e161747a6b43731672f0d01.jpgTFTBTF\TF\
+[   79.085632] BINDERFILTER: rr 7J' rr
+[   79.085815] BINDERFILTER: rr(Q7"B'T"'
+[   79.085937] BINDERFILTER: rrQ7"B'T"'
+[   79.086822] BINDERFILTER: rr(' h'$
+[   79.086944] BINDERFILTER: rr'# r'# r h'$
+[   79.087188] BINDERFILTER: rr(@'LmDavid Wu115910797976864627780~3/-ohlPUxOOUf0/UYFKropQKcI/AAAAAAAABik/eUblmdCg_5g/w1600-h900/default_cover_7_b6a70e983e161747a6b43731672f0d01.jpgTFTBTF\TF\
+[   79.087402] BINDERFILTER: rr(0.B'TXdr@X=r@X=rX@=rX@=
+[   79.087493] BINDERFILTER: rr0.B'TXdr@X=r@X=rX@=rX@=
+[   79.087860] BINDERFILTER: rr(d<',@
+[   79.088043] BINDERFILTER: rr(Q7bh'h0r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.088226] BINDERFILTER: rrQ7bh'h0r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   79.088592] BINDERFILTER: rr(dr@X=r@X=rX@=rX@=
+[   79.088714] BINDERFILTER: rrdr@X=r@X=rX@=rX@=
+[   79.088928] BINDERFILTER: rr(@R75h'B'\$'`H
+[   79.089080] BINDERFILTER: rr@R75h'B'\$'`H
+[   79.089263] BINDERFILTER: rr(t|dr@X=r@X=rX@=rX@=
+[   79.089385] BINDERFILTER: rrrrt|dr@X=r@X=rX@=rX@=
+[   79.089691] BINDERFILTER: rr('# h' h'$
+[   79.089782] BINDERFILTER: rr'# h' h'$
+[   79.089904] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.090057] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.090179] BINDERFILTER: rr('dr@X=r@X=rX@=rX@=
+[   79.090301] BINDERFILTER: rr(FTN_B'tt&****&&''$$
+[   79.090423] BINDERFILTER: rr'dr@X=r@X=rX@=rX@=
+[   79.090606] BINDERFILTER: rrFTN_B'tt&****&&''$$
+[   79.090972] BINDERFILTER: rr('r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.091125] BINDERFILTER: rr`r`rr@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.091369] BINDERFILTER: rr(B'TdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.091522] BINDERFILTER: rrB'TdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.092468] BINDERFILTER: rr(@R7"h'`( r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.092620] BINDERFILTER: rr@R7"h'`( r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.092773] BINDERFILTER: rr(8(`r`sr`sr;r;
+[   79.092864] BINDERFILTER: rr@R7"h'`( r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   79.092987] BINDERFILTER: rr(tdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.093139] BINDERFILTER: rrt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   79.093231] BINDERFILTER: rrtdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   79.093414] BINDERFILTER: 
+[   79.093688] BINDERFILTER: rrYMlenUS8en_US 
+[   79.093963] BINDERFILTER: rr(`'T?rP`?rP`?r@r@
+[   79.094268] BINDERFILTER: rr(@R7='`(p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   79.097198] BINDERFILTER: rr('Dl@com.google.android.gms-
+[   79.097320] BINDERFILTER: rr'Dl@com.google.android.gms-
+[   79.097656] BINDERFILTER: 
+[   79.097900] BINDERFILTER: rr(-# B'P@g
+[   79.098022] BINDERFILTER: rrWFrB'P@g
+[   79.098114] BINDERFILTER: rr('Dl@com.google.android.gms-
+[   79.098236] BINDERFILTER: rr'Dl@com.google.android.gms-
+[   79.098876] BINDERFILTER: rr(@R7#B'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.099060] BINDERFILTER: rr@R7#B'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.099182] BINDERFILTER: rr(@X
+[   79.099273] BINDERFILTER: rr@R7#B'L *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   79.099395] BINDERFILTER: rr('r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   79.099914] BINDERFILTER: rr(@R7='`(4r([@+^'Xp
+[   79.103546] BINDERFILTER: 
+[   79.595489] BINDERFILTER: rrt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   79.596038] BINDERFILTER: rrt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   79.598571] BINDERFILTER: rr(@R70h'<grX@rX@rT7`rT7`rererOirOi
+[   79.599517] BINDERFILTER: rr(XTrp6rp6
+[   79.599975] BINDERFILTER: rr@R70h'<grX@rX@rT7`rT7`rererOirOi
+[   79.600463] BINDERFILTER: rr@R70h'<grX@rX@rT7`rT7`rererOirOi
+[   79.601501] BINDERFILTER: rr(t|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   79.605072] BINDERFILTER: rr(@R7='`($'\$-
+[   79.988403] type=1400 audit(1460700470.313:446): avc: denied { syslog_read } for pid=3227 comm="dmesg" scontext=u:r:init:s0 tcontext=u:r:kernel:s0 tclass=system permissive=1
+[   80.151153] BINDERFILTER: rr; *r; *r(,,'l
+[   80.151336] BINDERFILTER: rr; *r; *r(,,'l
+[   80.151458] BINDERFILTER: rr; *r; *r(,,'l
+[   80.151641] BINDERFILTER: rr; *r; *r(,,'l
+[   80.151763] BINDERFILTER: rr; *r; *r(,,'l
+[   80.151885] BINDERFILTER: rr; *r; *r(,,'l
+[   80.152038] BINDERFILTER: rr( +hTdr@X=r@X=rX@=rX@=
+[   80.152191] BINDERFILTER: rr; *r; *r(,,'l
+[   80.152435] BINDERFILTER: rr(@rhr;r;
+[   80.152587] BINDERFILTER: rr(P#hd
+[   80.152801] BINDERFILTER: rr(o`Dqh\
+[   80.152893] BINDERFILTER: rr(p@~h(8
+[   80.153137] BINDERFILTER: rr(@;h@
+[   80.153350] BINDERFILTER: rr()hL@
+[   81.799926] BINDERFILTER: rr$ r$ r
+[   81.804138] BINDERFILTER: rr(S\(
+[   81.805450] BINDERFILTER: rr(0ZGGGa9#=c>`36_3%Q4
+[   81.807006] BINDERFILTER: 
+[   81.810058] BINDERFILTER: rr(-# '#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.811126] BINDERFILTER: rr-# '#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.812011] BINDERFILTER: rr:r:rr((,ZGGGa9#=c>`36_3%Q4
+[   81.813079] BINDERFILTER: rr:r:rr((,ZGGGa9#=c>`36_3%Q4
+[   81.815155] BINDERFILTER: rr(@R7"'Hrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.816070] BINDERFILTER: rr(S2L(t
+[   81.819000] BINDERFILTER: rr@R7"'Hrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.820495] BINDERFILTER: rr(S(lp
+[   81.821258] BINDERFILTER: rr0r0rHrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.822204] BINDERFILTER: rr(SH(p
+[   81.823303] BINDERFILTER: rr
+[   81.824157] BINDERFILTER: rr(;P(x
+[   81.824584] BINDERFILTER: rr0r0rHrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.825103] BINDERFILTER: rr0r0rHrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.825836] BINDERFILTER: rr(((,ZGGGa9#=c>`36_3%Q4
+[   81.827789] BINDERFILTER: rr(@R7'h0"'
+[   81.845550] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   81.846405] BINDERFILTER: rr(@R7='`(r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.847198] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   81.848693] BINDERFILTER: rr(@R7='`(B'\$'`H
+[   81.887115] BINDERFILTER: 
+[   81.887420] BINDERFILTER: rr(,#' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   81.887512] BINDERFILTER: rr,#' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   81.888031] BINDERFILTER: rrr((0
+[   81.888458] BINDERFILTER: 
+[   81.888580] BINDERFILTER: rr(p='p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   81.888732] BINDERFILTER: rrp='p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   81.889282] BINDERFILTER: rr( r( rr((,
+[   81.889648] BINDERFILTER: 
+[   81.889831] BINDERFILTER: rr(p='X @g
+[   81.889953] BINDERFILTER: rr@r'X @g
+[   81.899108] BINDERFILTER: rrr((,(,
+[   81.899383] BINDERFILTER: rr(,#' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   81.899536] BINDERFILTER: rr,#' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   81.899932] BINDERFILTER: rrr((0(,
+[   81.900360] BINDERFILTER: 
+[   81.900573] BINDERFILTER: rr(p='4r([@+^'Xp
+[   81.900665] BINDERFILTER: rrp='4r([@+^'Xp
+[   81.901611] BINDERFILTER: rr(@r(@rr((,
+[   81.902008] BINDERFILTER: 
+[   81.902160] BINDERFILTER: rr(p='X grX@rX@rT7`rT7`rererOirOi
+[   81.902252] BINDERFILTER: rr6r'X grX@rX@rT7`rT7`rererOirOi
+[   81.902557] BINDERFILTER: rrr((,(,
+[   81.902801] BINDERFILTER: rr(,#'$'\$-
+[   81.902893] BINDERFILTER: rr,#'$'\$-
+[   81.903564] BINDERFILTER: rrr((0(,
+[   81.903930] BINDERFILTER: rr(p='#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.904083] BINDERFILTER: rrp='#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.904693] BINDERFILTER: rrr((,(,
+[   81.905303] BINDERFILTER: rr(@R7?' rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.905426] BINDERFILTER: rr<rr<rr rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.905700] BINDERFILTER: rrr((<(,
+[   81.906646] BINDERFILTER: rr(@o'x@"'
+[   81.906768] BINDERFILTER: rr@o'x@"'
+[   81.908325] BINDERFILTER: rr$ r$ r
+[   81.908691] BINDERFILTER: rr(U2L(t
+[   81.909912] BINDERFILTER: rr$ r$ r
+[   81.910339] BINDERFILTER: rr(PTlh
+[   81.910491] BINDERFILTER: rr
+[   81.910858] BINDERFILTER: rr(;P(x
+[   81.911346] BINDERFILTER: rr<D(,ZGGGa9#=c>`36_3%Q4
+[   81.911987] BINDERFILTER: rr(@R7""'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.912292] BINDERFILTER: rr@R7""'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.912780] BINDERFILTER: rr(U2L(t
+[   81.912963] BINDERFILTER: rr(PT2L
+[   81.914001] BINDERFILTER: rr@R7""'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.914245] BINDERFILTER: rr'r'rr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.914642] BINDERFILTER: rr(PTph
+[   81.914855] BINDERFILTER: rr(PT8h
+[   81.915008] BINDERFILTER: rr
+[   81.915161] BINDERFILTER: rr
+[   81.915405] BINDERFILTER: rr(;P(x
+[   81.915527] BINDERFILTER: rr(;P
+[   81.915710] BINDERFILTER: rr'r'rr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.915802] BINDERFILTER: rr'r'rr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.916015] BINDERFILTER: rrr(|(,ZGGGa9#=c>`36_3%Q4
+[   81.916290] BINDERFILTER: 
+[   81.916412] BINDERFILTER: rr("'P(x@@@E!
+[   81.916473] BINDERFILTER: rr"'P(x@@@E!
+[   81.917022] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   81.917510] BINDERFILTER: 
+[   81.917785] BINDERFILTER: rr(-# "'HB'\$'`H
+[   81.917907] BINDERFILTER: rr-# "'HB'\$'`H
+[   81.918243] BINDERFILTER: rrK`;rK`;rr(ZGGGa9#=c>`36_3%Q4
+[   81.918945] BINDERFILTER: rr(@R7"'h0 r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   81.921722] BINDERFILTER: rrK`;rK`;rr(ZGGGa9#=c>`36_3%Q4
+[   81.922058] BINDERFILTER: rr(@R7="'`(p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   81.922332] BINDERFILTER: rrK`;rK`;rr(ZGGGa9#=c>`36_3%Q4
+[   81.922882] BINDERFILTER: rr(@R7="'`(@g
+[   81.923217] BINDERFILTER: 
+[   81.923736] BINDERFILTER: rr(`<"'|D *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   81.923919] BINDERFILTER: rr`<"'|D *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   81.928070] BINDERFILTER: 
+[   81.929199] BINDERFILTER: rr(Q7b"'h04r([@+^'Xp
+[   81.929351] BINDERFILTER: rrQ7b"'h04r([@+^'Xp
+[   81.930999] BINDERFILTER: rrr(
+[   81.932159] BINDERFILTER: 
+[   81.934600] BINDERFILTER: rr(`<"'<grX@rX@rT7`rT7`rererOirOi
+[   81.935119] BINDERFILTER: rr(T&****&&''$$
+[   81.935424] BINDERFILTER: rrt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   81.935882] BINDERFILTER: rr>r>r<grX@rX@rT7`rT7`rererOirOi
+[   81.936157] BINDERFILTER: rr(Tr`sr`sr;r;
+[   81.936309] BINDERFILTER: rrt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   81.936462] BINDERFILTER: rrt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   81.937530] BINDERFILTER: rr(Q7h'H#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.937713] BINDERFILTER: rrQ7h'H#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.938018] BINDERFILTER: rr(Ttxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   81.938110] BINDERFILTER: rrTtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   81.938354] BINDERFILTER: rr(Q7.h',rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.938507] BINDERFILTER: rrQ7.h',rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.938812] BINDERFILTER: rr(t|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   81.939056] BINDERFILTER: rr@>r@>rt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   81.939849] BINDERFILTER: rr(@R7='`0$'\$-
+[   81.940368] BINDERFILTER: 
+[   81.940612] BINDERFILTER: rr; *r; *r(,,'l
+[   81.940765] BINDERFILTER: 
+[   81.941192] BINDERFILTER: rr(@>TdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.941284] BINDERFILTER: rr@>TdckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.941650] BINDERFILTER: rr(@R75h'|r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.941833] BINDERFILTER: rr@R75h'|r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.942382] BINDERFILTER: rr(@R7&h'L"'
+[   81.942504] BINDERFILTER: rr@R7&h'L"'
+[   81.942718] BINDERFILTER: rr(t|dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.942901] BINDERFILTER: rrt|dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.943176] BINDERFILTER: rr(Q7h'0B'\$'`H
+[   81.943328] BINDERFILTER: rrQ7h'0B'\$'`H
+[   81.943939] BINDERFILTER: rr(t|dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.944091] BINDERFILTER: rrt|dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.944610] BINDERFILTER: rr(`<h'0 r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   81.944732] BINDERFILTER: rr`<h'0 r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   81.945220] BINDERFILTER: rr(4dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.945312] BINDERFILTER: rr4dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.946289] BINDERFILTER: rr(Q7h'0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   81.946502] BINDERFILTER: rrQ7h'0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   81.946685] BINDERFILTER: 
+[   81.946990] BINDERFILTER: rr(4dckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.947296] BINDERFILTER: rr(Q7"h'T0@g
+[   81.947387] BINDERFILTER: rrQ7"h'T0@g
+[   81.947570] BINDERFILTER: rrr(44hckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.947814] BINDERFILTER: rr(Q7"h'T0 *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   81.947967] BINDERFILTER: rrQ7"h'T0 *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   81.948150] BINDERFILTER: rrr(40ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.949096] BINDERFILTER: rr(Q7h'04r([@+^'Xp
+[   81.949218] BINDERFILTER: rrQ7h'04r([@+^'Xp
+[   81.949615] BINDERFILTER: rrr(ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.949737] BINDERFILTER: rrr(ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.949951] BINDERFILTER: rr(Q7"h'T0#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.950134] BINDERFILTER: rrQ7"h'T0#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.950317] BINDERFILTER: rr(40ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.951324] BINDERFILTER: rr(Q7h'0rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.951446] BINDERFILTER: rrQ7h'0rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.955474] BINDERFILTER: rr>r>r<grX@rX@rT7`rT7`rererOirOi
+[   81.955718] BINDERFILTER: rr>r>r<grX@rX@rT7`rT7`rererOirOi
+[   81.957946] BINDERFILTER: rrr((,(,
+[   81.958312] BINDERFILTER: 
+[   81.958709] BINDERFILTER: rr(-# 'P$'\$-
+[   81.958831] BINDERFILTER: rrR-r'P$'\$-
+[   81.959075] BINDERFILTER: rrr((,(,
+[   81.959747] BINDERFILTER: rr(@R70'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.959960] BINDERFILTER: rr@R70'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.960174] BINDERFILTER: rr@R70'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   81.960327] BINDERFILTER: rrr(ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.960723] BINDERFILTER: rr(SX(
+[   81.960815] BINDERFILTER: rr(Q7"h'T"'
+[   81.960937] BINDERFILTER: rrQ7"h'T"'
+[   81.961059] BINDERFILTER: rr((,ZGGGa9#=c>`36_3%Q4
+[   81.961395] BINDERFILTER: rr(@R7='`(B'\$'`H
+[   81.961608] BINDERFILTER: rr(S2L(t
+[   81.962738] BINDERFILTER: rr
+[   81.962829] BINDERFILTER: rr@R7='`(B'\$'`H
+[   81.963012] BINDERFILTER: rrr(40ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.963226] BINDERFILTER: rr(;P(x
+[   81.963287] BINDERFILTER: rrr(40ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.964691] BINDERFILTER: rr(Q7h'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   81.964935] BINDERFILTER: rrQ7h'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   81.965332] BINDERFILTER: rr(0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.965515] BINDERFILTER: rr0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.965789] BINDERFILTER: rr(@R75h'p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   81.965942] BINDERFILTER: rr@R75h'p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   81.966217] BINDERFILTER: rr(0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.966339] BINDERFILTER: rr0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.966522] BINDERFILTER: rr(`<h'4@g
+[   81.966674] BINDERFILTER: rr`<h'4@g
+[   81.966766] BINDERFILTER: rr(40ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.966949] BINDERFILTER: rr40ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.967132] BINDERFILTER: rr(`<h'< *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   81.967254] BINDERFILTER: rr`<h'< *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   81.967468] BINDERFILTER: rr(0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.967651] BINDERFILTER: rr0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.967926] BINDERFILTER: rr(@R75h'4r([@+^'Xp
+[   81.968048] BINDERFILTER: rr@R75h'4r([@+^'Xp
+[   81.968261] BINDERFILTER: rr(t|0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.968414] BINDERFILTER: rrt|0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.968566] BINDERFILTER: rr(@R75h'#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.968719] BINDERFILTER: rr@R75h'#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   81.968994] BINDERFILTER: rr(0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.969207] BINDERFILTER: rr0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   81.969329] BINDERFILTER: 
+[   81.969482] BINDERFILTER: 
+[   81.969604] BINDERFILTER: 
+[   81.970123] BINDERFILTER: rr(0?`.'rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.970458] BINDERFILTER: rrZrr'rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.970886] BINDERFILTER: rrZrr'rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.971038] BINDERFILTER: rrZrr'rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   81.971343] BINDERFILTER: rr(Trp6rp6
+[   81.971496] BINDERFILTER: rr(X\rp6rp6
+[   81.971893] BINDERFILTER: rr(q9t
+[   81.972045] BINDERFILTER: rr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   81.972259] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   81.972351] BINDERFILTER: rr(@R7='`(grX@rX@rT7`rT7`rererOirOi
+[   81.972808] BINDERFILTER: rr(@R7='`TgrX@rX@rT7`rT7`rererOirOi
+[   82.002502] BINDERFILTER: rrr(
+[   82.002624] BINDERFILTER: rrr(
+[   82.002777] BINDERFILTER: 
+[   82.002838] BINDERFILTER: 
+[   82.003143] BINDERFILTER: rr(-# "'P$'\$-
+[   82.003265] BINDERFILTER: rr`r"'P$'\$-
+[   82.003356] BINDERFILTER: rr(
+[   82.003448] BINDERFILTER: rr
+[   82.003875] BINDERFILTER: rr(@R70"'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   82.004089] BINDERFILTER: rr@R70"'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   82.004211] BINDERFILTER: rr(PTXh
+[   82.004272] BINDERFILTER: rr@R70"'r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   82.004821] BINDERFILTER: 
+[   82.010711] BINDERFILTER: rrK`;rK`;rr(ZGGGa9#=c>`36_3%Q4
+[   82.010986] BINDERFILTER: rr(@R7="'`("'
+[   82.011199] BINDERFILTER: rr(PT2L
+[   82.011566] BINDERFILTER: rr@R7="'`("'
+[   82.012390] BINDERFILTER: rr@R7="'`("'
+[   82.012512] BINDERFILTER: rr
+[   82.012634] BINDERFILTER: rr
+[   82.012725] BINDERFILTER: rr(U2L(t
+[   82.012939] BINDERFILTER: rr(;P(x
+[   82.013092] BINDERFILTER: rr(;P
+[   82.091094] BINDERFILTER: Handroid.app.IActivityManager*hs$com.google.android.gms.wearable.BINDcom.google.android.gms
+[   82.091247] BINDERFILTER: rrandroid.app.IActivityManager*hs$com.google.android.gms.wearable.BINDcom.google.android.gms
+[   82.091735] BINDERFILTER: 
+[   82.092041] BINDERFILTER: rr(-# h'B'\$'`H
+[   82.092254] BINDERFILTER: rr-# h'B'\$'`H
+[   82.092346] BINDERFILTER: rr(txyManager*hs$com.google.android.gms.wearable.BINDcom.google.android.gms
+[   82.092468] BINDERFILTER: rrtxyManager*hs$com.google.android.gms.wearable.BINDcom.google.android.gms
+[   82.092895] BINDERFILTER: rr(pEh'L(t r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   82.093048] BINDERFILTER: rrpEh'L(t r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   82.093383] BINDERFILTER: rr(TyManager*hs$com.google.android.gms.wearable.BINDcom.google.android.gms
+[   82.093475] BINDERFILTER: rrTyManager*hs$com.google.android.gms.wearable.BINDcom.google.android.gms
+[   82.093780] BINDERFILTER: rr(pEh'L(tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   82.093963] BINDERFILTER: rrpEh'L(tp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   82.094207] BINDERFILTER: rr(TyManager*hs$com.google.android.gms.wearable.BINDcom.google.android.gms
+[   82.094512] BINDERFILTER: rr(pEh'L(t@g
+[   82.094635] BINDERFILTER: rrpEh'L(t@g
+[   82.095062] BINDERFILTER: rrr(Tanager*hs$com.google.android.gms.wearable.BINDcom.google.android.gms
+[   82.095611] BINDERFILTER: rr(@R7h' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   82.095764] BINDERFILTER: rr@R7h' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   82.097808] BINDERFILTER: 
+[   82.098052] BINDERFILTER: rr$ r$ r
+[   82.098449] BINDERFILTER: rr(@ 8X
+[   82.098937] BINDERFILTER: rrr(8<'D(lrS;rS;r
+[   82.099426] BINDERFILTER: rr(@R7B'h04r([@+^'Xp
+[   82.100097] BINDERFILTER: rr(@2L8
+[   82.101867] BINDERFILTER: rr@R7B'h04r([@+^'Xp
+[   82.101959] BINDERFILTER: rr
+[   82.102172] BINDERFILTER: rr(;P(x
+[   82.104614] BINDERFILTER: Y@$YMlenUS8en_USYbYbYaYaYaYaY`Y 
+[   82.104736] BINDERFILTER: rrYMlenUS8en_USYbYbYaYaYaYaY`Y 
+[   82.105133] BINDERFILTER: rr(pEh'L(t#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   82.105285] BINDERFILTER: rrpEh'L(t#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   82.105590] BINDERFILTER: rr(T8en_USYbYbYaYaYaYaY`Y 
+[   82.105712] BINDERFILTER: rrT8en_USYbYbYaYaYaYaY`Y 
+[   82.106018] BINDERFILTER: rr(pEh'Trr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   82.106170] BINDERFILTER: rrpEh'Trr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   82.106323] BINDERFILTER: rr(8en_USYbYbYaYaYaYaY`Y 
+[   82.106536] BINDERFILTER: rr8en_USYbYbYaYaYaYaY`Y 
+[   82.106689] BINDERFILTER: rr(@oh'PgrX@rX@rT7`rT7`rererOirOi
+[   82.106872] BINDERFILTER: rr@oh'PgrX@rX@rT7`rT7`rererOirOi
+[   82.107086] BINDERFILTER: rr(tx8en_USYbYbYaYaYaYaY`Y 
+[   82.107269] BINDERFILTER: rrtx8en_USYbYbYaYaYaYaY`Y 
+[   82.107452] BINDERFILTER: rr(@oh'x@$'\$-
+[   82.107574] BINDERFILTER: rr@oh'x@$'\$-
+[   82.107727] BINDERFILTER: rr(8en_USYbYbYaYaYaYaY`Y 
+[   82.107849] BINDERFILTER: rr8en_USYbYbYaYaYaYaY`Y 
+[   82.108154] BINDERFILTER: 
+[   82.108428] BINDERFILTER: rr(-# h'Pr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   82.108581] BINDERFILTER: rrprh'Pr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   82.108673] BINDERFILTER: rr(tx8en_USYbYbYaYaYaYaY`Y 
+[   82.108825] BINDERFILTER: rrtx8en_USYbYbYaYaYaYaY`Y 
+[   82.109008] BINDERFILTER: rr(pEh'L(t"'
+[   82.109161] BINDERFILTER: rrpEh'L(t"'
+[   82.109283] BINDERFILTER: rr(T8en_USYbYbYaYaYaYaY`Y 
+[   82.109405] BINDERFILTER: rrT8en_USYbYbYaYaYaYaY`Y 
+[   82.109741] BINDERFILTER: rr(pEh'L(tB'\$'`H
+[   82.109863] BINDERFILTER: rrpEh'L(tB'\$'`H
+[   82.110351] BINDERFILTER: rr(T8en_USYbYbYaYaYaYaY`Y 
+[   82.110565] BINDERFILTER: rrT8en_USYbYbYaYaYaYaY`Y 
+[   82.110931] BINDERFILTER: rr(@R7h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   82.111083] BINDERFILTER: rr@R7h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   82.111938] BINDERFILTER: rr$ r$ r
+[   82.112365] BINDERFILTER: rr(@ 8X
+[   82.112731] BINDERFILTER: rrr(8<'D(lrS;rS;r
+[   82.112854] BINDERFILTER: 
+[   82.113189] BINDERFILTER: rr(@R7B'h0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   82.113403] BINDERFILTER: rr(@2L8
+[   82.114715] BINDERFILTER: rr@R7B'h0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   82.114776] BINDERFILTER: rr
+[   82.115081] BINDERFILTER: rr(;P(x
+[   82.155853] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   82.156036] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   82.156219] BINDERFILTER: rr(P#hd
+[   82.156341] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   82.156433] BINDERFILTER: rr(p@~h(
+[   82.156616] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   82.156799] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   82.156890] BINDERFILTER: rr(@;h@@;
+[   82.157073] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   82.157226] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   82.157348] BINDERFILTER: rr(o`Dqhd
+[   82.157623] BINDERFILTER: rr(@rhr;sr;sr><@9r><@9
+[   82.157745] BINDERFILTER: rr( +hTdr@X=r@X=rX@=rX@=
+[   82.158111] BINDERFILTER: rr()hL
+[   82.576202] BINDERFILTER: 
+[   82.576446] BINDERFILTER: rrG;rG;Xh
+[   82.576751] BINDERFILTER: 
+[   82.577026] BINDERFILTER: 
+[   82.577117] BINDERFILTER: 
+[   82.577331] BINDERFILTER: rr$r$'L(t@g
+[   82.577453] BINDERFILTER: 
+[   82.577667] BINDERFILTER: rr";r";L(t@r0%r0%r@Pl;r@Pl;rP%`rP%`r(;r(;r_;r_;r*`r*`rPl;rPl;
+[   82.577850] BINDERFILTER: 
+[   82.578063] BINDERFILTER: rr$;r$;L(t@;'\(;rp,;rp,;
+[   82.578399] BINDERFILTER: 
+[   82.578552] BINDERFILTER: rrp%`;rp%`;rd(;r@#r@#r;r;r'#;r'#;r/r/rr
+[   82.578765] BINDERFILTER: 
+[   82.578948] BINDERFILTER: rr%;r%;'D(l;rP(# ;rP(# ;
+[   82.579132] BINDERFILTER: 
+[   82.579345] BINDERFILTER: rr&r&'@(h;r%r%r&@r&@r&r&
+[   82.579498] BINDERFILTER: 
+[   82.579650] BINDERFILTER: rr'r'L(t
+[   82.579833] BINDERFILTER: 
+[   82.579986] BINDERFILTER: rr`'@r`'@L(t@r0%r0%r@Pl;r@Pl;rP%`rP%`r(;r(;r_;r_;r*`r*`rPl;rPl;
+[   82.580169] BINDERFILTER: 
+[   82.580322] BINDERFILTER: rr(`r(`L(t@;'\(;rp,;rp,;
+[   82.580474] BINDERFILTER: 
+[   82.580657] BINDERFILTER: rr0(r0(rd(;r@#r@#r;r;r'#;r'#;r/r/rr
+[   82.580841] BINDERFILTER: 
+[   82.580993] BINDERFILTER: rr(r('D(l;rP(# ;rP(# ;
+[   82.581176] BINDERFILTER: 
+[   82.581329] BINDERFILTER: rr0G;r0G;L
+[   82.581451] BINDERFILTER: 
+[   82.581634] BINDERFILTER: rrr' *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   82.581817] BINDERFILTER: 
+[   82.581970] BINDERFILTER: rr0&#r0&#'@(h;r%r%r&@r&@r&r&
+[   82.582122] BINDERFILTER: 
+[   82.582305] BINDERFILTER: rr7@pr7@pB'h04r([@+^'Xp
+[   82.582458] BINDERFILTER: 
+[   82.582611] BINDERFILTER: rr(r(L(t
+[   82.582733] BINDERFILTER: 
+[   82.582916] BINDERFILTER: rr`_r`_'L(t#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   82.583099] BINDERFILTER: 
+[   82.583221] BINDERFILTER: rr0) r0) L(t@r0%r0%r@Pl;r@Pl;rP%`rP%`r(;r(;r_;r_;r*`r*`rPl;rPl;
+[   82.583435] BINDERFILTER: 
+[   82.583587] BINDERFILTER: rrXrX'Trr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   82.583770] BINDERFILTER: 
+[   82.583923] BINDERFILTER: rr&#r&#L(t@;'\(;rp,;rp,;
+[   82.656372] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   82.656494] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   82.656921] BINDERFILTER: rr(@R7%h'TgrX@rX@rT7`rT7`rererOirOi
+[   82.657073] BINDERFILTER: rr@R7%h'TgrX@rX@rT7`rT7`rererOirOi
+[   82.657562] BINDERFILTER: 
+[   82.704803] BINDERFILTER: 
+[   82.704956] BINDERFILTER: rr(t|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   82.705108] BINDERFILTER: rrt|txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   82.705230] BINDERFILTER: rr_T&****&&''$$
+[   82.706878] BINDERFILTER: rr(@R7%h'T$'\$-
+[   82.708374] BINDERFILTER: rr@R7%h'T$'\$-
+[   82.708740] BINDERFILTER: rr@R7%h'T$'\$-
+[   82.709136] BINDERFILTER: rr
+[   82.709381] BINDERFILTER: rr(;P(x
+[   82.709503] BINDERFILTER: rr@R7%h'T$'\$-
+[   82.709686] BINDERFILTER: 
+[   82.709869] BINDERFILTER: rr@R7%h'T$'\$-
+[   82.710144] BINDERFILTER: rr(@2L rr
+[   82.710388] BINDERFILTER: rr(@  rr
+[   82.710632] BINDERFILTER: rr(@XH rr
+[   82.711242] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   82.711486] BINDERFILTER: rr(@R7='`(r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   82.711730] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   82.712066] BINDERFILTER: rr(@R7='`("'
+[   82.713806] BINDERFILTER: rr(@2L?rP`?rP`?r@r@
+[   82.723754] BINDERFILTER: 
+[   82.723968] BINDERFILTER: rr1h'L(tB'\$'`H
+[   82.724090] BINDERFILTER: rr1h'L(tB'\$'`H
+[   82.724182] BINDERFILTER: 
+[   82.724395] BINDERFILTER: 
+[   82.724517] BINDERFILTER: rr57h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   82.724609] BINDERFILTER: rr57h' r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   82.771209] BINDERFILTER: rr@R7='`("'
+[   82.771636] BINDERFILTER: rr
+[   82.773132] BINDERFILTER: rr(;P(x
+[   82.773529] BINDERFILTER: rr
+[   82.774017] BINDERFILTER: rr(;L(t
+[   82.775848] BINDERFILTER: rrh'L(tB'\$'`H
+[   82.776153] BINDERFILTER: rrh'L(tB'\$'`H
+[   83.032135] BINDERFILTER: 
+[   83.032653] BINDERFILTER: rr;rG;Xh
+[   83.033203] BINDERFILTER: rrK`;rK`;rr(ZGGGa9#=c>`36_3%Q4
+[   83.035125] BINDERFILTER: rr(@R7%"'T#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   83.036437] BINDERFILTER: rr(U2L(t
+[   83.042480] BINDERFILTER: rr@R7%"'T#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   83.043701] BINDERFILTER: rr(U(4
+[   83.044464] BINDERFILTER: rr@R7%"'T#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   83.045898] BINDERFILTER: rr(UX(
+[   83.046691] BINDERFILTER: rr
+[   83.047424] BINDERFILTER: rr(;P(x
+[   83.047790] BINDERFILTER: rr@R7%"'T#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   83.048278] BINDERFILTER: rr@R7%"'T#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   83.048706] BINDERFILTER: rr(ZGGGa9#=c>`36_3%Q4
+[   83.049407] BINDERFILTER: rr(@R70b'rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   83.050018] BINDERFILTER: rr@R70b'rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   83.052490] BINDERFILTER: rrr((0ZGGGa9#=c>`36_3%Q4
+[   83.053222] BINDERFILTER: rr(@R7='`(grX@rX@rT7`rT7`rererOirOi
+[   83.053894] BINDERFILTER: 
+[   83.054626] BINDERFILTER: rrr((0ZGGGa9#=c>`36_3%Q4
+[   83.055450] BINDERFILTER: rr(@R7b'T$'\$-
+[   83.055938] BINDERFILTER: rr@R7b'T$'\$-
+[   83.057342] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   83.059539] BINDERFILTER: rr(@R7='`(r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   83.061492] BINDERFILTER: rr(U2L(t
+[   83.064361] BINDERFILTER: rr
+[   83.065093] BINDERFILTER: rr(;P(x
+[   83.065460] BINDERFILTER: rr@R7='`(r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   83.080413] BINDERFILTER: rrr((,ZGGGa9#=c>`36_3%Q4
+[   83.086761] BINDERFILTER: rr(@R7%b'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   83.087402] BINDERFILTER: rr(U2L(t
+[   83.088104] BINDERFILTER: rr@R7%b'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   83.088378] BINDERFILTER: rr@R7%b'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   83.088775] BINDERFILTER: rr(U(8
+[   83.088989] BINDERFILTER: rr(UXd
+[   83.089141] BINDERFILTER: rr
+[   83.089385] BINDERFILTER: rr(;P(x
+[   83.089508] BINDERFILTER: rr@R7%b'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   83.089660] BINDERFILTER: rr@R7%b'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   83.089874] BINDERFILTER: rrr((0ZGGGa9#=c>`36_3%Q4
+[   83.090118] BINDERFILTER: rr(@R7='`(p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   83.090362] BINDERFILTER: rrr((0ZGGGa9#=c>`36_3%Q4
+[   83.090667] BINDERFILTER: rr(@R7='`(@g
+[   83.091186] BINDERFILTER: rr(U2L(t
+[   83.091979] BINDERFILTER: rr@R7='`(@g
+[   83.092071] BINDERFILTER: rr
+[   83.092285] BINDERFILTER: rr(;P(x
+[   83.093261] BINDERFILTER: rrr((0ZGGGa9#=c>`36_3%Q4
+[   83.093841] BINDERFILTER: rr(@R7%b'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   83.093994] BINDERFILTER: rr@R7%b'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   83.094268] BINDERFILTER: 
+[   83.157440] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   83.157623] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   83.157806] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   83.157928] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   83.158050] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   83.158233] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   83.158355] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   83.158721] BINDERFILTER: rr(P#hd
+[   83.158966] BINDERFILTER: rr(o`Dqh\
+[   83.159210] BINDERFILTER: rr(p@~h(
+[   83.159423] BINDERFILTER: rr(@;h@
+[   83.159729] BINDERFILTER: rr( +hT0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   83.160003] BINDERFILTER: rr()hL@
+[   83.160766] BINDERFILTER: rr(@rh
+[   83.532012] BINDERFILTER: 
+[   83.532531] BINDERFILTER: rr;r0G;L
+[   83.533233] BINDERFILTER: rrr(ZGGGa9#=c>`36_3%Q4
+[   83.535888] BINDERFILTER: rr(@R7%"'T4r([@+^'Xp
+[   83.536987] BINDERFILTER: rr(TXrp6rp6
+[   83.537658] BINDERFILTER: rr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   83.539703] BINDERFILTER: rr@R7%"'T4r([@+^'Xp
+[   83.540710] BINDERFILTER: rr(XTdr@X=r@X=rX@=rX@=
+[   83.541351] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   83.543212] BINDERFILTER: rr(@R7='`H"'
+[   83.544525] BINDERFILTER: rr(@R7='`4"'
+[   83.544891] BINDERFILTER: rr@R7%"'T4r([@+^'Xp
+[   83.545349] BINDERFILTER: rr@R7%"'T4r([@+^'Xp
+[   83.545867] BINDERFILTER: 
+[   83.907989] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   83.909423] BINDERFILTER: rr(S2L(t
+[   83.914978] BINDERFILTER: rr
+[   83.915771] BINDERFILTER: rr(;P(x
+[   83.916625] BINDERFILTER: rr0?`.r0?`.r(,,'l
+[   83.917938] BINDERFILTER: rr(1`L(tlp
+[   83.918212] BINDERFILTER: rr1`L(tlp
+[   83.918670] BINDERFILTER: rr?pr?prr(@R7'l
+[   83.919372] BINDERFILTER: rr(lp
+[   83.919616] BINDERFILTER: rrlp
+[   83.920196] BINDERFILTER: rrr(,#'L'l
+[   83.921051] BINDERFILTER: rr(lp
+[   83.921325] BINDERFILTER: rrlp
+[   83.921813] BINDERFILTER: rrr(,#'t,'l
+[   83.931182] BINDERFILTER: rr(lp
+[   83.931640] BINDERFILTER: rrlp
+[   83.932189] BINDERFILTER: rrr(,#'p8'l
+[   83.939300] BINDERFILTER: 
+[   83.940795] BINDERFILTER: rrr(,#'p8'l
+[   83.942932] BINDERFILTER: rr(lp
+[   83.945098] BINDERFILTER: rr('88'l
+[   83.946289] BINDERFILTER: rr(1`l
+[   83.946716] BINDERFILTER: rr1`l
+[   83.947235] BINDERFILTER: rrprprr(@R7'l
+[   83.947753] BINDERFILTER: rr(8@
+[   83.948150] BINDERFILTER: rr8@
+[   83.948669] BINDERFILTER: rrr(,#'L'l
+[   83.949157] BINDERFILTER: rr(8@
+[   83.949401] BINDERFILTER: rr8@
+[   83.950012] BINDERFILTER: rrr(,#'t,'l
+[   83.950683] BINDERFILTER: rr(8@
+[   83.950927] BINDERFILTER: rr8@
+[   83.951538] BINDERFILTER: rrr(,#'p8'l
+[   83.952636] BINDERFILTER: rr(8@
+[   83.953033] BINDERFILTER: rr<r<r8@
+[   83.953826] BINDERFILTER: 
+[   83.954284] BINDERFILTER: rrr(p='`'l
+[   83.954803] BINDERFILTER: 
+[   83.959503] BINDERFILTER: rr(8<
+[   83.960144] BINDERFILTER: rr'#;r'#;r8<
+[   83.962310] BINDERFILTER: rrp&#;rp&#;rlp
+[   83.965057] BINDERFILTER: rrr('D'l
+[   83.965301] BINDERFILTER: 
+[   83.965484] BINDERFILTER: rr('#;@(h
+[   83.965576] BINDERFILTER: rr@#r@(h
+[   83.965881] BINDERFILTER: 
+[   83.966064] BINDERFILTER: rrZh'L(tB'\$'`H
+[   83.966217] BINDERFILTER: rrr(p='X 'l
+[   83.966461] BINDERFILTER: rr(
+[   83.966552] BINDERFILTER: rr
+[   83.966949] BINDERFILTER: rrr('(,'l
+[   83.967041] BINDERFILTER: rr #pr #pr'(,'l
+[   83.967346] BINDERFILTER: rr(1`(
+[   83.967498] BINDERFILTER: rr1`(
+[   83.967651] BINDERFILTER: rr(@R7'l,'l
+[   83.967742] BINDERFILTER: rr@R7'l,'l
+[   83.967926] BINDERFILTER: rr((0
+[   83.967987] BINDERFILTER: rr(0
+[   83.968170] BINDERFILTER: rr(,#','l
+[   83.968261] BINDERFILTER: rr,#','l
+[   83.968444] BINDERFILTER: rr((0
+[   83.968505] BINDERFILTER: rr(0
+[   83.968658] BINDERFILTER: rr(,#','l
+[   83.968780] BINDERFILTER: rr,#','l
+[   83.968933] BINDERFILTER: rr((0
+[   83.969024] BINDERFILTER: rr(0
+[   83.969146] BINDERFILTER: rr(,#'p8,'l
+[   83.969299] BINDERFILTER: rr,#'p8,'l
+[   83.969665] BINDERFILTER: rr((0
+[   83.969879] BINDERFILTER: rr`'#r`'#r(0
+[   83.970184] BINDERFILTER: 
+[   83.970275] BINDERFILTER: rr(p=','l
+[   83.970367] BINDERFILTER: rrp=','l
+[   83.970581] BINDERFILTER: 
+[   83.971343] BINDERFILTER: rr((,
+[   83.971588] BINDERFILTER: rr'#;r'#;r(,
+[   83.971923] BINDERFILTER: rr(','l
+[   83.972167] BINDERFILTER: 
+[   83.972320] BINDERFILTER: rr('#;@(hlp
+[   83.972412] BINDERFILTER: rr@"r@(hlp
+[   83.972656] BINDERFILTER: 
+[   83.972839] BINDERFILTER: rrZ7%"'T#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   83.972991] BINDERFILTER: rrr(p='X 'l
+[   83.973236] BINDERFILTER: rr(lp
+[   83.973327] BINDERFILTER: rrlp
+[   83.973632] BINDERFILTER: rrr('(,'l
+[   83.974029] BINDERFILTER: rr(1`(
+[   83.974121] BINDERFILTER: rr1`(
+[   83.974273] BINDERFILTER: rr`R7@sr`R7@srr(@R7'l
+[   83.974426] BINDERFILTER: rr((0
+[   83.974548] BINDERFILTER: rr(0
+[   83.974731] BINDERFILTER: rrr(,#'L'l
+[   83.974853] BINDERFILTER: rr((0
+[   83.974975] BINDERFILTER: rr(0
+[   83.975128] BINDERFILTER: rrr(,#'t,'l
+[   83.975311] BINDERFILTER: rr((0
+[   83.975372] BINDERFILTER: rr(0
+[   83.975555] BINDERFILTER: rrr(,#'p8'l
+[   83.975921] BINDERFILTER: rr((0
+[   83.976104] BINDERFILTER: rr'r'r(0
+[   83.976379] BINDERFILTER: 
+[   83.976501] BINDERFILTER: rrr(p='`'l
+[   83.976654] BINDERFILTER: 
+[   83.977325] BINDERFILTER: rr((,
+[   83.977569] BINDERFILTER: rr);r);r(,
+[   83.977905] BINDERFILTER: rrr('D$'l
+[   83.977996] BINDERFILTER: rrr('D$'l
+[   83.978210] BINDERFILTER: 
+[   83.978332] BINDERFILTER: rr();@(h
+[   83.978424] BINDERFILTER: rrr@(h
+[   83.978668] BINDERFILTER: 
+[   83.978851] BINDERFILTER: rrZ70b'rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   83.979003] BINDERFILTER: rr(p='X $'l
+[   83.979248] BINDERFILTER: rr(
+[   83.979339] BINDERFILTER: rr
+[   83.979614] BINDERFILTER: rrr('(,'l
+[   83.979980] BINDERFILTER: rr(1`(lp
+[   83.980072] BINDERFILTER: rr1`(lp
+[   83.980224] BINDERFILTER: rrW7srW7srr(@R7'l
+[   83.980377] BINDERFILTER: rr((0lp
+[   83.980499] BINDERFILTER: rr(0lp
+[   83.980712] BINDERFILTER: rrr(,#'L'l
+[   83.980865] BINDERFILTER: rr((0lp
+[   83.980987] BINDERFILTER: rr(0lp
+[   83.981140] BINDERFILTER: rrr(,#'t,'l
+[   83.981292] BINDERFILTER: rr((0lp
+[   83.981414] BINDERFILTER: rr(0lp
+[   83.981536] BINDERFILTER: rrr(,#'p8'l
+[   83.981933] BINDERFILTER: rr((0lp
+[   83.982086] BINDERFILTER: rr&#r&#r(0lp
+[   83.982421] BINDERFILTER: 
+[   83.982513] BINDERFILTER: rrr(p='`'l
+[   83.982696] BINDERFILTER: 
+[   83.983367] BINDERFILTER: rr((,lp
+[   83.983581] BINDERFILTER: rrp(#rp(#r(,lp
+[   83.983947] BINDERFILTER: rrr('D$'l
+[   83.984130] BINDERFILTER: 
+[   83.984313] BINDERFILTER: rr(p(#@(h
+[   83.984405] BINDERFILTER: rr@!r@(h
+[   83.984649] BINDERFILTER: 
+[   83.984832] BINDERFILTER: rrZ7='`(grX@rX@rT7`rT7`rererOirOi
+[   83.984985] BINDERFILTER: rrr(p='X 'l
+[   83.985168] BINDERFILTER: rr(
+[   83.985321] BINDERFILTER: rr
+[   83.985473] BINDERFILTER: rrr('(,'l
+[   83.985656] BINDERFILTER: 
+[   83.985809] BINDERFILTER: rr(p&#;@(h
+[   83.985961] BINDERFILTER: rr@r@(h
+[   83.987640] BINDERFILTER: rrr('(,'l
+[   83.989105] BINDERFILTER: rr
+[   83.989440] BINDERFILTER: rr(;P(x
+[   83.990295] BINDERFILTER: rr(S2L(tlp
+[   84.130615] BINDERFILTER: 
+[   84.130798] BINDERFILTER: rr'r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   84.131713] BINDERFILTER: rr(@R7%B'T$'\$-
+[   84.132019] BINDERFILTER: rr@R7%B'T$'\$-
+[   84.132293] BINDERFILTER: rr@R7%B'T$'\$-
+[   84.132385] BINDERFILTER: rr@R7%B'T$'\$-
+[   84.132720] BINDERFILTER: rr((T|&****&&''$$
+[   84.132934] BINDERFILTER: rr(X&****&&''$$
+[   84.133117] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   84.133331] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   84.133636] BINDERFILTER: rr(@R7='`(r@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   84.134124] BINDERFILTER: rr(@R7='`Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   84.134307] BINDERFILTER: rrrhr;r;
+[   84.134490] BINDERFILTER: 
+[   84.140655] BINDERFILTER: 
+[   84.140808] BINDERFILTER: rr`',T`B
+[   84.140991] BINDERFILTER: rr('h(,rZGGGa9#=c>`36_3%Q4
+[   84.141540] BINDERFILTER: rr(@R7%7J'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   84.142669] BINDERFILTER: rr@R7%7J'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   84.142974] BINDERFILTER: rr@R7%7J'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   84.143341] BINDERFILTER: rr
+[   84.143585] BINDERFILTER: rr(;P(x
+[   84.143707] BINDERFILTER: rr@R7%7J'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   84.143859] BINDERFILTER: rr@R7%7J'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   84.144073] BINDERFILTER: rr(@2Lr;sr;sr><@9r><@9
+[   84.144348] BINDERFILTER: rr(@r;sr;sr><@9r><@9
+[   84.144500] BINDERFILTER: rr(@X8r;sr;sr><@9r><@9
+[   84.144683] BINDERFILTER: 
+[   84.144866] BINDERFILTER: rrr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   84.145111] BINDERFILTER: rr(@R7='`(p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   84.145385] BINDERFILTER: rrr(r@;r@;r`;r`;r ;r ;r0;r0;rP;rP;r`;r`;
+[   84.145721] BINDERFILTER: rr(@R7='`(@g
+[   84.146209] BINDERFILTER: rr(@2L rr
+[   84.147003] BINDERFILTER: rr@R7='`(@g
+[   84.147155] BINDERFILTER: rr
+[   84.147399] BINDERFILTER: rr(;P(x
+[   86.971862] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   86.972412] BINDERFILTER: rrtxrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   86.974884] BINDERFILTER: rr(@R7%h'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   86.976013] BINDERFILTER: rr(T\r`sr`sr;r;
+[   86.977081] BINDERFILTER: rr@R7%h'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   86.977966] BINDERFILTER: rr(XT0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   86.978942] BINDERFILTER: rr@R7%h'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   86.979858] BINDERFILTER: rr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   86.981201] BINDERFILTER: rr(@R7%h'TH"'
+[   86.982116] BINDERFILTER: rr@R7%h'TH"'
+[   86.982757] BINDERFILTER: rr@R7%h'TH"'
+[   86.983062] BINDERFILTER: rr@R7%h'TH"'
+[   86.984161] BINDERFILTER: rr(T\rp6rp6
+[   86.984649] BINDERFILTER: rr(Xrp6rp6
+[   86.986267] BINDERFILTER: rrr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   86.987060] BINDERFILTER: rr(@R7='`H4r([@+^'Xp
+[   86.987609] BINDERFILTER: rrr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   86.988677] BINDERFILTER: rr(@R7='`HB'\$'`H
+[   86.989166] BINDERFILTER: rrr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   86.989959] BINDERFILTER: rr(@R7='`H#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   86.990478] BINDERFILTER: rrr(txrrr @r @r0`r0`ra9#=c>`36_3%Q4
+[   86.992156] BINDERFILTER: rr(@R7='`Hrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   86.992645] BINDERFILTER: rr@R7%h'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   87.847290] BINDERFILTER: 
+[   87.847595] BINDERFILTER: rr pr p'`(grX@rX@rT7`rT7`rererOirOi
+[   87.847717] BINDERFILTER: 
+[   87.847900] BINDERFILTER: rrA-rA-'T$'\$-
+[   87.848175] BINDERFILTER: 
+[   87.848358] BINDERFILTER: rr1 r1 '`Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   87.848693] BINDERFILTER: 
+[   87.848937] BINDERFILTER: 
+[   87.849151] BINDERFILTER: rr`X@r`X@J'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   87.849884] BINDERFILTER: 
+[   87.850067] BINDERFILTER: rr @r @XTdr@X=r@X=rX@=rX@=
+[   87.850250] BINDERFILTER: 
+[   87.850433] BINDERFILTER: rrrX&****&&''$$
+[   87.851043] BINDERFILTER: 
+[   87.851226] BINDERFILTER: rr<r<'`(p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   87.851409] BINDERFILTER: 
+[   87.851593] BINDERFILTER: rr.#`;r.#`;'dCr`$r`$r$}r$}rp%rp%
+[   87.851806] BINDERFILTER: 
+[   87.851989] BINDERFILTER: rr@'#r@'#',@
+[   87.852142] BINDERFILTER: 
+[   87.852294] BINDERFILTER: 
+[   87.852447] BINDERFILTER: rr@`8r@`8T\r`sr`sr;r;
+[   87.852600] BINDERFILTER: 
+[   87.852752] BINDERFILTER: rr*4r*4',T`B
+[   87.852905] BINDERFILTER: 
+[   87.853057] BINDERFILTER: rr`='r`=''`(@g
+[   87.853179] BINDERFILTER: 
+[   87.853393] BINDERFILTER: rr'#@r'#@'dCr`$r`$r$}r$}rp%rp%
+[   87.853546] BINDERFILTER: 
+[   87.853698] BINDERFILTER: rrp@;rp@;XT0ckageManager&android.permission.UPDATE_DEVICE_STATScom.google.android.gms
+[   87.853881] BINDERFILTER: 
+[   87.854034] BINDERFILTER: rr.#;r.#;',@
+[   87.854217] BINDERFILTER: 
+[   87.854400] BINDERFILTER: rr@<`r@<`'TH"'
+[   87.854522] BINDERFILTER: 
+[   87.854705] BINDERFILTER: rr(#`r(#`',T`B
+[   87.854858] BINDERFILTER: 
+[   87.855010] BINDERFILTER: rr0`sr0`sXrp6rp6
+[   87.855194] BINDERFILTER: 
+[   87.855346] BINDERFILTER: rr+5r+5'dCr`$r`$r$}r$}rp%rp%
+[   87.855468] BINDERFILTER: 
+[   87.855651] BINDERFILTER: rr;"r;"'`H4r([@+^'Xp
+[   87.855804] BINDERFILTER: 
+[   87.855957] BINDERFILTER: rrd<rd<',@
+[   87.856079] BINDERFILTER: 
+[   87.856292] BINDERFILTER: rrrXTdr@X=r@X=rX@=rX@=
+[   89.088928] BINDERFILTER: 
+[   89.089233] BINDERFILTER: rr@r@'`HB'\$'`H
+[   89.089385] BINDERFILTER: 
+[   89.089538] BINDERFILTER: rr0r0'`H#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   89.089782] BINDERFILTER: 
+[   89.089965] BINDERFILTER: rr<rr<r'`Hrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   89.090118] BINDERFILTER: 
+[   89.090270] BINDERFILTER: rr?pr?p'T *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   89.090484] BINDERFILTER: 
+[   89.090698] BINDERFILTER: rrprp'`(grX@rX@rT7`rT7`rererOirOi
+[   89.090820] BINDERFILTER: 
+[   89.091003] BINDERFILTER: rr #pr #p'T$'\$-
+[   89.091125] BINDERFILTER: 
+[   89.091308] BINDERFILTER: rr`R7@sr`R7@s'`Tr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   89.091461] BINDERFILTER: 
+[   89.091644] BINDERFILTER: rrW7srW7sJ'T r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   89.668457] BINDERFILTER: rrr('(,'l
+[   89.670837] BINDERFILTER: rr(*#<d
+[   89.671447] BINDERFILTER: rrdhl((PrZGGGa9#=c>`36_3%Q4
+[   89.672149] BINDERFILTER: rrdhl((PrZGGGa9#=c>`36_3%Q4
+[   89.672424] BINDERFILTER: rrdhl((PrZGGGa9#=c>`36_3%Q4
+[   89.673522] BINDERFILTER: rr(@R7''h0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   89.674560] BINDERFILTER: rr@R7''h0p((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   89.675201] BINDERFILTER: rr(@o7''@(hp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   89.675689] BINDERFILTER: rr@o7''@(hp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   89.676574] BINDERFILTER: rr(*#<d
+[   89.678924] BINDERFILTER: rr(l((PrZGGGa9#=c>`36_3%Q4
+[   89.679962] BINDERFILTER: rr(@R77''D(lB'\$'`H
+[   89.680297] BINDERFILTER: rr@R77''D(lB'\$'`H
+[   89.681610] BINDERFILTER: rrr(d((PrZGGGa9#=c>`36_3%Q4
+[   89.682678] BINDERFILTER: rr  g vec2 outTexCoords;attribute vec4 position;uniform mat4 projection;uniform mat4 texture;void main(void) {    gl_Position = projection * position;    outTexCoords = (texture * texCoords).st;}
+[   89.683807] BINDERFILTER: rr(-# D(l#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   89.684143] BINDERFILTER: rr(0@~''P( x Mrd  
+[   89.685333] BINDERFILTER: rrr(d((PrZGGGa9#=c>`36_3%Q4
+[   89.686126] BINDERFILTER: rr(@R77''D(lrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   89.686614] BINDERFILTER: rr@R77''D(lrr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   89.687744] BINDERFILTER: rrr(d((PrZGGGa9#=c>`36_3%Q4
+[   89.691650] BINDERFILTER: rr(@R77''D(l *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   89.692138] BINDERFILTER: rr@R77''D(l *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   89.693481] BINDERFILTER: rrr(d((PrZGGGa9#=c>`36_3%Q4
+[   89.694244] BINDERFILTER: rr(@R77''D(lgrX@rX@rT7`rT7`rererOirOi
+[   89.694732] BINDERFILTER: rr@R77''D(lgrX@rX@rT7`rT7`rererOirOi
+[   89.698150] BINDERFILTER: rrr(d((PrZGGGa9#=c>`36_3%Q4
+[   89.699493] BINDERFILTER: rr(@R7''h0$'\$-
+[   89.700836] BINDERFILTER: rr@R7''h0$'\$-
+[   89.701751] BINDERFILTER: rr(*#<d
+[   89.710784] BINDERFILTER: rrr((<
+[   89.711120] BINDERFILTER: rrr((<
+[   89.711639] BINDERFILTER: rr(K7''T( | \(  
+[   89.712127] BINDERFILTER: rrK7''T( | \(  
+[   89.723541] BINDERFILTER: rr
+[   89.724395] BINDERFILTER: rr(-# D(lr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   89.734741] BINDERFILTER: rrr(d((PrZGGGa9#=c>`36_3%Q4
+[   89.735198] BINDERFILTER: rr(@R77''D(l r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   89.735321] BINDERFILTER: rr@R77''D(l r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   89.735443] BINDERFILTER: rr((0<
+[   89.735687] BINDERFILTER: rr(K7''d(  DKr(@@L( t 
+[   89.735809] BINDERFILTER: rrK7''d(  DKr(@@L( t 
+[   89.735992] BINDERFILTER: rrr(((
+[   89.736145] BINDERFILTER: rr(K7''T( | DKr
+[   89.736267] BINDERFILTER: rrK7''T( | DKr
+[   89.737365] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.737579] BINDERFILTER: rr(0@~''P( x Mrd  
+[   89.737762] BINDERFILTER: rr  g vec2 outTexCoords;attribute vec4 position;uniform mat4 projection;uniform mat4 texture;void main(void) {    gl_Position = projection * position;    outTexCoords = (texture * texCoords).st;}
+[   89.738098] BINDERFILTER: rr(-# D(lp((Pl`uro ro ?>/?>D?>N??X??`?ff?`h?'?4o?6?u?IF?y?X? }?f6k?D???
+[   89.738342] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.738800] BINDERFILTER: rr(@R7''h0@g
+[   89.739379] BINDERFILTER: rr@R7''h0@g
+[   89.739746] BINDERFILTER: rr(*#<X
+[   89.746734] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.747131] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.747375] BINDERFILTER: rr(0@~''P( x \(  
+[   89.747772] BINDERFILTER: rr(@R7''h0"'
+[   89.748107] BINDERFILTER: rr@R7''h0"'
+[   89.748352] BINDERFILTER: rr(*#<X
+[   89.749206] BINDERFILTER: rrr((0
+[   89.749328] BINDERFILTER: rrr((0
+[   89.749511] BINDERFILTER: rr(K7''(  DKr(@@L( t 
+[   89.749755] BINDERFILTER: rrK7''(  DKr(@@L( t 
+[   89.749847] BINDERFILTER: rr( , 
+[   89.750061] BINDERFILTER: rr(-# D(l4r([@+^'Xp
+[   89.765136] BINDERFILTER: rr!(!GL_ANDROID_presentation_time EGL_KHR_swap_buffers_with_damage EGL_KHR_image EGL_KHR_image_base EGL_KHR_lock_surface EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_3D_image EGL_KHR_gl_texture_cubemap_image 
+[   89.766510] BINDERFILTER: rr(0,HDd
+[   89.771545] BINDERFILTER: rr((<0
+[   89.771667] BINDERFILTER: rr(<0
+[   89.772216] BINDERFILTER: rr(K7''d(  DKr
+[   89.772369] BINDERFILTER: rrK7''d(  DKr
+[   89.772521] BINDERFILTER: rr(((P0
+[   89.772583] BINDERFILTER: rr((P0
+[   89.772766] BINDERFILTER: rr(K7''T( | Mrd  
+[   89.772888] BINDERFILTER: rrK7''T( | Mrd  
+[   89.773651] BINDERFILTER: rr((00
+[   89.774261] BINDERFILTER: rr(K7''(  \(  
+[   89.774414] BINDERFILTER: rrK7''(  \(  
+[   89.774627] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.774841] BINDERFILTER: rr(0@~''P( x DKr(@@L( t 
+[   89.775177] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.775665] BINDERFILTER: rr(@R7''h0B'\$'`H
+[   89.776062] BINDERFILTER: rr@R7''h0B'\$'`H
+[   89.776306] BINDERFILTER: rr(*#<d
+[   89.780914] BINDERFILTER: rr!(!GL_ANDROID_presentation_time EGL_KHR_swap_buffers_with_damage EGL_KHR_image EGL_KHR_image_base EGL_KHR_lock_surface EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_3D_image EGL_KHR_gl_texture_cubemap_image 
+[   89.781860] BINDERFILTER: rr(0,HDd
+[   89.785675] BINDERFILTER: rrr((<
+[   89.785766] BINDERFILTER: rrr((<
+[   89.786102] BINDERFILTER: rr(K7''d(  DKr
+[   89.786285] BINDERFILTER: rrK7''d(  DKr
+[   89.786407] BINDERFILTER: rr(((P<
+[   89.786499] BINDERFILTER: rr((P<
+[   89.786682] BINDERFILTER: rr(K7''T( | Mrd  
+[   89.786773] BINDERFILTER: rrK7''T( | Mrd  
+[   89.787139] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.787689] BINDERFILTER: rr(@R7''h0#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   89.788208] BINDERFILTER: rr@R7''h0#r[`#r[`#r@sr@sr `gr `grpT7)rpT7)r`#@!r`#@!ro@rro@r
+[   89.788452] BINDERFILTER: rr(*#<X
+[   89.789276] BINDERFILTER: rr((0<
+[   89.789398] BINDERFILTER: rr(0<
+[   89.789611] BINDERFILTER: rr(K7''(  \(  
+[   89.789764] BINDERFILTER: rrK7''(  \(  
+[   89.790191] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.790496] BINDERFILTER: rr(@R7''h0rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   89.790893] BINDERFILTER: rr@R7''h0rr`er`ex`x0$<,0B$XihP%@7Q(ct<0\0X0`0h91pN1X1`1+2@282@2h3p233
+[   89.791168] BINDERFILTER: rr(*#<d
+[   89.791503] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.791717] BINDERFILTER: rr(0@~''P( x DKr(@@L( t 
+[   89.791992] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.792297] BINDERFILTER: rr(@R7''h0 *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   89.792633] BINDERFILTER: rr@R7''h0 *rG@*rG@*rG`*rG`*rG*rG*hh h:hThnhhhhhhh$h>hXhrhhhhhhh(hBh\hvhhhhh.6
+[   89.792907] BINDERFILTER: rr(*#<d
+[   89.797637] BINDERFILTER: rr!(!GL_ANDROID_presentation_time EGL_KHR_swap_buffers_with_damage EGL_KHR_image EGL_KHR_image_base EGL_KHR_lock_surface EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_3D_image EGL_KHR_gl_texture_cubemap_image 
+[   89.798858] BINDERFILTER: rr(0,HDd
+[   89.803405] BINDERFILTER: rr((<<
+[   89.803527] BINDERFILTER: rr(<<
+[   89.803710] BINDERFILTER: rr(K7''d(  DKr
+[   89.803833] BINDERFILTER: rrK7''d(  DKr
+[   89.804016] BINDERFILTER: rr(((P<
+[   89.804107] BINDERFILTER: rr((P<
+[   89.804229] BINDERFILTER: rr(K7''T( | Mrd  
+[   89.804382] BINDERFILTER: rrK7''T( | Mrd  
+[   89.805419] BINDERFILTER: rr((0<
+[   89.805511] BINDERFILTER: rr(0<
+[   89.805755] BINDERFILTER: rr(K7''(  \(  
+[   89.805908] BINDERFILTER: rrK7''(  \(  
+[   89.806243] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.806488] BINDERFILTER: rr(0@~''P( x DKr(@@L( t 
+[   89.806884] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.807342] BINDERFILTER: rr(@R7''h0grX@rX@rT7`rT7`rererOirOi
+[   89.807739] BINDERFILTER: rr@R7''h0grX@rX@rT7`rT7`rererOirOi
+[   89.808044] BINDERFILTER: rr(*#<d
+[   89.822967] BINDERFILTER: rr!(!GL_ANDROID_presentation_time EGL_KHR_swap_buffers_with_damage EGL_KHR_image EGL_KHR_image_base EGL_KHR_lock_surface EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_3D_image EGL_KHR_gl_texture_cubemap_image 
+[   89.825836] BINDERFILTER: rr(0,HDd
+[   89.830017] BINDERFILTER: rr((<<
+[   89.830108] BINDERFILTER: rr(<<
+[   89.830352] BINDERFILTER: rr(K7''d(  DKr
+[   89.830505] BINDERFILTER: rrK7''d(  DKr
+[   89.830657] BINDERFILTER: rr(((P<
+[   89.830810] BINDERFILTER: rr((P<
+[   89.830932] BINDERFILTER: rr(K7''T( | Mrd  
+[   89.831024] BINDERFILTER: rrK7''T( | Mrd  
+[   89.831848] BINDERFILTER: rr((0<
+[   89.831939] BINDERFILTER: rr(0<
+[   89.832153] BINDERFILTER: rr(K7''(  \(  
+[   89.832275] BINDERFILTER: rrK7''(  \(  
+[   89.832519] BINDERFILTER: rrr(X((PrZGGGa9#=c>`36_3%Q4
+[   89.833221] BINDERFILTER: rr(@R7''h0$'\$-
+[   89.839904] BINDERFILTER: rr!(!GL_ANDROID_presentation_time EGL_KHR_swap_buffers_with_damage EGL_KHR_image EGL_KHR_image_base EGL_KHR_lock_surface EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_3D_image EGL_KHR_gl_texture_cubemap_image 
+[   89.840789] BINDERFILTER: rr(0,HDd
+[   89.846618] BINDERFILTER: rr
+[   89.846832] BINDERFILTER: rr(-# D(lr@W&r@W&rc` rc` rX'rX'r0Yr0Yr`Y'r`Y'com.facebook.katanaers
+[   89.872283] BINDERFILTER: rrT d 
+[   89.872528] BINDERFILTER: rr(-# D(l r` vr` vr @~r @~r0a}r0a}r@dr@d
+[   90.540771] type=1400 audit(1460700480.864:447): avc: denied { module_request } for pid=3248 comm="sh" kmod="personality-8" scontext=u:r:shell:s0 tcontext=u:r:kernel:s0 tclass=system permissive=0

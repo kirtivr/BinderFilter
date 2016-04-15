@@ -4,6 +4,8 @@ Code execution path from Android Java API to linux kernel driver
 Sources:
 	AOSP: https://android.googlesource.com/
 	binder linux driver: https://android.googlesource.com/kernel/common.git/+/android-3.4/drivers/staging/android
+	ContextImpl and ActivityManagerNative sources: AOSP/frameworks/base/core/java/android/app/
+
 
 Android API
 	Context.registerReceiver()

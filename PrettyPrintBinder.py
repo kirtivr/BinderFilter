@@ -520,6 +520,10 @@ def main(argv):
 	cmd='adb shell \"su -c echo ' + str(debugMask) + ' \'> /sys/module/binder/parameters/debug_mask\'\"'
 	subprocess.call(cmd, shell=True)
 
+	# set the kernel log level
+	cmd='adb shell \"su -c echo 7 \'> /proc/sys/kernel/printk\'\"'
+	subprocess.call(cmd, shell=True)
+
 	p1 = Popen(["adb", "shell", "dmesg"], stdout=PIPE)
 	p2 = Popen(["grep", "binder"], stdin=p1.stdout, stdout=PIPE)
 	p3 = Popen(["tail", "-r", "-n", "1"], stdin=p2.stdout, stdout=PIPE)

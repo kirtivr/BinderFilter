@@ -1,0 +1,9 @@
+### adding binderFilter into the kernel
+
+modify binder.c to include binder_filter.h
+modify binder.c to include our filter functions
+modify binder.c to include extern binder_filter.c functions
+add binder_filter.h and binder_filter.c
+EXPORT_SYMBOL() functions from binder_filter.c
+add binder_filter.o to drivers/staging/android/Makefile and CONFIG_ANDROID_BINDER_FILTER to Kconfig
+recompile kernel with CONFIG_MODULES and CONFIG_ANDROID_BINDER_FILTER flags enabled

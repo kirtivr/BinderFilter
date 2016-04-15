@@ -25,7 +25,7 @@ $ git checkout 8ba2631
 $ export ARCH=arm
 $ export SUBARCH=arm
 $ export CROSS_COMPILE=arm-eabi-
-$ export PATH=arm-eabi-4.6/libexec:armeabi-4.6/bin:$PATH
+$ export PATH=arm-eabi-4.6/libexec:arm-eabi-4.6/bin:$PATH
 
 $ arm-eabi-gcc --version 
 $ > should give 4.6.x-google etc
@@ -43,6 +43,7 @@ $ vi .config
 	CONFIG_MODULE_FORCE_LOAD=y
 	CONFIG_MODULE_UNLOAD=y
 	CONFIG_MODULE_FORCE_UNLOAD=y
+	CONFIG_MODVERSIONS=y
 
 $ make modules_prepare
 $ make ARCH=arm CONFIG_HELLOWORLD=m M=drivers/helloworld 
@@ -80,6 +81,7 @@ $ vi .config
 	CONFIG_MODULE_FORCE_LOAD=y
 	CONFIG_MODULE_UNLOAD=y
 	CONFIG_MODULE_FORCE_UNLOAD=y
+	CONFIG_MODVERSIONS=y
 
 $ make
 

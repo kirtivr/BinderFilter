@@ -1,0 +1,39 @@
+### binder marshalling
+
+AOSP/frameworks/base/core/java/android/app/ActivityManagerNative.java
+	registerReceiver() is one of the methods that transacts data
+		Parcel data = Parcel.obtain();		// get a new parcel
+        ...
+        data.writeString(packageName);		// write the package name of sender
+        ...
+        mRemote.transact(REGISTER_RECEIVER_TRANSACTION, data, reply, 0);	// send
+
+AOSP/frameworks/base/core/java/android/os/Parcel.java
+	writeString() -> nativeWriteString()
+
+AOSP/frameworks/base/core/jni/android_os_Parcel.cpp
+	android_os_Parcel_writeString() 
+		const jchar* str = env->GetStringCritical(val, 0);
+        err = parcel->writeString16(reinterpret_cast<const char16_t*>(str), env->GetStringLength(val));
+
+AOSP/frameworks/native/libs/binder/Parcel.cpp
+	status_t Parcel::writeString16(const char16_t* str, size_t len)
+	{
+	    if (str == NULL) return writeInt32(-1);
+
+	    status_t err = writeInt32(len);
+	    if (err == NO_ERROR) {
+	        len *= sizeof(char16_t);
+	        uint8_t* data = (uint8_t*)writeInplace(len+sizeof(char16_t));
+	        if (data) {
+	            memcpy(data, str, len);
+	            *reinterpret_cast<char16_t*>(data+len) = 0;
+	            return NO_ERROR;
+	        }
+	        err = mError;
+	    }
+	    return err;
+	}
+
+
+
