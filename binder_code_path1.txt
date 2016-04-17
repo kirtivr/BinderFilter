@@ -11,7 +11,7 @@ Android API
 	Context.registerReceiver()
 		ContextWrapper -> ContextImpl.registerReceiverInternal()
 			ActivityManagerNative.getDefault().registerReceiver() (line 2998)
-				android.os.BinderProxy->transact()
+				android.os.Binder->BinderProxy.transact()
 					native transactNative()
 
 AOSP/frameworks/base/core/jni/android_util_Binder.cpp

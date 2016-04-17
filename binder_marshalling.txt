@@ -1,13 +1,60 @@
 ### binder marshalling
 
+Android sdk: check battery level example
+	IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+	Intent batteryStatus = view.getContext().registerReceiver(null, ifilter);
+	int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+
 AOSP/frameworks/base/core/java/android/app/ActivityManagerNative.java
 	registerReceiver() is one of the methods that transacts data
 		Parcel data = Parcel.obtain();		// get a new parcel
         ...
+        filter.writeToParcel(data, 0);		// write the IntentFilter details
         data.writeString(packageName);		// write the package name of sender
         ...
         mRemote.transact(REGISTER_RECEIVER_TRANSACTION, data, reply, 0);	// send
 
+data:
+-------------------------------------------------------------
+android.os.Binder->BinderProxy.transact() -> native transactNative()
+
+AOSP/frameworks/base/core/jni/android_util_Binder.cpp
+	android_os_BinderProxy_transact()
+		IBinder* target->transact()
+
+AOSP/frameworks/native/include/binder/BpBinder.h 
+	BpBinder implements IBinder
+		AOSP/frameworks/native/libs/binder/BpBinder.cpp
+			BpBinder::transact() calls IPCThreadState::self()->transact()
+
+AOSP/frameworks/native/libs/binder/IPCThreadState.cpp
+	IPCThreadState::self()->transact() calls writeTransactionData()
+		binder_transaction_data tr;
+		Parcel mOut;
+		...
+		tr.code = code
+		tr.data = data
+		...
+		mOut.writeInt32(cmd);
+   		mOut.write(&tr, sizeof(tr));
+
+Data is written to parcel as: [int32_t cmd, binder_transaction_data tr]
+	where cmd is BC_TRANSACTION or BC_REPLY, defined in binder.h as 
+		BC_TRANSACTION = _IOW('c', 0, struct binder_transaction_data),
+		BC_REPLY = _IOW('c', 1, struct binder_transaction_data),
+	binder_transaction_data struct is also defined in binder.h
+
+	tr contains multiple fields
+		code defined in frameworks/base/core/java/android/app/IActivityManager.java#626
+		and used in frameworks/base/code/java/android/app/ActivityManagerNative.java
+			i.e. REGISTER_RECEIVER_TRANSACTION
+				 START_ACTIVITY_TRANSACTION
+				 GET_UID_FOR_INTENT_SENDER_TRANSACTION
+		data is a pointer to a Parcel that is also written in ActivityManagerNative.java
+			contains packageName, userId, intent name, intent filter
+
+packageName:
+-------------------------------------------------------------
 AOSP/frameworks/base/core/java/android/os/Parcel.java
 	writeString() -> nativeWriteString()
 
@@ -36,4 +83,35 @@ AOSP/frameworks/native/libs/binder/Parcel.cpp
 	}
 
 
+### binder unmarshalling
+
+Android sdk: check battery level example
+	IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+	Intent batteryStatus = view.getContext().registerReceiver(null, ifilter);
+	int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+
+AOSP/frameworks/base/core/java/android/app/ActivityManagerNative.java
+	registerReceiver() is one of the methods that transacts data
+		Parcel reply = Parcel.obtain();		// get a new parcel
+        ...
+        mRemote.transact(REGISTER_RECEIVER_TRANSACTION, data, reply, 0);	// send
+        ...
+        Intent intent = Intent.CREATOR.createFromParcel(reply);		// reply is populated in transact()
+		return intent;
+
+AOSP/frameworks/base/core/java/android/content/Intent.java
+	CREATOR.createFromParcel(Parcel in) {
+        return new Intent(in);
+    }
+    protected Intent(Parcel in) {
+        readFromParcel(in);
+    }
+    readFromParcel(Parcel in) {			// unmarshall the Parcel object
+    	...
+    	mData = Uri.CREATOR.createFromParcel(in);
+        mType = in.readString();
+        mFlags = in.readInt();
+        mPackage = in.readString();
+        ...
+    }
 
