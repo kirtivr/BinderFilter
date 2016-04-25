@@ -6,7 +6,7 @@ Binder Debug Logging:
 		this logging will show (for BINDER_DEBUG_TRANSACTION) pids, buffer addresses, but not data
 
 		--------------------------------------------------------------------
-		adb shell "su -c 'echo 7 > /proc/sys/kernel/printk'"
+		#adb shell "su -c 'echo 7 > /proc/sys/kernel/printk'"
 		adb shell "su -c 'echo 519 > /sys/module/binder/parameters/debug_mask'"
 
 		***where 519 is the bit mask you want based on the binder_debug_mask enum

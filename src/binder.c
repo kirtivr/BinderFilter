@@ -40,7 +40,7 @@
 #include "binder_trace.h"
 
 #include "binder_filter.h"
-extern int filter_binder_message(int, unsigned long, signed long);
+extern int filter_binder_message(int, unsigned long, signed long, struct filter_verdict*);
 
 static DEFINE_MUTEX(binder_main_lock);
 static DEFINE_MUTEX(binder_deferred_lock);
@@ -2699,6 +2699,8 @@ static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	struct binder_thread *thread;
 	unsigned int size = _IOC_SIZE(cmd);
 	void __user *ubuf = (void __user *)arg;
+	
+	struct filter_verdict *fv = kzalloc(sizeof(struct filter_verdict), GFP_KERNEL);
 
 	/*printk(KERN_INFO "binder_ioctl: %d:%d %x %lx\n", proc->pid, current->pid, cmd, arg);*/
 
@@ -2731,8 +2733,9 @@ static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 			     proc->pid, thread->pid, bwr.write_size, bwr.write_buffer,
 			     bwr.read_size, bwr.read_buffer);
 
-		filter_binder_message(BF_MESSAGE_TYPE_READ, bwr.read_buffer, bwr.read_size);
-
+		//filter_binder_message(BF_MESSAGE_TYPE_READ, bwr.read_buffer, bwr.read_size, fv);
+		filter_binder_message(BF_MESSAGE_TYPE_READ, bwr.write_buffer, bwr.write_size, fv);
+		
 		if (bwr.write_size > 0) {
 			ret = binder_thread_write(proc, thread, (void __user *)bwr.write_buffer, bwr.write_size, &bwr.write_consumed);
 			trace_binder_write_done(ret);
@@ -2762,6 +2765,20 @@ static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 			ret = -EFAULT;
 			goto err;
 		}
+
+		if (fv->result == BF_VERDICT_POSITIVE) {
+			// printk(KERN_INFO "BINDERFILTER: verdict positive, addr: %p, current val: %c, ubuf: %p, change: %c\n", 
+			// 	fv->addr, *((char*)fv->addr), (void*)ubuf, *(char*)(fv->change));
+
+			// if (copy_to_user((void __user *)(fv->addr), &test, sizeof(char))) {
+			// 	ret = -EFAULT;
+			// 	goto err;
+			// }
+		}
+
+		kfree(fv->change);
+		kfree(fv);
+
 		break;
 	}
 	case BINDER_SET_MAX_THREADS:
