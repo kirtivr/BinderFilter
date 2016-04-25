@@ -106,7 +106,7 @@ AOSP/frameworks/base/core/java/android/content/Intent.java
     protected Intent(Parcel in) {
         readFromParcel(in);
     }
-    readFromParcel(Parcel in) {			// unmarshall the Parcel object
+    readFromParcel(Parcel in) {			// unmarshall the parcel
     	...
     	mData = Uri.CREATOR.createFromParcel(in);
         mType = in.readString();
@@ -115,3 +115,4 @@ AOSP/frameworks/base/core/java/android/content/Intent.java
         ...
     }
 
+*** see binder_marshalling.java
