@@ -115,4 +115,43 @@ AOSP/frameworks/base/core/java/android/content/Intent.java
         ...
     }
 
+    // when Parcel contains a Bundle
+    public int getIntExtra(String name, int defaultValue) {
+        return mExtras == null ? defaultValue :
+            mExtras.getInt(name, defaultValue);
+    }
+
+// used when the Parcel contains a Bundle
+AOSP/frameworks/base/code/java/android/os/BaseBundle.java
+	public int getInt(String key, int defaultValue) {
+        unparcel();
+        Object o = mMap.get(key);
+        ...
+        return (Integer) o;
+    }
+
+    synchronized void unparcel() {
+   		...
+        int N = mParcelledData.readInt();
+        ...
+        mMap = new ArrayMap<String, Object>(N);
+        ...
+        mParcelledData.readArrayMapInternal(mMap, N, mClassLoader);
+        ...
+    }
+
+     void readArrayMapInternal(ArrayMap outVal, int N, ClassLoader loader) {
+        ...
+        int startPos;
+        while (N > 0) {
+            ...
+            String key = readString();
+            Object value = readValue(loader);
+            ...
+            outVal.append(key, value);
+            N--;
+        }
+    }
+
+
 *** see binder_marshalling.java

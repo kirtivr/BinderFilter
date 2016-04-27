@@ -1,0 +1,509 @@
+How does a process specify receiver of an intent/ binder message?
+	code path (w.r.t. how binder message destinations are determined and set)
+
+// -----------------------------------------------------------------------------------------------
+// Java layer ------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+
+
+// MainActivity.java (edu.dartmouth.dwu.myapp) ---------------------------------------------------
+// *** Using System Server
+// note that the initial registerReceiver() call in the app has null as the first param
+
+IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+Intent batteryStatus = view.getContext().registerReceiver(null, ifilter);
+
+
+// MainActivty.java (AnalogClock) ----------------------------------------------------------------
+// http://androidxref.com/6.0.1_r10/xref/frameworks/base/core/java/android/widget/AnalogClock.java
+// *** Not using System Server, instead use registerReceiverAsUser()
+
+private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals(Intent.ACTION_TIMEZONE_CHANGED)) {
+            String tz = intent.getStringExtra("time-zone");
+            mCalendar = new Time(TimeZone.getTimeZone(tz).getID());
+        }
+        // ... abridged ....
+    }
+};
+
+@Override
+protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
+
+    if (!mAttached) {
+        mAttached = true;
+        IntentFilter filter = new IntentFilter();
+
+        filter.addAction(Intent.ACTION_TIME_TICK);
+        filter.addAction(Intent.ACTION_TIME_CHANGED);
+        filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+
+        // OK, this is gross but needed. This class is supported by the
+        // remote views machanism and as a part of that the remote views
+        // can be inflated by a context for another user without the app
+        // having interact users permission - just for loading resources.
+        // For exmaple, when adding widgets from a user profile to the
+        // home screen. Therefore, we register the receiver as the current
+        // user not the one the context is for.
+        getContext().registerReceiverAsUser(mIntentReceiver,
+                android.os.Process.myUserHandle(), filter, null, mHandler);
+    }
+}
+
+
+// ContextImpl.java ------------------------------------------------------------------------------
+// registerReceiverAsUser is used to specify non System Server receivers
+// registerReceiver is used to specify the System Server receiver
+// the difference between the two lies in (receiver == null)
+
+@Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        return registerReceiver(receiver, filter, null, null);
+    }
+
+    @Override
+    public Intent registerReceiverAsUser(BroadcastReceiver receiver, UserHandle user,
+            IntentFilter filter, String broadcastPermission, Handler scheduler) {
+        return registerReceiverInternal(receiver, user.getIdentifier(),
+                filter, broadcastPermission, scheduler, getOuterContext());
+    }
+
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter,
+            String broadcastPermission, Handler scheduler) {
+        return registerReceiverInternal(receiver, getUserId(),
+                filter, broadcastPermission, scheduler, getOuterContext());
+    }
+
+private Intent registerReceiverInternal(BroadcastReceiver receiver, int userId,
+        IntentFilter filter, String broadcastPermission,
+        Handler scheduler, Context context) {
+    IIntentReceiver rd = null;
+    if (receiver != null) {
+        if (mPackageInfo != null && context != null) {
+            if (scheduler == null) {
+                scheduler = mMainThread.getHandler();
+            }
+            rd = mPackageInfo.getReceiverDispatcher(
+                receiver, context, scheduler,
+                mMainThread.getInstrumentation(), true);
+        } else {
+            if (scheduler == null) {
+                scheduler = mMainThread.getHandler();
+            }
+            rd = new LoadedApk.ReceiverDispatcher(
+                    receiver, context, scheduler, null, true).getIIntentReceiver();
+        }
+    }
+    try {
+        return ActivityManagerNative.getDefault().registerReceiver(
+                mMainThread.getApplicationThread(), mBasePackageName,
+                rd, filter, broadcastPermission, userId);
+    } catch (RemoteException e) {
+        return null;
+    }
+}
+
+
+
+// ActivityManagerNative.java -------------------------------------------------------------------------
+// if the System Server is the receiver, then we write '0' as the receiver,
+// otherwise, we write the Binder object description
+
+public Intent registerReceiver(IApplicationThread caller, String packageName,
+        IIntentReceiver receiver,
+        IntentFilter filter, String perm, int userId) throws RemoteException
+{
+    Parcel data = Parcel.obtain();
+    Parcel reply = Parcel.obtain();
+    data.writeInterfaceToken(IActivityManager.descriptor);
+    data.writeStrongBinder(caller != null ? caller.asBinder() : null);
+    data.writeString(packageName);
+    data.writeStrongBinder(receiver != null ? receiver.asBinder() : null);
+    filter.writeToParcel(data, 0);
+    data.writeString(perm);
+    data.writeInt(userId);
+    mRemote.transact(REGISTER_RECEIVER_TRANSACTION, data, reply, 0);
+    reply.readException();
+    Intent intent = null;
+    int haveIntent = reply.readInt();
+    if (haveIntent != 0) {
+        intent = Intent.CREATOR.createFromParcel(reply);
+    }
+    reply.recycle();
+    data.recycle();
+    return intent;
+}
+
+// -----------------------------------------------------------------------------------------------
+// JNI layer -------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+
+Android API
+	Context.registerReceiver()
+		ContextWrapper -> ContextImpl.registerReceiverInternal()
+			ActivityManagerNative.getDefault().registerReceiver()
+				android.os.Binder->BinderProxy.transact()
+					native transactNative()
+
+AOSP/frameworks/base/core/jni/android_util_Binder.cpp
+	implements the native JNI function android_os_BinderProxy_transact()
+		(mapping is in gBinderProxyMethods[])
+		calls IBinder* target->transact()
+			** BBinder, BpBinder, and custom classes that implement IBinder have their transact() called
+
+			AOSP/frameworks/native/include/binder/BpBinder.h 
+				BpBinder implements IBinder
+					AOSP/frameworks/native/libs/binder/BpBinder.cpp
+						BpBinder::transact() calls IPCThreadState::self()->transact()
+							AOSP/frameworks/native/libs/binder/IPCThreadState.cpp
+								transact() calls waitForResponse() calls talkWithDriver()
+									calls ioctl(mProcess->mDriverFD, BINDER_WRITE_READ, &bwr)
+
+										/Volumes/untitled/AOSP/bionic/libc/bionic/ioctl.c
+											/Volumes/untitled/AOSP/bionic/libc/arch-arm/syscalls/__ioctl.S
+												ldr     r7, =__NR_ioctl
+    											swi     #0
+
+msm/drivers/staging/android/binder.c is a linux driver
+	calls device_initcall(binder_init);
+		binder_init() calls misc_register(&binder_miscdev)
+			registers file operations and driver name
+				static struct miscdevice binder_miscdev = {
+					.minor = MISC_DYNAMIC_MINOR,
+					.name = "binder",
+					.fops = &binder_fops
+				};
+
+				static const struct file_operations binder_fops = {
+					.owner = THIS_MODULE,
+					.poll = binder_poll,
+					.unlocked_ioctl = binder_ioctl,
+					.mmap = binder_mmap,
+					.open = binder_open,
+					.flush = binder_flush,
+					.release = binder_release,
+				};
+
+/Volumes/untitled/AOSP/frameworks/native/libs/binder/{ProcessState.cpp,IPCThreadState.cpp}
+	BpBinder::transact() calls IPCThreadState::self()->transact()
+		IPCThreadState::self() calls ProcessState::self()
+			ProcessState::self() calls open_driver()
+				calls open("/dev/binder", O_RDWR);
+
+
+// -----------------------------------------------------------------------------------------------
+// Kernel layer ----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+
+// binder.c    
+// (functions abridged)
+// Process info is read from userspace
+// Process info is written in the JNI layer
+// basically, ProcessState is the object representation of an application
+// ProcessState includes an instatnce of IPCThreadState which deals with Binder messages
+// binder_ioctl is called from an IPCThreadState with parcelled data in a
+//			calling application's address space
+
+// *** of main interest is the stub in binder_transaction()
+// which looks at the partially unparcelled user buffer to determine which process to
+//			send the package to 
+
+static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+{
+	struct binder_proc *proc = filp->private_data;
+	struct binder_thread *thread;
+	void __user *ubuf = (void __user *)arg;
+
+	thread = binder_get_thread(proc);
+	if (thread == NULL) {
+		ret = -ENOMEM;
+		goto err;
+	}
+
+	if (copy_from_user(&bwr, ubuf, sizeof(bwr))) {
+		ret = -EFAULT;
+		goto err;
+	}
+
+	ret = binder_thread_write(proc, thread, (void __user *)bwr.write_buffer, 
+					bwr.write_size, &bwr.write_consumed);
+}
+
+int binder_thread_write(struct binder_proc *proc, struct binder_thread *thread,
+			void __user *buffer, int size, signed long *consumed)
+{
+	uint32_t cmd;
+	void __user *ptr = buffer + *consumed;
+	void __user *end = buffer + size;
+
+	if (get_user(cmd, (uint32_t __user *)ptr))
+		return -EFAULT;
+	switch (cmd) {
+		case BC_TRANSACTION:
+		case BC_REPLY: {
+			struct binder_transaction_data tr;
+
+			if (copy_from_user(&tr, ptr, sizeof(tr)))
+				return -EFAULT;
+			ptr += sizeof(tr);
+			binder_transaction(proc, thread, &tr, cmd == BC_REPLY);
+			break;
+		}
+	}
+}
+
+static void binder_transaction(struct binder_proc *proc,
+			       struct binder_thread *thread,
+			       struct binder_transaction_data *tr, int reply)
+{
+	if (tr->target.handle) {
+		struct binder_ref *ref;
+		ref = binder_get_ref(proc, tr->target.handle);
+		if (ref == NULL) {
+			binder_user_error("binder: %d:%d got "
+				"transaction to invalid handle\n",
+				proc->pid, thread->pid);
+			return_error = BR_FAILED_REPLY;
+			goto err_invalid_target_handle;
+		}
+		target_node = ref->node;
+	} else {
+		target_node = binder_context_mgr_node;
+		if (target_node == NULL) {
+			return_error = BR_DEAD_REPLY;
+			goto err_no_context_mgr_node;
+		}	
+	}
+}
+
+
+// other binder linux driver code
+
+struct binder_transaction_data {
+	/* The first two are only used for bcTRANSACTION and brTRANSACTION,
+	 * identifying the target and contents of the transaction.
+	 */
+	union {
+		size_t	handle;	/* target descriptor of command transaction */
+		void	*ptr;	/* target descriptor of return transaction */
+	} target;
+	void		*cookie;	/* target object cookie */
+	unsigned int	code;		/* transaction command */
+
+	/* General information about the transaction. */
+	unsigned int	flags;
+	pid_t		sender_pid;
+	uid_t		sender_euid;
+	size_t		data_size;	/* number of bytes of data */
+	size_t		offsets_size;	/* number of bytes of offsets */
+
+	/* If this transaction is inline, the data immediately
+	 * follows here; otherwise, it ends with a pointer to
+	 * the data buffer.
+	 */
+	union {
+		struct {
+			/* transaction data */
+			const void	*buffer;
+			/* offsets from buffer to flat_binder_object structs */
+			const void	*offsets;
+		} ptr;
+		uint8_t	buf[8];
+	} data;
+};
+
+static struct binder_ref *binder_get_ref(struct binder_proc *proc,
+					 uint32_t desc)
+{
+	struct rb_node *n = proc->refs_by_desc.rb_node;
+	struct binder_ref *ref;
+
+	while (n) {
+		ref = rb_entry(n, struct binder_ref, rb_node_desc);
+
+		if (desc < ref->desc)
+			n = n->rb_left;
+		else if (desc > ref->desc)
+			n = n->rb_right;
+		else
+			return ref;
+	}
+	return NULL;
+}
+
+static struct binder_node *binder_new_node(struct binder_proc *proc,
+					   void __user *ptr,
+					   void __user *cookie)
+{
+	struct rb_node **p = &proc->nodes.rb_node;
+	struct rb_node *parent = NULL;
+	struct binder_node *node;
+
+	while (*p) {
+		parent = *p;
+		node = rb_entry(parent, struct binder_node, rb_node);
+
+		if (ptr < node->ptr)
+			p = &(*p)->rb_left;
+		else if (ptr > node->ptr)
+			p = &(*p)->rb_right;
+		else
+			return NULL;
+	}
+
+	node = kzalloc(sizeof(*node), GFP_KERNEL);
+	if (node == NULL)
+		return NULL;
+
+	// abridged
+
+	return node;
+}
+
+
+
+// -----------------------------------------------------------------------------------------------
+// bindService() example: send an RPC call without going through the System Service --------------
+// -----------------------------------------------------------------------------------------------
+
+// MainActivity.java (edu.dartmouth.dwu.binderservice) -------------------------------------------
+// http://developer.android.com/guide/components/bound-services.html#Creating
+// *** Not using System Server, instead use bindService()
+// Note that MessengerService.class is in the same application as the caller
+
+@Override
+protected void onStart() {
+    super.onStart();
+    // Bind to the service
+    // intent package is specified in BinderService/manifests/AndroidManifest/service/intent-filter/action
+    bindService(new Intent(this, MessengerService.class), mConnection, Context.BIND_AUTO_CREATE);
+}
+
+
+// Intent.java
+/**
+ * Create an intent for a specific component.  All other fields (action, data,
+ * type, class) are null, though they can be modified later with explicit
+ * calls.  This provides a convenient way to create an intent that is
+ * intended to execute a hard-coded class name, rather than relying on the
+ * system to find an appropriate class for you; see {@link #setComponent}
+ * for more information on the repercussions of this.
+ *
+ * @param packageContext A Context of the application package implementing
+ * this class.
+ * @param cls The component class that is to be used for the intent.
+ *
+ * @see #setClass
+ * @see #setComponent
+ * @see #Intent(String, android.net.Uri , Context, Class)
+ */
+public Intent(Context packageContext, Class<?> cls) {
+    mComponent = new ComponentName(packageContext, cls);
+}
+
+// ComponentName.java
+/**
+ * Create a new component identifier from a Context and Class object.
+ * 
+ * @param pkg A Context for the package implementing the component, from
+ * which the actual package name will be retrieved.
+ * @param cls The Class object of the desired component, from which the
+ * actual class name will be retrieved.
+ */
+public ComponentName(Context pkg, Class<?> cls) {
+    mPackage = pkg.getPackageName();
+    mClass = cls.getName();
+}
+
+// ContextImpl.java
+public boolean bindService(Intent service, ServiceConnection conn,
+        int flags) {
+    warnIfCallingFromSystemProcess();
+    return bindServiceCommon(service, conn, flags, Process.myUserHandle());
+}
+
+private boolean bindServiceCommon(Intent service, ServiceConnection conn, int flags,
+        UserHandle user) {
+    IServiceConnection sd;
+    if (conn == null) {
+        throw new IllegalArgumentException("connection is null");
+    }
+    if (mPackageInfo != null) {
+        sd = mPackageInfo.getServiceDispatcher(conn, getOuterContext(),
+                mMainThread.getHandler(), flags);
+    } else {
+        throw new RuntimeException("Not supported in system context");
+    }
+    validateServiceIntent(service);
+    try {
+        IBinder token = getActivityToken();
+        if (token == null && (flags&BIND_AUTO_CREATE) == 0 && mPackageInfo != null
+                && mPackageInfo.getApplicationInfo().targetSdkVersion
+                < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            flags |= BIND_WAIVE_PRIORITY;
+        }
+        service.prepareToLeaveProcess();
+        int res = ActivityManagerNative.getDefault().bindService(
+            mMainThread.getApplicationThread(), getActivityToken(), service,
+            service.resolveTypeIfNeeded(getContentResolver()),
+            sd, flags, getOpPackageName(), user.getIdentifier());
+        if (res < 0) {
+            throw new SecurityException(
+                    "Not allowed to bind to service " + service);
+        }
+        return res != 0;
+    } catch (RemoteException e) {
+        throw new RuntimeException("Failure from system", e);
+    }
+}
+
+// ActivityManagerNative.java
+public int bindService(IApplicationThread caller, IBinder token,
+        Intent service, String resolvedType, IServiceConnection connection,
+        int flags,  String callingPackage, int userId) throws RemoteException {
+    Parcel data = Parcel.obtain();
+    Parcel reply = Parcel.obtain();
+    data.writeInterfaceToken(IActivityManager.descriptor);
+    data.writeStrongBinder(caller != null ? caller.asBinder() : null);
+    data.writeStrongBinder(token);
+    service.writeToParcel(data, 0);
+    data.writeString(resolvedType);
+    data.writeStrongBinder(connection.asBinder());
+    data.writeInt(flags);
+    data.writeString(callingPackage);
+    data.writeInt(userId);
+    mRemote.transact(BIND_SERVICE_TRANSACTION, data, reply, 0);
+    reply.readException();
+    int res = reply.readInt();
+    data.recycle();
+    reply.recycle();
+    return res;
+}
+
+// Intent.java
+public void writeToParcel(Parcel out, int flags) {
+    ...
+    ComponentName.writeToParcel(mComponent, out);
+    ...
+}
+
+// ComponentName.java
+public static void writeToParcel(ComponentName c, Parcel out) {
+    if (c != null) {
+        c.writeToParcel(out, 0);
+    } else {
+        out.writeString(null);
+    }
+}
+public void writeToParcel(Parcel out, int flags) {
+    out.writeString(mPackage);
+    out.writeString(mClass);
+}
+
+
+
+
