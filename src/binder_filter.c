@@ -188,6 +188,9 @@ static int get_int32(char* buf)
 // 	return string;
 // }
 
+/*
+	chars are 16 bits (http://androidxref.com/6.0.1_r10/xref/frameworks/base/core/jni/android_os_Parcel.cpp readString())
+*/
 static void print_string(const char* buf, size_t data_size, char **level_location) 
 {
 	int i;
@@ -196,8 +199,7 @@ static void print_string(const char* buf, size_t data_size, char **level_locatio
 	int len = data_size;
 	char* buffer;
 	char temp[4];
-	const char* level = "level";
-	const char* battery = "android.intent.action.BATTERY_CHANGED";
+
 
 	if (buf <= 0 || data_size <= 0) {
 		printk(KERN_INFO "BINDERFILTER: buffer contents: (null)\n");
@@ -214,11 +216,11 @@ static void print_string(const char* buf, size_t data_size, char **level_locatio
 		return;
 	}
 
-	for (i=0; i<len; i++) {
+	for (i=0; i<len; i=i+2) {
 		val = *(buf+i);
 		if ((val >= 32) && (val <= 126)) {
 			buffer[c++] = (char)val;
-		} else if ((int)val > 0) {
+		} else if ((int)val >= 0) {
 			buffer[c++] = '(';
 
 			snprintf(temp, 4, "%d", (int)val);
@@ -235,30 +237,75 @@ static void print_string(const char* buf, size_t data_size, char **level_locatio
 
 	printk(KERN_INFO "BINDERFILTER: buffer contents: {%s}\n", buffer);
 
-
-	if (level_location != NULL) {
-		if (strlen(buffer) > strlen(battery) && strstr(buffer, battery) != NULL && strstr(buffer, level) != NULL) {
-			*level_location = strstr(buf, level);
-			printk(KERN_INFO "BINDERFILTER: match 1 %p\n", *level_location);
-			if (level_location != NULL && *level_location != NULL) {
-				printk(KERN_INFO "BINDERFILTER: match 2 %p\n", *level_location);
-				// *level_location += strlen(level) + sizeof(int);
-			}
-		}
-	} else {
-		printk("BINDERFILTER: level location null");
-	}
-
-
 	kfree(buffer);
 
 	return;
 }
 
 
+static char* filter_string_battery_level(const char* buf, size_t data_size, char **level_location) 
+{
+	int i;
+	char val;
+	int c = 0;
+	int len = data_size;
+	char* buffer;
+	const char* level = "level";
+	const char* battery = "android.intent.action.BATTERY_CHANGED";
+
+	if (buf <= 0 || data_size <= 0) {
+		printk(KERN_INFO "BINDERFILTER: buffer contents: (null)\n");
+		return NULL;
+	}
+
+	// if (*(buf+4) != (char)(1)) {
+	// 	printk(KERN_INFO "BINDERFILTER: check 1 failed\n");
+	// 	return NULL;
+	// }
+
+	// if (*(buf+8) != '%') {
+	// 	printk(KERN_INFO "BINDERFILTER: check 2 failed\n");
+	// 	return NULL;
+	// }
+
+	buffer = (char*) kzalloc(len*5+1, GFP_KERNEL);
+	if (buffer == NULL) {
+		return NULL;
+	}
+
+	for (i=0; i<len; i=i+2) {
+		val = *(buf+i);
+		if ((val >= 32) && (val <= 126)) {
+			buffer[c++] = (char)val;
+		} else {
+			buffer[c++] = '*';
+		}
+	}
+
+	buffer[c] = '\0';
+	
+	//printk(KERN_INFO "BINDERFILTER: buffer contents: {%s}\n", buffer);
+
+	if (strlen(buffer) > strlen(battery) && strstr(buffer, battery) != NULL && strstr(buffer, level) != NULL) {
+		*level_location = strstr(buffer, level);
+		if (level_location != NULL && *level_location != NULL) {
+			*level_location = ((*level_location-buffer)*2) + 8*2 + (char*)buf;
+			
+			kfree(buffer);
+			return *level_location;
+		}
+	}
+
+	kfree(buffer);
+
+	return NULL;
+}
+
+
 static void print_binder_transaction_data(struct binder_transaction_data* tr, struct filter_verdict* fv) 
 {
 	char* level_location = NULL;
+	char* to_copy = kzalloc(1, GFP_KERNEL);
 #ifdef BF_SEQ_FILE_OUTPUT
 	struct bf_buffer_log_entry *e;
 	void* buf_copy;
@@ -280,21 +327,21 @@ static void print_binder_transaction_data(struct binder_transaction_data* tr, st
 
 	printk(KERN_INFO "BINDERFILTER: data");
 	print_string(tr->data.ptr.buffer, tr->data_size, &level_location);	
+	
+	level_location = filter_string_battery_level(tr->data.ptr.buffer, tr->data_size, &level_location);	
+	if (level_location != NULL) {
+		printk(KERN_INFO "BINDERFILTER: found match at %p", level_location);
 
-	// if (level_location != NULL) {
-	// 	printk(KERN_INFO "BINDERFILTER: assigning filter_verdict, addr: %p, val %c", tr->data.ptr.offsets, *level_location);
+		*to_copy = (char)42;
+		fv->result = BF_VERDICT_POSITIVE;
+		fv->addr = (void*)(level_location);
+		fv->change = to_copy;
 
-	// 	fv->result = BF_VERDICT_POSITIVE;
-	// 	fv->addr = (void*)(level_location);
-	// 	fv->change = level_location;
+		return;
+	}
 
-	// 	return;
-	// }
-
-	level_location = NULL;
-
-	printk(KERN_INFO "BINDERFILTER: offsets");
-	print_string(tr->data.ptr.offsets, tr->offsets_size, &level_location);
+	//printk(KERN_INFO "BINDERFILTER: offsets");
+	//print_string(tr->data.ptr.offsets, tr->offsets_size, &level_location);
 
 
 #ifdef BF_SEQ_FILE_OUTPUT

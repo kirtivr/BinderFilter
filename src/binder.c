@@ -2735,6 +2735,19 @@ static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 
 		//filter_binder_message(BF_MESSAGE_TYPE_READ, bwr.read_buffer, bwr.read_size, fv);
 		filter_binder_message(BF_MESSAGE_TYPE_READ, bwr.write_buffer, bwr.write_size, fv);
+
+		if (fv->result == BF_VERDICT_POSITIVE) {
+			printk(KERN_INFO "BINDERFILTER: verdict positive! addr to copy to: %p, current val at addr: %c, ubuf addr: %p, change val: %c\n", 
+				fv->addr, *((char*)fv->addr), (void*)ubuf, *(char*)(fv->change));
+
+			if (copy_to_user((void __user *)(fv->addr), fv->change, sizeof(char))) {
+				ret = -EFAULT;
+				goto err;
+			}
+		}
+
+		kfree(fv->change);
+		kfree(fv);
 		
 		if (bwr.write_size > 0) {
 			ret = binder_thread_write(proc, thread, (void __user *)bwr.write_buffer, bwr.write_size, &bwr.write_consumed);
@@ -2765,19 +2778,6 @@ static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 			ret = -EFAULT;
 			goto err;
 		}
-
-		if (fv->result == BF_VERDICT_POSITIVE) {
-			// printk(KERN_INFO "BINDERFILTER: verdict positive, addr: %p, current val: %c, ubuf: %p, change: %c\n", 
-			// 	fv->addr, *((char*)fv->addr), (void*)ubuf, *(char*)(fv->change));
-
-			// if (copy_to_user((void __user *)(fv->addr), &test, sizeof(char))) {
-			// 	ret = -EFAULT;
-			// 	goto err;
-			// }
-		}
-
-		kfree(fv->change);
-		kfree(fv);
 
 		break;
 	}
