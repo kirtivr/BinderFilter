@@ -1,25 +1,38 @@
 /*
-{(1)(37)android.intent.action.BATTERY_CHANGED
-(255)(255)(255)(255)(16)`(255)(255)(255)(255)(255)(255)(255)(255)(254)(255)(255)(255)
-(160)(10)BNDL(12)
-(10)technology(6)Li-ion(10)icon-small(1)Q(6)(8)(1)(6)health(1)(2)(20)max_charging_current(1)(6)status(1)(5)
-(7)plugged(1)(2)(7)present(9)(1)(5)level(1)d(5)scale(1)d(11)temperature(1)(200)(70)voltage ... }
 
-{0000*000%000a0n0d0r0o0i0d0.0i0n0t0e0n0t0.0a0c0t0i0o0n0.0B0A0T0T0E0R0Y0_0C0H0A0N0G0E0D
-0000000*****00`********0000000000000000******00BNDL*000*000t0e0c0h0n0o0l0o0g0y000000000*000L0i0-0i0o0n00000*000i0c0o0n0-0s0m0a0l0l00000*000Q****000h0e0a0l0t0h00000*000*000*000m0a0x0_0c0h0a0r0g0i0n0g0_0c0u0r0r0e0n0t00000*0000000*000s0t0a0t0u0s00000*000*000*000p0l0u0g0g0e0d000*000*000*000p0r0e0s0e0n0t000*000*000*000l0e0v0e0l000*000d000*000s0c0a0l0e000*000d000*000t0e0m0p0e0r0a0t0u0r0e000*000*000*000v0o0l0t0a0g0e000*000**00*000}
-
+BC_REPLY
 {(0)(0)(1)(0)%(0)android.intent.action.BATTERY_CHANGED
 (0)(0)(0)(255)(255)(16)(0)(255)(255)(255)(255)(05)(05)(05)(05)(05)(05)(05)(05)(254)(255)
 (160)(00)BD(12)(0)(10)(0)technology(0)(0)(0)(0)(6)(0)Li-ion(0)(0)(10)(0)icon-small(0)(0)(1)(0)Q(8)(6)(0)health(0)(0)(1)(0)(2)(0)
 (20)(0)max_charging_current(0)(0)(1)(0)(0)(0)(6)(0)status(0)(0)(1)(0)(5)(0)(7)(0)plugged(0)(1)(0)(2)(0)(7)(0)present(0)(9)(0)(1)(0)
 (5)(0)level(0)(1)(0)d(0)(5)(0)scale(0)(1)(0)d(0)(11)(0)temperature(0)(1)(0)(255)(05)(75)(05)voltage(}
 
-{(4)H&com.android.internal.view.IInputMethod(133)*bs(127)(17)(17)(18)
-(255)(255)(255)(255)(15)(255)(255)(255)(255)(255)(255)(255)(255)(255)(255)(255)(255)(15)(255)(255)(255)(255)(15)(255)(255)(255)(255)
-(30)com.surpax.ledflashlight.panel(255)(255)(255)(255)(255)(255)(255)(255)(255)(255)(255)(255)}
+BC_TRANSACTION
+{(0)@(30)(0)android.app.IApplicationThread(0)(0)(133)h(127)(07)r(07)(07)(07)
+%(07)android.intent.action.BATTERY_CHANGED(07)(07)(07)(255)(255)(16)(0)(255)
+(255)(255)(255)(05)(05)(05)(05)(05)(05)(05)(05)(254)(255)(160)(00)
+BD(12)(0)(10)(0)technology(0)(0)(0)(0)(6)(0)Li-ion(0)(0)(10)(0)icon-small(0)(0)(1)(0)Q(8)
+(6)(0)health(0)(0)(1)(0)(2)(0)(20)(0)max_charging_current(0)(0)(1)(0)(0)(0)
+(6)(0)status(0)(0)(1)(0)(5)(0)(7)(0)plugged(0)(1)(0)(2)(0)(7)(0)present(0)(9)(0)(1)(0)
+(5)(0)level(0)(1)(0)d(0)}
 
-{@(33)android.media.IAudioPolicyService(1)(3)}
-{00@0!000a0n0d0r0o0i0d0.0m0e0d0i0a0.0I0A0u0d0i0o0P0o0l0i0c0y0S0e0r0v0i0c0e000*00000000000*00000000000}
+BC_TRANSACTION
+{(0)@(30)(0)android.app.IApplicationThread(0)(0)(133)h(127)(07)(13)(0)(0)(0).(0)
+android.bluetooth.adapter.action.STATE_CHANGED(0)(0)(0)(0)(255)(255)(16)(0)(255)(255)(255)(255)(05)(05)(05)
+(05)(05)(05)(05)(05)(254)(255)(200)(00)BD(20)(00).(00)android.bluetooth.adapter.extra.PREVIOUS_STATE
+(00)(00)(10)(00)(11)(0)%(0)
+android.bluetooth.adapter.extra.STATE(0)(1)(0)(12)(0)(255)(255)(255)(255)(255)(255)(05)(05)(05)(05)(255)(255)(35)(05)}
+
+BC_TRANSACTION 
+{(0)@(28)(0)android.app.IActivityManager(0)(0)(133)b(127)(07)P(219)`(193)(255)(255)(05)(05)(255)(255)(05)(05)(255)(255)(21)(0)
+com.android.bluetooth(0)&(0)com.android.bluetooth.gatt.GattService(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(254)(255)(228)(08)BD(28)(08)(68)(08)
+action(08)(08)(08)(08)4(08)com.android.bluetooth.btservice.action.STATE_CHANGED(08)(08)%(08)
+android.bluetooth.adapter.extra.STATE(08)(18)(08)(12)(0)(255)(255)(21)(0)}
+
+BC_REPLY
+{(0)(0)(1)(0)(1)(0)(0)(0)(4)(0)WIFI(0)(0)(0)(0)(0)(0)
+(9)(0)CONNECTED(0)(9)(0)CONNECTED(0)(0)(0)(1)(0)(0)(0)(255)(255)(18)(0)"Dartmouth Public"(0)(0)}
+
 */
 
 // ActivityManagerNative.java: http://androidxref.com/6.0.1_r10/xref/frameworks/base/core/java/android/app/ActivityManagerNative.java
@@ -93,6 +106,36 @@ protected Intent(Parcel in) {
 public Intent setAction(String action) {
     mAction = action != null ? action.intern() : null;
     return this;
+}
+
+public int broadcastIntent(IApplicationThread caller,
+            Intent intent, String resolvedType, IIntentReceiver resultTo,
+            int resultCode, String resultData, Bundle map,
+            String[] requiredPermissions, int appOp, Bundle options, boolean serialized,
+            boolean sticky, int userId) throws RemoteException
+{
+    Parcel data = Parcel.obtain();
+    Parcel reply = Parcel.obtain();
+    data.writeInterfaceToken(IActivityManager.descriptor);
+    data.writeStrongBinder(caller != null ? caller.asBinder() : null);
+    intent.writeToParcel(data, 0);
+    data.writeString(resolvedType);
+    data.writeStrongBinder(resultTo != null ? resultTo.asBinder() : null);
+    data.writeInt(resultCode);
+    data.writeString(resultData);
+    data.writeBundle(map);
+    data.writeStringArray(requiredPermissions);
+    data.writeInt(appOp);
+    data.writeBundle(options);
+    data.writeInt(serialized ? 1 : 0);
+    data.writeInt(sticky ? 1 : 0);
+    data.writeInt(userId);
+    mRemote.transact(BROADCAST_INTENT_TRANSACTION, data, reply, 0);
+    reply.readException();
+    int res = reply.readInt();
+    reply.recycle();
+    data.recycle();
+    return res;
 }
 
 // Uri.CREATOR.createFromParcel(in) ---------------------------------------------------------------------------------------------------

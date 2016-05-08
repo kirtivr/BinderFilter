@@ -40,7 +40,7 @@
 #include "binder_trace.h"
 
 #include "binder_filter.h"
-extern int filter_binder_message(int, unsigned long, signed long, struct filter_verdict*);
+extern int filter_binder_message(unsigned long, signed long, int);
 
 static DEFINE_MUTEX(binder_main_lock);
 static DEFINE_MUTEX(binder_deferred_lock);
@@ -1612,6 +1612,9 @@ static void binder_transaction(struct binder_proc *proc,
 		return_error = BR_FAILED_REPLY;
 		goto err_bad_offset;
 	}
+
+	filter_binder_message((unsigned long)(t->buffer->data), tr->data_size, reply);
+
 	off_end = (void *)offp + tr->offsets_size;
 	for (; offp < off_end; offp++) {
 		struct flat_binder_object *fp;
@@ -2700,8 +2703,6 @@ static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	unsigned int size = _IOC_SIZE(cmd);
 	void __user *ubuf = (void __user *)arg;
 	
-	struct filter_verdict *fv = kzalloc(sizeof(struct filter_verdict), GFP_KERNEL);
-
 	/*printk(KERN_INFO "binder_ioctl: %d:%d %x %lx\n", proc->pid, current->pid, cmd, arg);*/
 
 	trace_binder_ioctl(cmd, arg);
@@ -2732,22 +2733,6 @@ static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 			     "binder: %d:%d write %ld at %08lx, read %ld at %08lx\n",
 			     proc->pid, thread->pid, bwr.write_size, bwr.write_buffer,
 			     bwr.read_size, bwr.read_buffer);
-
-		//filter_binder_message(BF_MESSAGE_TYPE_READ, bwr.read_buffer, bwr.read_size, fv);
-		filter_binder_message(BF_MESSAGE_TYPE_READ, bwr.write_buffer, bwr.write_size, fv);
-
-		if (fv->result == BF_VERDICT_POSITIVE) {
-			printk(KERN_INFO "BINDERFILTER: verdict positive! addr to copy to: %p, current val at addr: %c, ubuf addr: %p, change val: %c\n", 
-				fv->addr, *((char*)fv->addr), (void*)ubuf, *(char*)(fv->change));
-
-			if (copy_to_user((void __user *)(fv->addr), fv->change, sizeof(char))) {
-				ret = -EFAULT;
-				goto err;
-			}
-		}
-
-		kfree(fv->change);
-		kfree(fv);
 		
 		if (bwr.write_size > 0) {
 			ret = binder_thread_write(proc, thread, (void __user *)bwr.write_buffer, bwr.write_size, &bwr.write_consumed);

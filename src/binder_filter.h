@@ -17,16 +17,33 @@ enum {
 	BF_RETURN_DROP = 1,
 };
 
-enum {
-	BF_MESSAGE_TYPE_READ = 0,
-	BF_MESSAGE_TYPE_WRITE = 1,
-};
-
 struct filter_verdict {
 	int result; 			// 1 if we need to act upon the filter
 	void* addr;
 	void* change;
 };
 
+struct bf_user_filter {
+	int level_value_no_BT;
+	int level_value_with_BT;
+};
+
+struct bf_battery_level_struct {
+	int level_value_no_BT;
+	int level_value_with_BT;
+};
+
+enum {
+	BF_BLUETOOTH_UNKNOWN = -1,
+	BF_BLUETOOTH_OFF = 0,
+	BF_BLUETOOTH_ON = 1,
+};
+
+/* current values for different enviornment or sensor data */
+struct context_values_struct {
+	int bluetooth_enabled;
+	char* wifi_ssid; 			
+	char gps[3];		// there are a lot of problems reducing doubles to 3 bytes... but it's what we're doing for now
+};
 
 #endif /* _LINUX_BINDER_FILTER_H */
