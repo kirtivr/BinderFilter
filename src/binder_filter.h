@@ -26,11 +26,19 @@ struct filter_verdict {
 struct bf_user_filter {
 	int level_value_no_BT;
 	int level_value_with_BT;
+
+	char** intents;
+	int intents_len;
 };
 
 struct bf_battery_level_struct {
 	int level_value_no_BT;
 	int level_value_with_BT;
+};
+
+struct intent_struct {
+	char** intents;
+	int intents_len;
 };
 
 enum {
@@ -42,7 +50,7 @@ enum {
 /* current values for different enviornment or sensor data */
 struct context_values_struct {
 	int bluetooth_enabled;
-	char* wifi_ssid; 			
+	char wifi_ssid[33]; 			
 	char gps[3];		// there are a lot of problems reducing doubles to 3 bytes... but it's what we're doing for now
 };
 

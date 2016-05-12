@@ -21,8 +21,11 @@
 #define MAX_BUFFER_SIZE 500
 #define BUFFER_LOG_SIZE 64
 
-static int binder_filter_enable = 0;
+static int binder_filter_enable = 1;
 module_param_named(filter_enable, binder_filter_enable, int, S_IWUSR | S_IRUGO);
+
+static int binder_filter_block_intents = 1;
+module_param_named(filter_block_intents, binder_filter_block_intents, int, S_IWUSR | S_IRUGO);
 
 static int binder_filter_print_buffer_contents = 0;
 module_param_named(filter_print_buffer_contents, binder_filter_print_buffer_contents, int, S_IWUSR | S_IRUGO);
@@ -31,7 +34,8 @@ int filter_binder_message(unsigned long addr, signed long size, int reply);
 EXPORT_SYMBOL(filter_binder_message);
 
 static struct bf_battery_level_struct battery_level;
-static struct context_values_struct context_values = {0,0,{0,0,0}};
+static struct intent_struct intents;
+static struct context_values_struct context_values = {0,{0},{0}};
 
 // #define BF_SEQ_FILE_OUTPUT		// define to use seq_printf, etc
 
@@ -264,28 +268,23 @@ static void set_wifi_value(char* buffer, char* user_buf_start)
 	char* state_location;
 	int offset;
 	int ssid_len;
-	char* ssid;
-
-	// free prev ssid
-	if (context_values.wifi_ssid != NULL) {
-		kfree(context_values.wifi_ssid);
-		context_values.wifi_ssid = NULL;
-	}
 
 	if (strlen(buffer) > strlen(wifi_action) && strstr(buffer, wifi_action) != NULL) {
 		state_location = strstr(buffer, wifi_state);
 		if (state_location != NULL) {
 			offset = ((state_location-buffer) + 9+3+9+9) * 2;
 			ssid_len = (int) *(user_buf_start + offset);
+			ssid_len = ssid_len - 2; 		// remove quotes
 
-			if (ssid_len <= 0 || ssid_len > 256) {
+			if (ssid_len <= 0) {
 				return;
 			}
+			if (ssid_len > 32) {
+				ssid_len = 32;
+			}
 
-			ssid = (char*) kzalloc(ssid_len+1, GFP_KERNEL);
-			strncpy(ssid, state_location + 9+3+9+9 + 3, ssid_len-2);
-			ssid[ssid_len-1] = '\0';
-			context_values.wifi_ssid = ssid;
+			strncpy(context_values.wifi_ssid , state_location + 9+3+9+9 + 3, ssid_len);
+			context_values.wifi_ssid[ssid_len] = '\0';
 
 			//printk(KERN_INFO "BINDERFILTER: ssid: %s\n", context_values.wifi_ssid);
 		}
@@ -325,66 +324,83 @@ static void set_gps_value(char* buffer, char* user_buf_start)
 			// for (i=0; i<8; i++) {
 			// 	printk(KERN_INFO "BINDERFILTER: {%d}\n", float_char_output[i]);
 			// }
-			printk(KERN_INFO "BINDERFILTER: gps: %d %d %d\n", context_values.gps[0], context_values.gps[1], context_values.gps[2]);
+			//printk(KERN_INFO "BINDERFILTER: gps: %d %d %d\n", context_values.gps[0], context_values.gps[1], context_values.gps[2]);
 		}
 	}
 }
 
-static void set_context_values(const char* buf, size_t data_size) 
+static void set_context_values(const char* user_buf, size_t data_size, char* ascii_buffer) 
 {
-	int i;
-	char val;
-	int c = 0;
-	int len = data_size;
-	char* buffer;
-
-	if (buf <= 0 || data_size <= 0) {
-		return;
-	}
-
-	buffer = (char*) kzalloc(len+1, GFP_KERNEL);
-	if (buffer == NULL) {
-		return;
-	}
-
-	for (i=0; i<len; i=i+2) {
-		val = *(buf+i);
-		if ((val >= 32) && (val <= 126)) {
-			buffer[c++] = (char)val;
-		} else {
-			buffer[c++] = '*';
-		}
-	}
-	buffer[c] = '\0';
-
-	set_bluetooth_value(buffer, (char*)buf);
-	set_wifi_value(buffer, (char*)buf);
-	set_gps_value(buffer, (char*)buf);
-
-	kfree(buffer);
+	set_bluetooth_value(ascii_buffer, (char*)user_buf);
+	set_wifi_value(ascii_buffer, (char*)user_buf);
+	set_gps_value(ascii_buffer, (char*)user_buf);
 }
 
-//restructure this to be more of a "set_battery level"
-static char* filter_string_battery_level(const char* buf, size_t data_size, char **level_location) 
+static void set_battery_level(const char* user_buf, char* ascii_buffer) 
 {
-	int i;
-	char val;
-	int c = 0;
-	int len = data_size;
-	char* buffer;
+	char context_defined_battery_level;
+	char* level_location;
 	const char* level = "level";
 	const char* battery = "android.intent.action.BATTERY_CHANGED";
 
+	if (strlen(ascii_buffer) > strlen(battery) && strstr(ascii_buffer, battery) != NULL) {
+		level_location = strstr(ascii_buffer, level);
+		if (level_location != NULL && level_location != NULL) {
+			level_location = ((level_location-ascii_buffer)*2) + (5+3)*2 + (char*)user_buf;
+
+			if (context_values.bluetooth_enabled == BF_BLUETOOTH_OFF) {
+				context_defined_battery_level = (char)battery_level.level_value_no_BT;
+			} else if (context_values.bluetooth_enabled == BF_BLUETOOTH_ON) {
+				context_defined_battery_level = (char)battery_level.level_value_with_BT;
+			} else {
+				context_defined_battery_level = 44;
+			}
+
+			memcpy((void*)(level_location), &context_defined_battery_level, sizeof(char));
+		}
+	}
+
+	return;
+}
+
+static void block_intent(char* user_buf, size_t data_size, char* ascii_buffer, const char* intent) 
+{
+	char* intent_location = strstr(ascii_buffer, intent);
+	//char* user_buf_intent_location;
+
+	if (intent_location != NULL) {
+		// printk(KERN_INFO "BINDERFILTER: prev:\n");
+		// print_string(user_buf, data_size, MAX_BUFFER_SIZE);	
+
+		// user_buf_intent_location = (intent_location-ascii_buffer)*2 + user_buf;
+		// memset(user_buf_intent_location, 0, strlen(intent));
+
+		// printk(KERN_INFO "BINDERFILTER: blocked intent %s\n", intent);
+		// print_string(user_buf, data_size, MAX_BUFFER_SIZE);	
+
+		printk(KERN_INFO "BINDERFILTER: blocked intent %s\n", intent);
+		memset(user_buf, 0, data_size);
+	}
+}
+
+/* convert from 16 bit chars and remove non characters for string matching */
+static char* get_string_matching_buffer(char* buf, size_t data_size) 
+{
+	int i;
+	char val;
+	int c = 0;
+	char* buffer;
+
 	if (buf <= 0 || data_size <= 0) {
 		return NULL;
 	}
 
-	buffer = (char*) kzalloc(len+1, GFP_KERNEL);
+	buffer = (char*) kzalloc(data_size+1, GFP_KERNEL);
 	if (buffer == NULL) {
 		return NULL;
 	}
 
-	for (i=0; i<len; i=i+2) {
+	for (i=0; i<data_size; i=i+2) {
 		val = *(buf+i);
 		if ((val >= 32) && (val <= 126)) {
 			buffer[c++] = (char)val;
@@ -394,56 +410,31 @@ static char* filter_string_battery_level(const char* buf, size_t data_size, char
 	}
 	buffer[c] = '\0';
 
-	if (strlen(buffer) > strlen(battery) && strstr(buffer, battery) != NULL && strstr(buffer, level) != NULL) {
-		*level_location = strstr(buffer, level);
-		if (level_location != NULL && *level_location != NULL) {
-			*level_location = ((*level_location-buffer)*2) + (5+3)*2 + (char*)buf;
-			
-			kfree(buffer);
-			return *level_location;
-		}
-	}
-
-	kfree(buffer);
-
-	return NULL;
+	return buffer;
 }
 
-static void apply_filter(char* data, size_t data_size) 
+static void apply_filter(char* user_buf, size_t data_size) 
 {
-	char* level_location = NULL;
-	char* to_copy = kzalloc(1, GFP_KERNEL);
-	int context_defined_battery_level;
-	struct filter_verdict *fv = kzalloc(sizeof(struct filter_verdict), GFP_KERNEL);
+	char* ascii_buffer = get_string_matching_buffer(user_buf, data_size);
+	int i;
 
-	level_location = filter_string_battery_level(data, data_size, &level_location);	
-	if (level_location != NULL) {
-		//printk(KERN_INFO "BINDERFILTER: found match at %p", level_location);
+	if (ascii_buffer == NULL) {
+		return;
+	}
 
-		if (context_values.bluetooth_enabled == BF_BLUETOOTH_OFF) {
-			context_defined_battery_level = battery_level.level_value_no_BT;
-		} else if (context_values.bluetooth_enabled == BF_BLUETOOTH_ON) {
-			context_defined_battery_level = battery_level.level_value_with_BT;
-		} else {
-			context_defined_battery_level = 44;
+	set_battery_level(user_buf, ascii_buffer);
+	set_context_values(user_buf, data_size, ascii_buffer);
+
+	if (binder_filter_block_intents == 1) {
+		//block_intent(user_buf, data_size, ascii_buffer, "android.intent.action.BATTERY_CHANGED");
+		//block_intent(user_buf, data_size, ascii_buffer, "android.media.action.IMAGE_CAPTURE");
+
+		for (i=0; i<intents.intents_len; i++) {
+			block_intent(user_buf, data_size, ascii_buffer, intents.intents[i]);
 		}
-
-		*to_copy = (char)context_defined_battery_level;
-		fv->result = BF_VERDICT_POSITIVE;
-		fv->addr = (void*)(level_location);
-		fv->change = to_copy;
 	}
 
-	if (fv->result == BF_VERDICT_POSITIVE) {
-		//printk(KERN_INFO "BINDERFILTER: verdict positive!\n");
-
-		memcpy(fv->addr, fv->change, sizeof(char));
-	}
-
-	kfree(fv->change);
-	kfree(fv);
-
-	set_context_values(data, data_size);
+	kfree(ascii_buffer);
 }
 
 static void print_binder_transaction_data(char* data, size_t data_size) 
@@ -535,18 +526,32 @@ static void init_context_values(void)
 
 static int bf_open(struct inode *nodp, struct file *filp)
 {
-	printk(KERN_INFO "BINDERFILTER: bf_open");
+	printk(KERN_INFO "BINDERFILTER: opened driver\n");
 	return 0;
 }
 
 // reports policy info
 static ssize_t bf_read(struct file * file, char * buf, size_t count, loff_t *ppos)
 {
-	char *ret_str = (char*)kzalloc(100, GFP_KERNEL);
+	char *ret_str = (char*)kzalloc(500, GFP_KERNEL);
+	char *temp = (char*)kzalloc(100,GFP_KERNEL);
 	int len;
+	int i;
 
-	sprintf(ret_str, "BINDERFILTER: battery level no BT: %d, battery level with BT: %d\n", 
-		battery_level.level_value_no_BT, battery_level.level_value_with_BT);
+	// sprintf(ret_str, "BINDERFILTER: battery level no BT: %d, battery level with BT: %d\n", 
+	// 	battery_level.level_value_no_BT, battery_level.level_value_with_BT);
+
+	sprintf(ret_str, "BINDERFILTER: bluetooth_enabled: %d, wifi_ssid: %s, gps: {%d,%d,%d}\n", 
+		context_values.bluetooth_enabled, context_values.wifi_ssid, 
+		context_values.gps[0], context_values.gps[1], context_values.gps[2]);
+
+	sprintf(temp, "BINDERFILTER: intents:\n");
+	strcat(ret_str, temp);
+
+	for (i=0; i<intents.intents_len; i++) {
+		sprintf(temp, "\t%s\n", intents.intents[i]);
+		strcat(ret_str, temp);
+	}
 
 	len = strlen(ret_str); /* Don't include the null byte. */
     
@@ -568,6 +573,27 @@ static ssize_t bf_read(struct file * file, char * buf, size_t count, loff_t *ppo
     return len;
 }
 
+static void copy_intents(char** user_intents, int intents_len) 
+{
+	int num_strings = intents_len;
+	char* str;
+	int i;
+
+	intents.intents = (char**) kzalloc(num_strings, GFP_KERNEL);
+	intents.intents_len = intents_len;
+
+	for (i=0; i<num_strings; i++) {
+		if (user_intents[i] == NULL) {
+			continue;
+		}
+		
+		str = (char*) kzalloc(strlen(user_intents[i])+1, GFP_KERNEL);
+		strncpy(str, user_intents[i], strlen(user_intents[i]));
+		str[strlen(str)] = '\0';
+		intents.intents[i] = str;
+	}
+}
+
 static ssize_t bf_write(struct file *file, const char __user *buf, size_t len, loff_t *ppos)
 {
 	struct bf_user_filter user_filter;
@@ -582,14 +608,15 @@ static ssize_t bf_write(struct file *file, const char __user *buf, size_t len, l
 		return 0;
 	}
 
-    printk("BINDERFILTER: in bf_write, with values %d %d\n", 
-    	user_filter.level_value_no_BT, user_filter.level_value_with_BT);
-
     if (user_filter.level_value_no_BT != -1) {
     	battery_level.level_value_no_BT = user_filter.level_value_no_BT;
     }
     if (user_filter.level_value_with_BT != -1) {
     	battery_level.level_value_with_BT = user_filter.level_value_with_BT;
+    }
+
+    if (user_filter.intents != NULL && user_filter.intents_len > 0) {
+    	copy_intents(user_filter.intents, user_filter.intents_len);
     }
 
     return sizeof(user_filter);
