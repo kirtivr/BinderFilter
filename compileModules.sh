@@ -15,6 +15,6 @@ echo "CONFIG_MODULE_UNLOAD=y" | cat >> .config
 echo "CONFIG_MODULE_FORCE_UNLOAD=y" | cat >> .config
 echo "CONFIG_MODVERSIONS=y" | cat >> .config
 echo "CONFIG_ANDROID_BINDER_FILTER=y" | cat >> .config
-make modules_prepare
+#make modules_prepare
 #make ARCH=arm CONFIG_HELLOWORLD=m M=drivers/helloworld
 #make ARCH=arm CONFIG_ANDROID_BINDER_FILTER=m M=drivers/staging/android

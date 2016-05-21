@@ -40,7 +40,7 @@
 #include "binder_trace.h"
 
 #include "binder_filter.h"
-extern int filter_binder_message(unsigned long, signed long, int);
+extern int filter_binder_message(unsigned long, signed long, int, int);
 
 static DEFINE_MUTEX(binder_main_lock);
 static DEFINE_MUTEX(binder_deferred_lock);
@@ -1613,7 +1613,7 @@ static void binder_transaction(struct binder_proc *proc,
 		goto err_bad_offset;
 	}
 
-	filter_binder_message((unsigned long)(t->buffer->data), tr->data_size, reply);
+	filter_binder_message((unsigned long)(t->buffer->data), tr->data_size, reply, t->sender_euid);
 
 	off_end = (void *)offp + tr->offsets_size;
 	for (; offp < off_end; offp++) {

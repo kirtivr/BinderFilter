@@ -14,12 +14,16 @@
 #include <linux/miscdevice.h>
 #include <linux/fs.h>
 #include <asm/uaccess.h>
+#include <linux/pid.h>
+#include <linux/syscalls.h>
+
 
 #include "binder_filter.h"
 #include "binder.h"
 
 #define MAX_BUFFER_SIZE 500
 #define BUFFER_LOG_SIZE 64
+#define UID_ALL -2
 
 static int binder_filter_enable = 1;
 module_param_named(filter_enable, binder_filter_enable, int, S_IWUSR | S_IRUGO);
@@ -30,12 +34,12 @@ module_param_named(filter_block_intents, binder_filter_block_intents, int, S_IWU
 static int binder_filter_print_buffer_contents = 0;
 module_param_named(filter_print_buffer_contents, binder_filter_print_buffer_contents, int, S_IWUSR | S_IRUGO);
 
-int filter_binder_message(unsigned long addr, signed long size, int reply);
+int filter_binder_message(unsigned long addr, signed long size, int reply, int euid);
 EXPORT_SYMBOL(filter_binder_message);
 
 static struct bf_battery_level_struct battery_level;
-static struct intent_struct intents;
-static struct context_values_struct context_values = {0,{0},{0}};
+static struct bf_filters all_filters = {0, NULL};
+static struct bf_context_values_struct context_values = {0,{0},{0}};
 
 // #define BF_SEQ_FILE_OUTPUT		// define to use seq_printf, etc
 
@@ -292,7 +296,9 @@ static void set_wifi_value(char* buffer, char* user_buf_start)
 }
 
 /*
-{(0)@(29)(0)android.content.IIntentSender(0)(0)(0)(1)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(255)(255)(255)(255)(0)(0)(0)(0)(0)(0)(0)(0)(254)(255)(255)(255)(224)(4)(0)BNDL(3)(0)8(0)com.google.android.location.internal.EXTRA_LOCATION_LIST(0)(0)(11)(0)(1)(0)(4)(0)(25)(0)android.location.Location(0)
+{(0)@(29)(0)android.content.IIntentSender(0)(0)(0)(1)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(255)(255)(255)(255)(0)(0)(0)(0)(0)(0)(0)(0)(254)(255)(255)(255)(224)
+(4)(0)BNDL(3)(0)8(0)com.google.android.location.internal.EXTRA_LOCATION_LIST(0)(0)(11)(0)(1)(0)(4)(0)
+(25)(0)android.location.Location(0)
 (7)(0)network(0)
 (192)(191)(187)(145)T(1)(0)@
 (165)R(132)\(0)(177)(237)(254)(194)<(218)E@y(189)(234)(183)e(18)R(192)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(1)(0)u(19)(}
@@ -366,18 +372,8 @@ static void set_battery_level(const char* user_buf, char* ascii_buffer)
 static void block_intent(char* user_buf, size_t data_size, char* ascii_buffer, const char* intent) 
 {
 	char* intent_location = strstr(ascii_buffer, intent);
-	//char* user_buf_intent_location;
 
 	if (intent_location != NULL) {
-		// printk(KERN_INFO "BINDERFILTER: prev:\n");
-		// print_string(user_buf, data_size, MAX_BUFFER_SIZE);	
-
-		// user_buf_intent_location = (intent_location-ascii_buffer)*2 + user_buf;
-		// memset(user_buf_intent_location, 0, strlen(intent));
-
-		// printk(KERN_INFO "BINDERFILTER: blocked intent %s\n", intent);
-		// print_string(user_buf, data_size, MAX_BUFFER_SIZE);	
-
 		printk(KERN_INFO "BINDERFILTER: blocked intent %s\n", intent);
 		memset(user_buf, 0, data_size);
 	}
@@ -413,10 +409,10 @@ static char* get_string_matching_buffer(char* buf, size_t data_size)
 	return buffer;
 }
 
-static void apply_filter(char* user_buf, size_t data_size) 
+static void apply_filter(char* user_buf, size_t data_size, int euid) 
 {
 	char* ascii_buffer = get_string_matching_buffer(user_buf, data_size);
-	int i;
+	struct bf_filter_rule* rule = all_filters.filters_list_head;
 
 	if (ascii_buffer == NULL) {
 		return;
@@ -426,18 +422,18 @@ static void apply_filter(char* user_buf, size_t data_size)
 	set_context_values(user_buf, data_size, ascii_buffer);
 
 	if (binder_filter_block_intents == 1) {
-		//block_intent(user_buf, data_size, ascii_buffer, "android.intent.action.BATTERY_CHANGED");
-		//block_intent(user_buf, data_size, ascii_buffer, "android.media.action.IMAGE_CAPTURE");
-
-		for (i=0; i<intents.intents_len; i++) {
-			block_intent(user_buf, data_size, ascii_buffer, intents.intents[i]);
+		while (rule != NULL) {
+			if (rule->uid == UID_ALL || rule->uid == euid) {
+				block_intent(user_buf, data_size, ascii_buffer, rule->message);
+			}
+			rule = rule->next;
 		}
 	}
 
 	kfree(ascii_buffer);
 }
 
-static void print_binder_transaction_data(char* data, size_t data_size) 
+static void print_binder_transaction_data(char* data, size_t data_size, int euid) 
 {
 #ifdef BF_SEQ_FILE_OUTPUT
 	struct bf_buffer_log_entry *e;
@@ -449,24 +445,15 @@ static void print_binder_transaction_data(char* data, size_t data_size)
 		printk(KERN_INFO "BINDERFILTER: error print_binder_transaction_data: "
 			"binder_transaction_data was null");
 	}
-	
-	// printk(KERN_INFO "BINDERFILTER: binder_transaction_data: target handle: %d, "
-	// 	"target ptr: %p, target cookie: %p, transaction code: %d, "
-	// 	"flags: %d, sender_pid: %d, sender_euid: %d, data_size: %d, "
-	// 	"offsets_size: %d, data.ptr.buffer: %p, data.ptr.offsets: %p",
-	// 	tr->target.handle, tr->target.ptr, tr->cookie, tr->code, 
-	// 	tr->flags, tr->sender_pid, tr->sender_euid, tr->data_size,
-	// 	tr->offsets_size, tr->data.ptr.buffer, tr->data.ptr.offsets);
 
-	if (binder_filter_print_buffer_contents == 1) {
-		printk(KERN_INFO "BINDERFILTER: data");
-		print_string(data, data_size, MAX_BUFFER_SIZE);	
-	}
+	printk(KERN_INFO "BINDERFILTER: uid: %d\n", euid);
 
-	if (binder_filter_print_buffer_contents == 1) {
-		// printk(KERN_INFO "BINDERFILTER: offsets");
-		// print_string(tr->data.ptr.offsets, tr->offsets_size);
-	}
+	printk(KERN_INFO "BINDERFILTER: data");
+	print_string(data, data_size, MAX_BUFFER_SIZE);	
+
+	// printk(KERN_INFO "BINDERFILTER: offsets");
+	// print_string(tr->data.ptr.offsets, tr->offsets_size);
+
 
 #ifdef BF_SEQ_FILE_OUTPUT
 	if (data_size < MAX_BUFFER_SIZE) {
@@ -498,10 +485,9 @@ void print_binder_code(int reply) {
 	}
 }
 
-int filter_binder_message(unsigned long addr, signed long size, int reply)
+// because we're only looking at binder_writes, pid refers to the pid of the writing proc
+int filter_binder_message(unsigned long addr, signed long size, int reply, int euid)
 {
-	
-
 	if (addr <= 0 || size <= 0) {
 		return -1;
 	}
@@ -512,9 +498,9 @@ int filter_binder_message(unsigned long addr, signed long size, int reply)
 
 	if (binder_filter_print_buffer_contents == 1) {
 		print_binder_code(reply);
-		print_binder_transaction_data((char*)addr, size);
+		print_binder_transaction_data((char*)addr, size, euid);
 	}
-	apply_filter((char*)addr, size);
+	apply_filter((char*)addr, size, euid);
 
 	return 1;
 }
@@ -530,29 +516,58 @@ static int bf_open(struct inode *nodp, struct file *filp)
 	return 0;
 }
 
+static char* bf_realloc(char* oldp, int new_size) 
+{
+	char* newp;
+
+	if (oldp == NULL || new_size <= 0) {
+		return NULL;
+	}
+
+	newp = (char*) kzalloc(new_size, GFP_KERNEL);
+	strncpy(newp, oldp, strlen(oldp));
+	kfree(oldp);
+	return newp;
+}
+
 // reports policy info
 static ssize_t bf_read(struct file * file, char * buf, size_t count, loff_t *ppos)
 {
-	char *ret_str = (char*)kzalloc(500, GFP_KERNEL);
-	char *temp = (char*)kzalloc(100,GFP_KERNEL);
+	int ret_str_len_max = 1024;
+	int temp_len_max = 512;
+	char *ret_str = (char*) kzalloc(ret_str_len_max, GFP_KERNEL);
+	char *temp = (char*) kzalloc(temp_len_max,GFP_KERNEL);
 	int len;
-	int i;
+	int ret_str_len;
+	int temp_len;
+	struct bf_filter_rule* rule;
 
-	// sprintf(ret_str, "BINDERFILTER: battery level no BT: %d, battery level with BT: %d\n", 
-	// 	battery_level.level_value_no_BT, battery_level.level_value_with_BT);
+	// sprintf(ret_str, "BINDERFILTER: bluetooth_enabled: %d, wifi_ssid: %s, gps: {%d,%d,%d}\n", 
+	// 	context_values.bluetooth_enabled, context_values.wifi_ssid, 
+	// 	context_values.gps[0], context_values.gps[1], context_values.gps[2]);
 
-	sprintf(ret_str, "BINDERFILTER: bluetooth_enabled: %d, wifi_ssid: %s, gps: {%d,%d,%d}\n", 
-		context_values.bluetooth_enabled, context_values.wifi_ssid, 
-		context_values.gps[0], context_values.gps[1], context_values.gps[2]);
+	// sprintf(temp, "BINDERFILTER: filters:\n");
+	// strcat(ret_str, temp);
 
-	sprintf(temp, "BINDERFILTER: intents:\n");
-	strcat(ret_str, temp);
+	rule = all_filters.filters_list_head;
+	while (rule != NULL) {
+		temp_len = strlen(rule->message) + strlen(rule->data);
+		if (temp_len > temp_len_max) {
+			temp = bf_realloc(temp, temp_len * 2);
+			temp_len_max = temp_len * 2;
+		}
 
-	for (i=0; i<intents.intents_len; i++) {
-		sprintf(temp, "\t%s\n", intents.intents[i]);
+		sprintf(temp, "%s:%d:%d:\n", rule->message, rule->uid, rule->block_or_modify);
+
+		ret_str_len = strlen(temp) + strlen(ret_str);
+		if (ret_str_len > ret_str_len_max) {
+			temp = bf_realloc(ret_str, ret_str_len * 2);
+			ret_str_len_max = ret_str_len * 2;
+		}
+
 		strcat(ret_str, temp);
+		rule = rule->next;
 	}
-
 	len = strlen(ret_str); /* Don't include the null byte. */
     
     if (count < len) {
@@ -568,37 +583,96 @@ static ssize_t bf_read(struct file * file, char * buf, size_t count, loff_t *ppo
     }
 
     kfree(ret_str);
+    kfree(temp);
 
     *ppos = len;
     return len;
 }
 
-static void copy_intents(char** user_intents, int intents_len) 
+
+static void add_filter(int block_or_modify, int uid, char* message, char* data) 
 {
-	int num_strings = intents_len;
-	char* str;
-	int i;
+	struct bf_filter_rule* rule;
 
-	intents.intents = (char**) kzalloc(num_strings, GFP_KERNEL);
-	intents.intents_len = intents_len;
-
-	for (i=0; i<num_strings; i++) {
-		if (user_intents[i] == NULL) {
-			continue;
-		}
-		
-		str = (char*) kzalloc(strlen(user_intents[i])+1, GFP_KERNEL);
-		strncpy(str, user_intents[i], strlen(user_intents[i]));
-		str[strlen(str)] = '\0';
-		intents.intents[i] = str;
+	if (uid == -1 || message == NULL) {
+		return;
 	}
+
+	rule = (struct bf_filter_rule*) 
+						kzalloc(sizeof(struct bf_filter_rule), GFP_KERNEL);
+	rule->message = (char*) kzalloc(strlen(message)+1, GFP_KERNEL);
+	rule->data = (char*) kzalloc(strlen(data)+1, GFP_KERNEL);
+
+	if (block_or_modify != BLOCK_ACTION) {
+		// unimplemented for now
+		return;
+	}
+	
+	rule->block_or_modify = block_or_modify;
+	rule->uid = uid;
+
+	strncpy(rule->message, message, strlen(message));
+	rule->message[strlen(rule->message)] = '\0';
+
+	strncpy(rule->data, data, strlen(data));
+	rule->data[strlen(rule->data)] = '\0';
+
+	rule->next = all_filters.filters_list_head;
+	all_filters.filters_list_head = rule;
+	all_filters.num_filters += 1;
+
+	printk(KERN_INFO "BINDERFILTER: added rule: %d %d %s %s\n", 
+		rule->uid, rule->block_or_modify, rule->message, rule->data);
+}
+
+static void remove_filter(int block_or_modify, int uid, char* message, char* data) 
+{
+	struct bf_filter_rule* rule;
+	struct bf_filter_rule* prev = NULL;
+
+	if (uid == -1 || message == NULL) {
+		return;
+	}
+	printk(KERN_INFO "BINDERFILTER: remove: %d %d %s %s\n", 
+			uid, block_or_modify, message, data);
+
+	rule = all_filters.filters_list_head;
+
+	while (rule != NULL) {
+		printk(KERN_INFO "BINDERFILTER: rule: %d, %d, %s, %s\n", 
+			rule->uid, rule->block_or_modify, rule->message, rule->data);
+
+		if (rule->uid == uid && 
+			rule->block_or_modify == block_or_modify &&
+			strcmp(rule->message, message) == 0 &&
+			strcmp(rule->data, data) == 0) {
+
+			printk(KERN_INFO "BINDERFILTER: match\n");
+			// remove from list
+			if (prev == NULL) {
+				all_filters.filters_list_head = rule->next;	
+			} else {
+				prev->next = rule->next;
+			}
+
+			kfree(rule->message);
+			kfree(rule->data);
+			kfree(rule);
+			return;
+		}
+
+		prev = rule;
+		rule = rule->next;
+	}
+	
+	return;
 }
 
 static ssize_t bf_write(struct file *file, const char __user *buf, size_t len, loff_t *ppos)
 {
 	struct bf_user_filter user_filter;
 
-	if (len < 0 || len > 1000 || buf == NULL) {
+	if (len < 0 || len > 5000 || buf == NULL) {
 		printk(KERN_INFO "BINDERFILTER: bf_write bad arguments\n");
 		return 0;
 	}
@@ -608,16 +682,25 @@ static ssize_t bf_write(struct file *file, const char __user *buf, size_t len, l
 		return 0;
 	}
 
-    if (user_filter.level_value_no_BT != -1) {
-    	battery_level.level_value_no_BT = user_filter.level_value_no_BT;
-    }
-    if (user_filter.level_value_with_BT != -1) {
-    	battery_level.level_value_with_BT = user_filter.level_value_with_BT;
-    }
-
-    if (user_filter.intents != NULL && user_filter.intents_len > 0) {
-    	copy_intents(user_filter.intents, user_filter.intents_len);
-    }
+	switch (user_filter.action) {
+		case BLOCK_ACTION:
+			add_filter(BLOCK_ACTION, user_filter.uid, user_filter.message, "");
+			break;
+		case UNBLOCK_ACTION:
+			// pass in BLOCK_ACTION to remove the BLOCK_ACTION rule previously set
+			remove_filter(BLOCK_ACTION, user_filter.uid, user_filter.message, user_filter.data);
+			break;
+		case MODIFY_ACTION:
+			//add_filter(MODIFY_ACTION, user_filter.uid, user_filter.message, user_filter.data);
+			// fall
+		case UNMODIFY_ACTION:
+			//remove_filter(MODIFY_ACTION, user_filter.uid, user_filter.message, user_filter.data);
+			// fall
+		default:
+			printk(KERN_INFO "BINDERFILTER: bf_write bad action %d\n", 
+				user_filter.action);
+			return 0;
+	}
 
     return sizeof(user_filter);
 }
