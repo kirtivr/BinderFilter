@@ -16,7 +16,8 @@
 #include <asm/uaccess.h>
 #include <linux/pid.h>
 #include <linux/syscalls.h>
-
+#include <linux/reboot.h>
+#include <linux/file.h>
 
 #include "binder_filter.h"
 #include "binder.h"
@@ -24,6 +25,11 @@
 #define MAX_BUFFER_SIZE 500
 #define BUFFER_LOG_SIZE 64
 #define UID_ALL -2
+#define LARGE_BUFFER_SIZE 1024
+#define SMALL_BUFFER_SIZE 512
+
+#define READ_SUCCESS 1
+#define READ_FAIL 0
 
 static int binder_filter_enable = 1;
 module_param_named(filter_enable, binder_filter_enable, int, S_IWUSR | S_IRUGO);
@@ -40,6 +46,8 @@ EXPORT_SYMBOL(filter_binder_message);
 static struct bf_battery_level_struct battery_level;
 static struct bf_filters all_filters = {0, NULL};
 static struct bf_context_values_struct context_values = {0,{0},{0}};
+
+static int read_persistent_policy_successful = READ_FAIL;
 
 // #define BF_SEQ_FILE_OUTPUT		// define to use seq_printf, etc
 
@@ -147,6 +155,80 @@ static int bf_buffers_show(struct seq_file *m, void *unused)
 BF_DEBUG_ENTRY(buffers);
 
 #endif // BF_SEQ_FILE_OUTPUT
+
+// returns new pointer with new_size size, frees old pointer
+static char* bf_realloc(char* oldp, int new_size) 
+{
+	char* newp;
+
+	if (oldp == NULL || new_size <= 0) {
+		return NULL;
+	}
+
+	newp = (char*) kzalloc(new_size, GFP_KERNEL);
+	strncpy(newp, oldp, strlen(oldp));
+	kfree(oldp);
+	return newp;
+}
+
+// modified from http://www.linuxjournal.com/article/8110?page=0,1
+static char* read_file(char *filename, int* success)
+{
+  int fd;
+  char buf[1];
+  int result_len = LARGE_BUFFER_SIZE;
+  int leeway = 8;
+  char* result = (char*) kzalloc(result_len, GFP_KERNEL);
+  mm_segment_t old_fs = get_fs();
+
+  strncpy(result, "\0", 1);
+  set_fs(KERNEL_DS);
+
+  fd = sys_open(filename, O_RDONLY, 0);
+  if (fd >= 0) {
+    while (sys_read(fd, buf, 1) == 1) {
+      if (strlen(result) > result_len - leeway) {
+      	result = bf_realloc(result, result_len * 2);
+      }
+
+      strncat(result, buf, 1);
+    }
+    sys_close(fd);
+    *success = READ_SUCCESS;
+  } else {
+  	//printk(KERN_INFO "BINDERFILTER: read fd: %d\n", fd);
+  	*success = READ_FAIL;
+  }
+  set_fs(old_fs);
+
+  return result;
+}
+
+// modified from http://www.linuxjournal.com/article/8110?page=0,1
+static void write_file(char *filename, char *data)
+{
+  struct file *file;
+  loff_t pos = 0;
+  int fd;
+  mm_segment_t old_fs = get_fs();
+
+  set_fs(KERNEL_DS);
+
+  fd = sys_open(filename, O_WRONLY|O_CREAT|O_TRUNC, 0644);
+  
+  if (fd >= 0) {
+    sys_write(fd, data, strlen(data));
+    file = fget(fd);
+    if (file) {
+      vfs_write(file, data, strlen(data), &pos);
+      fput(file);
+    }
+    sys_close(fd);
+  } else {
+  	printk(KERN_INFO "BINDERFILTER: write fd: %d\n", fd);
+  }
+  set_fs(old_fs);
+}
 
 static int add_to_buffer(char* buffer, int c, char val) 
 {
@@ -485,111 +567,6 @@ void print_binder_code(int reply) {
 	}
 }
 
-// because we're only looking at binder_writes, pid refers to the pid of the writing proc
-int filter_binder_message(unsigned long addr, signed long size, int reply, int euid)
-{
-	if (addr <= 0 || size <= 0) {
-		return -1;
-	}
-
-	if (binder_filter_enable != 1) {
-		return 0;
-	}
-
-	if (binder_filter_print_buffer_contents == 1) {
-		print_binder_code(reply);
-		print_binder_transaction_data((char*)addr, size, euid);
-	}
-	apply_filter((char*)addr, size, euid);
-
-	return 1;
-}
-
-static void init_context_values(void) 
-{
-	context_values.bluetooth_enabled = BF_BLUETOOTH_UNKNOWN;		
-}
-
-static int bf_open(struct inode *nodp, struct file *filp)
-{
-	printk(KERN_INFO "BINDERFILTER: opened driver\n");
-	return 0;
-}
-
-static char* bf_realloc(char* oldp, int new_size) 
-{
-	char* newp;
-
-	if (oldp == NULL || new_size <= 0) {
-		return NULL;
-	}
-
-	newp = (char*) kzalloc(new_size, GFP_KERNEL);
-	strncpy(newp, oldp, strlen(oldp));
-	kfree(oldp);
-	return newp;
-}
-
-// reports policy info
-static ssize_t bf_read(struct file * file, char * buf, size_t count, loff_t *ppos)
-{
-	int ret_str_len_max = 1024;
-	int temp_len_max = 512;
-	char *ret_str = (char*) kzalloc(ret_str_len_max, GFP_KERNEL);
-	char *temp = (char*) kzalloc(temp_len_max,GFP_KERNEL);
-	int len;
-	int ret_str_len;
-	int temp_len;
-	struct bf_filter_rule* rule;
-
-	// sprintf(ret_str, "BINDERFILTER: bluetooth_enabled: %d, wifi_ssid: %s, gps: {%d,%d,%d}\n", 
-	// 	context_values.bluetooth_enabled, context_values.wifi_ssid, 
-	// 	context_values.gps[0], context_values.gps[1], context_values.gps[2]);
-
-	// sprintf(temp, "BINDERFILTER: filters:\n");
-	// strcat(ret_str, temp);
-
-	rule = all_filters.filters_list_head;
-	while (rule != NULL) {
-		temp_len = strlen(rule->message) + strlen(rule->data);
-		if (temp_len > temp_len_max) {
-			temp = bf_realloc(temp, temp_len * 2);
-			temp_len_max = temp_len * 2;
-		}
-
-		sprintf(temp, "%s:%d:%d:\n", rule->message, rule->uid, rule->block_or_modify);
-
-		ret_str_len = strlen(temp) + strlen(ret_str);
-		if (ret_str_len > ret_str_len_max) {
-			temp = bf_realloc(ret_str, ret_str_len * 2);
-			ret_str_len_max = ret_str_len * 2;
-		}
-
-		strcat(ret_str, temp);
-		rule = rule->next;
-	}
-	len = strlen(ret_str); /* Don't include the null byte. */
-    
-    if (count < len) {
-        return -EINVAL;
-    }
-
-    if (*ppos != 0) {
-        return 0;
-    }
-
-    if (copy_to_user(buf, ret_str, len)) {
-        return -EINVAL;
-    }
-
-    kfree(ret_str);
-    kfree(temp);
-
-    *ppos = len;
-    return len;
-}
-
-
 static void add_filter(int block_or_modify, int uid, char* message, char* data) 
 {
 	struct bf_filter_rule* rule;
@@ -668,6 +645,277 @@ static void remove_filter(int block_or_modify, int uid, char* message, char* dat
 	return;
 }
 
+static int index_of(char* str, char c, int start) 
+{
+	int len;
+	int i;
+
+	if (str == NULL) {
+		return -1;
+	}
+
+	len = strlen(str);
+	if (start >= len) {
+		return -1;
+	}
+
+	for (i=start; i<len; i++) {
+		if (str[i] == c) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+static void apply_policy_line(char* policy) 
+{
+	long action = -1;
+	long uid = -1;
+
+	char* action_str = NULL;
+	char* uid_str = NULL;
+	char* message = NULL;
+	char* data = NULL;
+
+	int index;
+	int old_index;
+	int size;
+
+	printk(KERN_INFO "BINDERFILTER: reading policy: {%s}\n", policy);
+
+	// message
+	index = index_of(policy, ':', 0);
+	if (index != -1) {
+		message = (char*) kzalloc(index+2, GFP_KERNEL);
+		strncpy(message, policy, index);
+		message[index+1] = '\0';
+	}
+
+	// uid
+	old_index = index;
+	index = index_of(policy, ':', old_index+1);
+	size = index - old_index;
+	if (index != -1) {
+		uid_str = (char*) kzalloc(size+2, GFP_KERNEL);
+		strncpy(uid_str, (policy+old_index+1), size-1);
+		uid_str[size+1] = '\0';
+
+		if (kstrtol(uid_str, 10, &uid) != 0) {
+			printk(KERN_INFO "BINDERFILTER: could not parse uid! {%s}\n", uid_str);
+			uid = -1;
+		}
+	}
+
+	// action
+	old_index = index;
+	index = index_of(policy, ':', old_index+1);
+	size = index - old_index;
+	if (index != -1) {
+		action_str = (char*) kzalloc(size+2, GFP_KERNEL);
+		strncpy(action_str, (policy+old_index+1), size-1);
+		action_str[size+1] = '\0';
+		
+		if (kstrtol(action_str, 10, &action) != 0) {
+			printk(KERN_INFO "BINDERFILTER: could not parse action! {%s}\n", action_str);
+			action = -1;
+		}
+	}
+
+	// data, for now
+	data = (char*) kzalloc(1, GFP_KERNEL);
+
+
+	printk(KERN_INFO "BINDERFILTER: parsed policy: {%s} {%d} {%d} \n", 
+		message, (int)uid, (int)action);
+
+	if (message != NULL && 
+		uid != -1 && action != -1 && 
+		data != NULL) {
+
+		add_filter((int)action, (int)uid, message, "");
+	} else {
+		printk(KERN_INFO "BINDERFILTER: could not parse policy!\n");
+	}
+	
+	if (action_str != NULL) {
+		kfree(action_str);
+	}
+	if (uid_str != NULL) {
+		kfree(uid_str);
+	}
+	if (message != NULL) {
+		kfree(message);
+	}
+	if (data != NULL) {
+		kfree(data);
+	}
+
+	kfree(policy);
+}
+
+static void apply_policy(char* policy) 
+{
+	char* line;
+	int index;
+	int old_index = 0;
+	int size;
+
+	if (policy == NULL) {
+		return;
+	}
+
+	while (1) {
+		index = index_of(policy, '\n', old_index);
+		if (index == -1) {
+			return;
+		}
+
+		size = index-old_index;
+		line = (char*) kzalloc(size+2, GFP_KERNEL);
+		strncpy(line, policy+old_index, size);
+		line[size] = '\0';
+		printk(KERN_INFO "BINDERFILTER: line: {%s}\n", line);
+
+		if (size < 4) {
+			return;
+		}
+
+		apply_policy_line(line);
+		old_index = index + 1;
+	}
+
+}
+
+static void read_persistent_policy(void) 
+{
+	int success = READ_FAIL;
+	char* policy;
+
+	policy = read_file("/data/local/tmp/bf.policy", &success);
+	read_persistent_policy_successful = success;
+
+	if (success == READ_SUCCESS) {
+		apply_policy(policy);
+	} 
+
+	kfree(policy);
+}
+
+// ENTRY POINT FROM binder.c
+// because we're only looking at binder_writes, pid refers to the pid of the writing proc
+int filter_binder_message(unsigned long addr, signed long size, int reply, int euid)
+{
+	if (addr <= 0 || size <= 0) {
+		return -1;
+	}
+
+	if (binder_filter_enable != 1) {
+		return 0;
+	}
+
+	// only reads once successfully
+	if (read_persistent_policy_successful != READ_SUCCESS) {
+		read_persistent_policy();
+	}
+
+	if (binder_filter_print_buffer_contents == 1) {
+		print_binder_code(reply);
+		print_binder_transaction_data((char*)addr, size, euid);
+	}
+	apply_filter((char*)addr, size, euid);
+
+	return 1;
+}
+
+static char* get_policy_string(void)
+{
+	int policy_str_len_max = LARGE_BUFFER_SIZE;
+	int temp_len_max = SMALL_BUFFER_SIZE;
+	char *policy_str = (char*) kzalloc(policy_str_len_max, GFP_KERNEL);
+	char *temp = (char*) kzalloc(temp_len_max,GFP_KERNEL);
+	int policy_str_len;
+	int temp_len;
+	struct bf_filter_rule* rule;
+
+	rule = all_filters.filters_list_head;
+	while (rule != NULL) {
+		temp_len = strlen(rule->message) + strlen(rule->data);
+		if (temp_len > temp_len_max) {
+			temp = bf_realloc(temp, temp_len * 2);
+			temp_len_max = temp_len * 2;
+		}
+
+		sprintf(temp, "%s:%d:%d:\n", rule->message, rule->uid, rule->block_or_modify);
+
+		policy_str_len = strlen(temp) + strlen(policy_str);
+		if (policy_str_len > policy_str_len_max) {
+			policy_str = bf_realloc(policy_str, policy_str_len * 2);
+			policy_str_len_max = policy_str_len * 2;
+		}
+
+		strcat(policy_str, temp);
+		rule = rule->next;
+	}
+
+	kfree(temp);
+
+	return policy_str;
+}
+
+static void init_context_values(void) 
+{
+	context_values.bluetooth_enabled = BF_BLUETOOTH_UNKNOWN;		
+}
+
+static void write_persistent_policy(void) 
+{
+	char* policy = get_policy_string();
+	printk(KERN_INFO "BINDERFILTER: writing policy: {%s}\n", policy);
+	write_file("/data/local/tmp/bf.policy", policy);
+	kfree(policy);
+}
+
+static int bf_open(struct inode *nodp, struct file *filp)
+{
+	printk(KERN_INFO "BINDERFILTER: opened driver\n");
+	return 0;
+}
+
+// reports policy info
+static ssize_t bf_read(struct file * file, char * buf, size_t count, loff_t *ppos)
+{	
+	int len;
+	char* ret_str;
+
+	// sprintf(ret_str, "BINDERFILTER: bluetooth_enabled: %d, wifi_ssid: %s, gps: {%d,%d,%d}\n", 
+	// 	context_values.bluetooth_enabled, context_values.wifi_ssid, 
+	// 	context_values.gps[0], context_values.gps[1], context_values.gps[2]);
+
+	// sprintf(temp, "BINDERFILTER: filters:\n");
+	// strcat(ret_str, temp);
+
+	ret_str = get_policy_string();
+	len = strlen(ret_str); /* Don't include the null byte. */
+    
+    if (count < len) {
+        return -EINVAL;
+    }
+
+    if (*ppos != 0) {
+        return 0;
+    }
+
+    if (copy_to_user(buf, ret_str, len)) {
+        return -EINVAL;
+    }
+
+    kfree(ret_str);
+
+    *ppos = len;
+    return len;
+}
+
 static ssize_t bf_write(struct file *file, const char __user *buf, size_t len, loff_t *ppos)
 {
 	struct bf_user_filter user_filter;
@@ -702,6 +950,7 @@ static ssize_t bf_write(struct file *file, const char __user *buf, size_t len, l
 			return 0;
 	}
 
+	write_persistent_policy();
     return sizeof(user_filter);
 }
 
