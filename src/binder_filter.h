@@ -8,26 +8,37 @@
 #ifndef _LINUX_BINDER_FILTER_H
 #define _LINUX_BINDER_FILTER_H
 
-enum {
-	BF_VERDICT_POSITIVE = 42,
-};
 
-enum {
-	BF_RETURN_NORMAL = 0,
-	BF_RETURN_DROP = 1,
-};
-
-/*
-    public static final int BLOCK_ACTION = 1;
-    public static final int UNBLOCK_ACTION = 2;
-    public static final int MODIFY_ACTION = 3;
-    public static final int UNMODIFY_ACTION = 4;
-*/
 enum {
     BLOCK_ACTION = 1,
     UNBLOCK_ACTION = 2,
     MODIFY_ACTION = 3,
     UNMODIFY_ACTION = 4,
+};
+
+enum {
+	CONTEXT_NONE = 0,
+	CONTEXT_WIFI_STATE = 1,
+	CONTEXT_WIFI_SSID = 2,
+	CONTEXT_WIFI_NEARBY = 3,
+	CONTEXT_BT_STATE = 4,
+	CONTEXT_BT_CONNECTED_DEVICE = 5,
+	CONTEXT_BT_NEARBY_DEVICE = 6,
+	CONTEXT_LOCATION = 7,
+	CONTEXT_APP_INSTALLED = 8,
+	CONTEXT_APP_RUNNING = 9,
+	CONTEXT_DATE_DAY = 10,
+};
+
+enum {
+	CONTEXT_STATE_ON = 1,
+	CONTEXT_STATE_OFF = 2,
+	CONTEXT_STATE_UNKNOWN = 3,
+};
+
+enum {
+	CONTEXT_TYPE_INT = 1,
+    CONTEXT_TYPE_STRING = 2,
 };
 
 // what the user passes in
@@ -36,6 +47,11 @@ struct bf_user_filter {
     int uid;
     char* message;
     char* data;
+
+    int context;
+    int context_type;
+    int context_int_value;
+    char* context_string_value;
 };
 
 // what we use in the kernel
@@ -45,6 +61,11 @@ struct bf_filter_rule {
 	int block_or_modify;
 	char* data;
 
+    int context;
+    int context_type;
+    int context_int_value;
+    char* context_string_value;
+
 	struct bf_filter_rule* next;
 };
 
@@ -53,11 +74,6 @@ struct bf_filters {
 	struct bf_filter_rule* filters_list_head;
 };
 
-enum {
-	BF_BLUETOOTH_UNKNOWN = -1,
-	BF_BLUETOOTH_OFF = 0,
-	BF_BLUETOOTH_ON = 1,
-};
 
 struct bf_battery_level_struct {
 	int level_value_no_BT;

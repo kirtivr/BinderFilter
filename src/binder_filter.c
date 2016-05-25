@@ -24,7 +24,6 @@
 
 #define MAX_BUFFER_SIZE 500
 #define BUFFER_LOG_SIZE 64
-#define UID_ALL -2
 #define LARGE_BUFFER_SIZE 1024
 #define SMALL_BUFFER_SIZE 512
 
@@ -332,9 +331,9 @@ static void set_bluetooth_value(char* buffer, char* user_buf_start)
 
 			// http://androidxref.com/6.0.1_r10/xref/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java#168
 			if (bt_value == 10) {
-				context_values.bluetooth_enabled = BF_BLUETOOTH_OFF;
+				context_values.bluetooth_enabled = CONTEXT_STATE_OFF;
 			} else if (bt_value == 12) {
-				context_values.bluetooth_enabled = BF_BLUETOOTH_ON;
+				context_values.bluetooth_enabled = CONTEXT_STATE_ON;
 			}
 		}
 	}
@@ -436,9 +435,9 @@ static void set_battery_level(const char* user_buf, char* ascii_buffer)
 		if (level_location != NULL && level_location != NULL) {
 			level_location = ((level_location-ascii_buffer)*2) + (5+3)*2 + (char*)user_buf;
 
-			if (context_values.bluetooth_enabled == BF_BLUETOOTH_OFF) {
+			if (context_values.bluetooth_enabled == CONTEXT_STATE_OFF) {
 				context_defined_battery_level = (char)battery_level.level_value_no_BT;
-			} else if (context_values.bluetooth_enabled == BF_BLUETOOTH_ON) {
+			} else if (context_values.bluetooth_enabled == CONTEXT_STATE_ON) {
 				context_defined_battery_level = (char)battery_level.level_value_with_BT;
 			} else {
 				context_defined_battery_level = 44;
@@ -491,6 +490,24 @@ static char* get_string_matching_buffer(char* buf, size_t data_size)
 	return buffer;
 }
 
+// returns 1 on context matches rule specifications
+static int context_matches(struct bf_filter_rule* rule) 
+{
+	if (rule->context <= 0) {
+		return 0;
+	}
+
+	switch(rule->context) {
+		case CONTEXT_WIFI_SSID:
+			return strcmp(rule->context_string_value, context_values.wifi_ssid) == 0;
+		case CONTEXT_BT_STATE:
+			return rule->context_int_value == context_values.bluetooth_enabled;
+		default:
+			printk(KERN_INFO "BINDERFILTER: context %d not currently supported\n", rule->context);
+			return 0;
+	}
+}
+
 static void apply_filter(char* user_buf, size_t data_size, int euid) 
 {
 	char* ascii_buffer = get_string_matching_buffer(user_buf, data_size);
@@ -505,7 +522,7 @@ static void apply_filter(char* user_buf, size_t data_size, int euid)
 
 	if (binder_filter_block_intents == 1) {
 		while (rule != NULL) {
-			if (rule->uid == UID_ALL || rule->uid == euid) {
+			if (rule->uid == euid && context_matches(rule)) {
 				block_intent(user_buf, data_size, ascii_buffer, rule->message);
 			}
 			rule = rule->next;
@@ -567,11 +584,13 @@ void print_binder_code(int reply) {
 	}
 }
 
-static void add_filter(int block_or_modify, int uid, char* message, char* data) 
+static void add_filter(int block_or_modify, int uid, char* message, char* data,
+					   int context, int context_type, int context_int_value, 
+					   char* context_string_value) 
 {
 	struct bf_filter_rule* rule;
 
-	if (uid == -1 || message == NULL) {
+	if (uid == -1 || message == NULL || context_string_value == NULL) {
 		return;
 	}
 
@@ -594,37 +613,92 @@ static void add_filter(int block_or_modify, int uid, char* message, char* data)
 	strncpy(rule->data, data, strlen(data));
 	rule->data[strlen(rule->data)] = '\0';
 
+	if (context > 0) {
+		rule->context = context;
+		rule->context_type = context_type;
+
+		if (context_type == CONTEXT_TYPE_INT) {
+			rule->context_int_value = context_int_value;
+		} else if (context_type == CONTEXT_TYPE_STRING){
+			strncpy(rule->context_string_value, context_string_value, strlen(context_string_value));
+			rule->context_string_value[strlen(rule->context_string_value)] = '\0';
+		} else {
+			printk(KERN_INFO "BINDERFILTER: bad context type!\n");
+			kfree(rule);
+			return;
+		}
+	} else {
+		rule->context = 0;
+	}
+
 	rule->next = all_filters.filters_list_head;
 	all_filters.filters_list_head = rule;
 	all_filters.num_filters += 1;
 
 	printk(KERN_INFO "BINDERFILTER: added rule: %d %d %s %s\n", 
 		rule->uid, rule->block_or_modify, rule->message, rule->data);
+
+	if (context > 0) {
+		if (context_type == CONTEXT_TYPE_INT) {
+			printk(KERN_INFO "BINDERFILTER: with context: %d %d %d\n", 
+				rule->context, rule->context_type, rule->context_int_value);
+		} else {
+			printk(KERN_INFO "BINDERFILTER: with context: %d %d %s\n", 
+				rule->context, rule->context_type, rule->context_string_value);
+		}
+	}
 }
 
-static void remove_filter(int block_or_modify, int uid, char* message, char* data) 
+static void remove_filter(int block_or_modify, int uid, char* message, char* data,
+					      int context, int context_type, int context_int_value, 
+					      char* context_string_value) 
 {
 	struct bf_filter_rule* rule;
 	struct bf_filter_rule* prev = NULL;
 
-	if (uid == -1 || message == NULL) {
+	if (uid == -1 || message == NULL || context_string_value == NULL) {
 		return;
 	}
+	if (context > 0 && context_type != CONTEXT_TYPE_INT && context_type != CONTEXT_TYPE_STRING) {
+		return;
+	}
+
 	printk(KERN_INFO "BINDERFILTER: remove: %d %d %s %s\n", 
 			uid, block_or_modify, message, data);
+	if (context > 0) {
+		if (context_type == CONTEXT_TYPE_INT) {
+			printk(KERN_INFO "BINDERFILTER: with context: %d %d %d\n", 
+				context, context_type, context_int_value);
+		} else {
+			printk(KERN_INFO "BINDERFILTER: with context: %d %d %s\n", 
+				context, context_type, context_string_value);
+		}
+	}
 
 	rule = all_filters.filters_list_head;
 
 	while (rule != NULL) {
-		printk(KERN_INFO "BINDERFILTER: rule: %d, %d, %s, %s\n", 
-			rule->uid, rule->block_or_modify, rule->message, rule->data);
+		// printk(KERN_INFO "BINDERFILTER: rule: %d, %d, %s, %s, %d, %d\n", 
+		// 	rule->uid, rule->block_or_modify, rule->message, rule->data, 
+		// 	rule->context, rule->context_type);
 
 		if (rule->uid == uid && 
 			rule->block_or_modify == block_or_modify &&
 			strcmp(rule->message, message) == 0 &&
-			strcmp(rule->data, data) == 0) {
+			strcmp(rule->data, data) == 0 &&
+			rule->context == context) {
 
-			printk(KERN_INFO "BINDERFILTER: match\n");
+			if (rule->context > 0 && rule->context_type != context_type) {
+				break;
+			}
+			if (rule->context_type == CONTEXT_TYPE_INT && rule->context_int_value != context_int_value) {
+				break;
+			} 
+			if (rule->context_type == CONTEXT_TYPE_STRING && 
+				strcmp(rule->context_string_value, context_string_value) != 0) {
+				break;
+			}
+
 			// remove from list
 			if (prev == NULL) {
 				all_filters.filters_list_head = rule->next;	
@@ -668,28 +742,115 @@ static int index_of(char* str, char c, int start)
 	return -1;
 }
 
-static void apply_policy_line(char* policy) 
+// message:uid:action_code:context:context_type:context_val:
+static void parse_policy_context(char* policy, int starting_index, int* context_ptr, int* context_type_ptr, 
+								 int* context_int_value_ptr, char** context_string_value) 
 {
-	long action = -1;
-	long uid = -1;
+	int index = starting_index;
+	int old_index;
+	int size;
+	char* context_str = NULL;
+	char* context_type_str = NULL;
+	char* context_int_value_str = NULL;
+	long context;
+	long context_type;
+	long context_int_value;
 
+	// context
+	old_index = index;
+	index = index_of(policy, ':', old_index+1);
+	size = index - old_index;
+	if (index != -1) {
+		context_str = (char*) kzalloc(size+2, GFP_KERNEL);
+		strncpy(context_str, (policy+old_index+1), size-1);
+		context_str[size+1] = '\0';
+		
+		if (kstrtol(context_str, 10, &context) != 0) {
+			printk(KERN_INFO "BINDERFILTER: could not parse context! {%s}\n", context_str);
+			context = -1;
+		}
+	}
+	*context_ptr = (int) context;
+
+	if (context <= 0) {
+		return;
+	}
+
+	// context type
+	old_index = index;
+	index = index_of(policy, ':', old_index+1);
+	size = index - old_index;
+	if (index != -1) {
+		context_type_str = (char*) kzalloc(size+2, GFP_KERNEL);
+		strncpy(context_type_str, (policy+old_index+1), size-1);
+		context_type_str[size+1] = '\0';
+		
+		if (kstrtol(context_type_str, 10, &context_type) != 0) {
+			printk(KERN_INFO "BINDERFILTER: could not parse context! {%s}\n", context_type_str);
+			context_type = -1;
+		}
+	}
+	*context_type_ptr = (int) context_type;
+
+	if (context_type == CONTEXT_TYPE_INT) {
+		old_index = index;
+		index = index_of(policy, ':', old_index+1);
+		size = index - old_index;
+		if (index != -1) {
+			context_int_value_str = (char*) kzalloc(size+2, GFP_KERNEL);
+			strncpy(context_int_value_str, (policy+old_index+1), size-1);
+			context_int_value_str[size+1] = '\0';
+			
+			if (kstrtol(context_int_value_str, 10, &context_int_value) != 0) {
+				printk(KERN_INFO "BINDERFILTER: could not parse context! {%s}\n", context_int_value_str);
+				context_int_value = -1;
+			}
+		}
+		*context_int_value_ptr = (int) context_int_value;
+
+	} else if (context_type == CONTEXT_TYPE_STRING) {
+		old_index = index;
+		index = index_of(policy, ':', 0);
+		if (index != -1) {
+			*context_string_value = (char*) kzalloc(index+2, GFP_KERNEL);
+			strncpy(*context_string_value, policy, index);
+			*context_string_value[index+1] = '\0';
+		}
+	} else {
+		context_ptr = 0;
+		return;
+	}
+
+	if (context_str != NULL) {
+		kfree(context_str);
+	}
+	if (context_type_str != NULL) {
+		kfree(context_type_str);
+	}
+	if (context_int_value_str != NULL) {
+		kfree(context_int_value_str);
+	}
+}
+
+// message:uid:action_code:context:context_type:context_val:
+static void parse_policy_line(char* policy, char** message, char** data,
+				long* action_ptr, long* uid_ptr, int* context_ptr, int* context_type_ptr, 
+				int* context_int_value_ptr, char** context_string_value) 
+{
 	char* action_str = NULL;
 	char* uid_str = NULL;
-	char* message = NULL;
-	char* data = NULL;
-
 	int index;
 	int old_index;
 	int size;
-
-	printk(KERN_INFO "BINDERFILTER: reading policy: {%s}\n", policy);
+	long action;
+	long uid;
 
 	// message
 	index = index_of(policy, ':', 0);
 	if (index != -1) {
-		message = (char*) kzalloc(index+2, GFP_KERNEL);
-		strncpy(message, policy, index);
-		message[index+1] = '\0';
+		*message = (char*) kzalloc(index+2, GFP_KERNEL);
+		strncpy(*message, policy, index);
+		*message[index+1] = '\0';
 	}
 
 	// uid
@@ -706,6 +867,7 @@ static void apply_policy_line(char* policy)
 			uid = -1;
 		}
 	}
+	*uid_ptr = uid;
 
 	// action
 	old_index = index;
@@ -721,29 +883,51 @@ static void apply_policy_line(char* policy)
 			action = -1;
 		}
 	}
+	*action_ptr = action;
 
 	// data, for now
-	data = (char*) kzalloc(1, GFP_KERNEL);
+	*data = (char*) kzalloc(1, GFP_KERNEL);
 
+	parse_policy_context(policy, index, context_ptr, context_type_ptr, 
+		context_int_value_ptr, context_string_value);
 
-	printk(KERN_INFO "BINDERFILTER: parsed policy: {%s} {%d} {%d} \n", 
-		message, (int)uid, (int)action);
-
-	if (message != NULL && 
-		uid != -1 && action != -1 && 
-		data != NULL) {
-
-		add_filter((int)action, (int)uid, message, "");
-	} else {
-		printk(KERN_INFO "BINDERFILTER: could not parse policy!\n");
-	}
-	
 	if (action_str != NULL) {
 		kfree(action_str);
 	}
 	if (uid_str != NULL) {
 		kfree(uid_str);
 	}
+}
+
+static void apply_policy_line(char* policy) 
+{
+	long action = -1;
+	long uid = -1;
+	char* message = NULL;
+	char* data = NULL;
+	int context = -1;
+	int context_type = -1;
+	int context_int_value = -1;
+	char* context_string_value = NULL;
+
+	parse_policy_line(policy, &message, &data, &action, &uid, 
+		&context, &context_type, &context_int_value, &context_string_value);
+
+	printk(KERN_INFO "BINDERFILTER: reading policy: {%s}\n", policy);
+	printk(KERN_INFO "BINDERFILTER: parsed policy: {%s} {%d} {%d} \n", 
+		message, (int)uid, (int)action);
+
+	if (message != NULL && uid != -1 && action != -1 && data != NULL &&
+		context != -1 && context_type != -1 && context_int_value != -1 &&
+		context_string_value != NULL) {
+
+		add_filter((int)action, (int)uid, message, "", context, context_type,
+			context_int_value, context_string_value);
+
+	} else {
+		printk(KERN_INFO "BINDERFILTER: could not parse policy!\n");
+	}
+	
 	if (message != NULL) {
 		kfree(message);
 	}
@@ -828,6 +1012,7 @@ int filter_binder_message(unsigned long addr, signed long size, int reply, int e
 	return 1;
 }
 
+// message:uid:action_code:context:context_type:context_val
 static char* get_policy_string(void)
 {
 	int policy_str_len_max = LARGE_BUFFER_SIZE;
@@ -846,7 +1031,20 @@ static char* get_policy_string(void)
 			temp_len_max = temp_len * 2;
 		}
 
-		sprintf(temp, "%s:%d:%d:\n", rule->message, rule->uid, rule->block_or_modify);
+		if (rule->context > 0) {
+			if (rule->context_type == CONTEXT_TYPE_INT) {
+				sprintf(temp, "%s:%d:%d:%d:%d:%d:", 
+					rule->message, rule->uid, rule->block_or_modify, 
+					rule->context, rule->context_type, rule->context_int_value);
+			} else {
+				sprintf(temp, "%s:%d:%d:%d:%d:%s:", 
+					rule->message, rule->uid, rule->block_or_modify, 
+					rule->context, rule->context_type, rule->context_string_value);
+			}
+		} else {
+			sprintf(temp, "%s:%d:%d:%d:", 
+				rule->message, rule->uid, rule->block_or_modify, rule->context);
+		}
 
 		policy_str_len = strlen(temp) + strlen(policy_str);
 		if (policy_str_len > policy_str_len_max) {
@@ -865,7 +1063,7 @@ static char* get_policy_string(void)
 
 static void init_context_values(void) 
 {
-	context_values.bluetooth_enabled = BF_BLUETOOTH_UNKNOWN;		
+	context_values.bluetooth_enabled = CONTEXT_STATE_UNKNOWN;		
 }
 
 static void write_persistent_policy(void) 
@@ -932,11 +1130,15 @@ static ssize_t bf_write(struct file *file, const char __user *buf, size_t len, l
 
 	switch (user_filter.action) {
 		case BLOCK_ACTION:
-			add_filter(BLOCK_ACTION, user_filter.uid, user_filter.message, "");
+			add_filter(BLOCK_ACTION, user_filter.uid, user_filter.message, "", 
+				user_filter.context, user_filter.context_type, user_filter.context_int_value, 
+				user_filter.context_string_value);
 			break;
 		case UNBLOCK_ACTION:
 			// pass in BLOCK_ACTION to remove the BLOCK_ACTION rule previously set
-			remove_filter(BLOCK_ACTION, user_filter.uid, user_filter.message, user_filter.data);
+			remove_filter(BLOCK_ACTION, user_filter.uid, user_filter.message, user_filter.data,
+				user_filter.context, user_filter.context_type, user_filter.context_int_value, 
+				user_filter.context_string_value);
 			break;
 		case MODIFY_ACTION:
 			//add_filter(MODIFY_ACTION, user_filter.uid, user_filter.message, user_filter.data);
