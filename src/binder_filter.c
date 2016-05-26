@@ -48,12 +48,9 @@ static struct bf_context_values_struct context_values = {0,{0},{0}};
 
 static int read_persistent_policy_successful = READ_FAIL;
 
-// #define BF_SEQ_FILE_OUTPUT		// define to use seq_printf, etc
+static struct dentry *bf_debugfs_dir_entry_root;
 
-#ifdef BF_SEQ_FILE_OUTPUT
-	static struct dentry *bf_debugfs_dir_entry_root;
-
-	#define BF_DEBUG_ENTRY(name) \
+#define BF_DEBUG_ENTRY(name) \
 	static int bf_##name##_open(struct inode *inode, struct file *file) \
 	{ \
 		return single_open(file, bf_##name##_show, inode->i_private); \
@@ -67,6 +64,18 @@ static int read_persistent_policy_successful = READ_FAIL;
 		.release = single_release, \
 	}
 
+static int bf_context_values_show(struct seq_file *m, void *unused)
+{
+	seq_puts(m, "binder context values:\n");
+	seq_printf(m, "bluetooth status: %d", context_values.bluetooth_enabled);
+	seq_printf(m, ", wifi ssid: %s\n", context_values.wifi_ssid);	
+	return 0;
+}
+BF_DEBUG_ENTRY(context_values);
+
+// #define BF_SEQ_FILE_OUTPUT		// define to use seq_printf, etc
+
+#ifdef BF_SEQ_FILE_OUTPUT
 	struct bf_buffer_log_entry {
 		void* addr;
 		size_t len;
@@ -149,11 +158,12 @@ static int bf_buffers_show(struct seq_file *m, void *unused)
 	for (i = 0; i < log->next; i++)
 		print_bf_buffer_log_entry(m, &log->entry[i]);
 	return 0;
-
 }
 BF_DEBUG_ENTRY(buffers);
 
 #endif // BF_SEQ_FILE_OUTPUT
+
+
 
 // returns new pointer with new_size size, frees old pointer
 static char* bf_realloc(char* oldp, int new_size) 
@@ -493,8 +503,8 @@ static char* get_string_matching_buffer(char* buf, size_t data_size)
 // returns 1 on context matches rule specifications
 static int context_matches(struct bf_filter_rule* rule) 
 {
-	if (rule->context <= 0) {
-		return 0;
+	if (rule->context == 0) {
+		return 1;
 	}
 
 	switch(rule->context) {
@@ -584,13 +594,19 @@ void print_binder_code(int reply) {
 	}
 }
 
-static void add_filter(int block_or_modify, int uid, char* message, char* data,
-					   int context, int context_type, int context_int_value, 
-					   char* context_string_value) 
+static void add_filter(struct bf_user_filter* filter) 
 {
 	struct bf_filter_rule* rule;
+	int block_or_modify = filter->action;
+	int uid = filter->uid;
+	char* message = filter->message; 
+	char* data = filter->data;
+	int context = filter->context; 
+	int context_type = filter->context_type; 
+	int context_int_value = filter->context_int_value;
+    char* context_string_value = filter->context_string_value;
 
-	if (uid == -1 || message == NULL || context_string_value == NULL) {
+	if (uid == -1 || message == NULL || data == NULL || filter == NULL) {
 		return;
 	}
 
@@ -620,6 +636,7 @@ static void add_filter(int block_or_modify, int uid, char* message, char* data,
 		if (context_type == CONTEXT_TYPE_INT) {
 			rule->context_int_value = context_int_value;
 		} else if (context_type == CONTEXT_TYPE_STRING){
+			rule->context_string_value = (char*) kzalloc(strlen(context_string_value)+1, GFP_KERNEL);
 			strncpy(rule->context_string_value, context_string_value, strlen(context_string_value));
 			rule->context_string_value[strlen(rule->context_string_value)] = '\0';
 		} else {
@@ -649,55 +666,72 @@ static void add_filter(int block_or_modify, int uid, char* message, char* data,
 	}
 }
 
-static void remove_filter(int block_or_modify, int uid, char* message, char* data,
-					      int context, int context_type, int context_int_value, 
-					      char* context_string_value) 
+// returns 1 on filters equal
+static int filter_cmp(struct bf_filter_rule* rule, struct bf_user_filter* filter)
+{
+	int firstCheck = 0;
+	int secondCheck = 1;
+
+	firstCheck = (rule->uid == filter->uid) && 
+				(rule->block_or_modify == filter->action) &&
+				strcmp(rule->message, filter->message) == 0 &&
+				strcmp(rule->data, filter->data) == 0 &&
+				(rule->context == filter->context);
+
+	if (rule->context > 0 && rule->context_type != filter->context_type) {
+		secondCheck = 0;
+	}
+	if (rule->context > 0) {
+		if (rule->context_type == CONTEXT_TYPE_INT && 
+			rule->context_int_value != filter->context_int_value) {
+			secondCheck = 0;
+		} 
+		if (rule->context_type == CONTEXT_TYPE_STRING && 
+			strcmp(rule->context_string_value, filter->context_string_value) != 0) {
+			secondCheck = 0;
+		}
+	}
+
+	return (firstCheck == 1) && (secondCheck == 1);
+}
+
+static void remove_filter(struct bf_user_filter* filter) 
 {
 	struct bf_filter_rule* rule;
 	struct bf_filter_rule* prev = NULL;
 
-	if (uid == -1 || message == NULL || context_string_value == NULL) {
-		return;
-	}
-	if (context > 0 && context_type != CONTEXT_TYPE_INT && context_type != CONTEXT_TYPE_STRING) {
+	if (filter == NULL) {
 		return;
 	}
 
+	// flip action (i.e. if user sent "UNBLOCK", then we want to remove corresp. "BLOCK")
+	if (filter->action == UNBLOCK_ACTION) {
+		filter->action = BLOCK_ACTION;
+	} else if (filter->action == UNMODIFY_ACTION) {
+		filter->action = MODIFY_ACTION;
+	}
+
 	printk(KERN_INFO "BINDERFILTER: remove: %d %d %s %s\n", 
-			uid, block_or_modify, message, data);
-	if (context > 0) {
-		if (context_type == CONTEXT_TYPE_INT) {
+			filter->uid, filter->action, filter->message, filter->data);
+	if (filter->context > 0) {
+		if (filter->context_type == CONTEXT_TYPE_INT) {
 			printk(KERN_INFO "BINDERFILTER: with context: %d %d %d\n", 
-				context, context_type, context_int_value);
+				filter->context, filter->context_type, filter->context_int_value);
 		} else {
 			printk(KERN_INFO "BINDERFILTER: with context: %d %d %s\n", 
-				context, context_type, context_string_value);
+				filter->context, filter->context_type, filter->context_string_value);
 		}
 	}
 
 	rule = all_filters.filters_list_head;
 
 	while (rule != NULL) {
-		// printk(KERN_INFO "BINDERFILTER: rule: %d, %d, %s, %s, %d, %d\n", 
-		// 	rule->uid, rule->block_or_modify, rule->message, rule->data, 
-		// 	rule->context, rule->context_type);
+		printk(KERN_INFO "BINDERFILTER: rule: %d, %d, %s, %s, %d\n", 
+			rule->uid, rule->block_or_modify, rule->message, rule->data, 
+			rule->context);
 
-		if (rule->uid == uid && 
-			rule->block_or_modify == block_or_modify &&
-			strcmp(rule->message, message) == 0 &&
-			strcmp(rule->data, data) == 0 &&
-			rule->context == context) {
-
-			if (rule->context > 0 && rule->context_type != context_type) {
-				break;
-			}
-			if (rule->context_type == CONTEXT_TYPE_INT && rule->context_int_value != context_int_value) {
-				break;
-			} 
-			if (rule->context_type == CONTEXT_TYPE_STRING && 
-				strcmp(rule->context_string_value, context_string_value) != 0) {
-				break;
-			}
+		if (filter_cmp(rule, filter) == 1) {
+			printk(KERN_INFO "BINDERFILTER: removing rule");
 
 			// remove from list
 			if (prev == NULL) {
@@ -742,9 +776,8 @@ static int index_of(char* str, char c, int start)
 	return -1;
 }
 
-// message:uid:action_code:context:context_type:context_val:
-static void parse_policy_context(char* policy, int starting_index, int* context_ptr, int* context_type_ptr, 
-								 int* context_int_value_ptr, char** context_string_value) 
+// message:uid:action_code:context:(context_type:context_val:)(data:)
+static void parse_policy_context(char* policy, int starting_index, struct bf_user_filter* filter) 
 {
 	int index = starting_index;
 	int old_index;
@@ -752,9 +785,9 @@ static void parse_policy_context(char* policy, int starting_index, int* context_
 	char* context_str = NULL;
 	char* context_type_str = NULL;
 	char* context_int_value_str = NULL;
-	long context;
-	long context_type;
-	long context_int_value;
+	long context = 0;
+	long context_type = 0;
+	long context_int_value = 0;
 
 	// context
 	old_index = index;
@@ -770,13 +803,16 @@ static void parse_policy_context(char* policy, int starting_index, int* context_
 			context = -1;
 		}
 	}
-	*context_ptr = (int) context;
+	filter->context = (int) context;
 
 	if (context <= 0) {
+		if (context_str != NULL) {
+			kfree(context_str);
+		}
 		return;
 	}
 
-	// context type
+	//context type
 	old_index = index;
 	index = index_of(policy, ':', old_index+1);
 	size = index - old_index;
@@ -786,12 +822,13 @@ static void parse_policy_context(char* policy, int starting_index, int* context_
 		context_type_str[size+1] = '\0';
 		
 		if (kstrtol(context_type_str, 10, &context_type) != 0) {
-			printk(KERN_INFO "BINDERFILTER: could not parse context! {%s}\n", context_type_str);
+			printk(KERN_INFO "BINDERFILTER: could not parse context type! {%s}\n", context_type_str);
 			context_type = -1;
 		}
 	}
-	*context_type_ptr = (int) context_type;
+	filter->context_type = (int) context_type;
 
+	// context value
 	if (context_type == CONTEXT_TYPE_INT) {
 		old_index = index;
 		index = index_of(policy, ':', old_index+1);
@@ -802,23 +839,23 @@ static void parse_policy_context(char* policy, int starting_index, int* context_
 			context_int_value_str[size+1] = '\0';
 			
 			if (kstrtol(context_int_value_str, 10, &context_int_value) != 0) {
-				printk(KERN_INFO "BINDERFILTER: could not parse context! {%s}\n", context_int_value_str);
+				printk(KERN_INFO "BINDERFILTER: could not parse context int value! {%s}\n", context_int_value_str);
 				context_int_value = -1;
 			}
 		}
-		*context_int_value_ptr = (int) context_int_value;
+		filter->context_int_value = (int) context_int_value;
 
 	} else if (context_type == CONTEXT_TYPE_STRING) {
 		old_index = index;
 		index = index_of(policy, ':', 0);
 		if (index != -1) {
-			*context_string_value = (char*) kzalloc(index+2, GFP_KERNEL);
-			strncpy(*context_string_value, policy, index);
-			*context_string_value[index+1] = '\0';
+			filter->context_string_value = (char*) kzalloc(index+2, GFP_KERNEL);
+			strncpy(filter->context_string_value, policy, index);
+			filter->context_string_value[index+1] = '\0';
 		}
 	} else {
-		context_ptr = 0;
-		return;
+		printk(KERN_INFO "BINDERFILTER: bad context type! {%d}\n", (int)context_type);		
+		filter->context = -1;
 	}
 
 	if (context_str != NULL) {
@@ -832,10 +869,8 @@ static void parse_policy_context(char* policy, int starting_index, int* context_
 	}
 }
 
-// message:uid:action_code:context:context_type:context_val:
-static void parse_policy_line(char* policy, char** message, char** data,
-				long* action_ptr, long* uid_ptr, int* context_ptr, int* context_type_ptr, 
-				int* context_int_value_ptr, char** context_string_value) 
+// message:uid:action_code:context:(context_type:context_val:)(data:)
+static void parse_policy_line(char* policy, struct bf_user_filter* filter) 
 {
 	char* action_str = NULL;
 	char* uid_str = NULL;
@@ -848,9 +883,9 @@ static void parse_policy_line(char* policy, char** message, char** data,
 	// message
 	index = index_of(policy, ':', 0);
 	if (index != -1) {
-		*message = (char*) kzalloc(index+2, GFP_KERNEL);
-		strncpy(*message, policy, index);
-		*message[index+1] = '\0';
+		filter->message = (char*) kzalloc(index+2, GFP_KERNEL);
+		strncpy(filter->message, policy, index);
+		filter->message[index+1] = '\0';
 	}
 
 	// uid
@@ -867,7 +902,7 @@ static void parse_policy_line(char* policy, char** message, char** data,
 			uid = -1;
 		}
 	}
-	*uid_ptr = uid;
+	filter->uid = (int) uid;
 
 	// action
 	old_index = index;
@@ -883,13 +918,12 @@ static void parse_policy_line(char* policy, char** message, char** data,
 			action = -1;
 		}
 	}
-	*action_ptr = action;
+	filter->action = (int) action;
 
 	// data, for now
-	*data = (char*) kzalloc(1, GFP_KERNEL);
+	filter->data = (char*) kzalloc(1, GFP_KERNEL);
 
-	parse_policy_context(policy, index, context_ptr, context_type_ptr, 
-		context_int_value_ptr, context_string_value);
+	parse_policy_context(policy, index, filter);
 
 	if (action_str != NULL) {
 		kfree(action_str);
@@ -899,43 +933,101 @@ static void parse_policy_line(char* policy, char** message, char** data,
 	}
 }
 
+static void free_bf_user_filter(struct bf_user_filter* f)
+{
+	if (f->message != NULL) {
+		kfree(f->message);
+	}
+	if (f->data != NULL) {
+		kfree(f->data);
+	}
+	if (f->context_string_value != NULL) {
+		kfree(f->context_string_value);
+	}
+	if (f != NULL) {
+		kfree(f);
+	}
+}
+
+static struct bf_user_filter* init_bf_user_filter(void)
+{
+	struct bf_user_filter* filter = 
+		(struct bf_user_filter*) kzalloc(sizeof(struct bf_user_filter), GFP_KERNEL);
+
+	filter->action = -1;
+	filter->uid = -1;
+	filter->message = NULL;
+	filter->data = NULL;
+	filter->context = -1;
+	filter->context_type = -1;
+	filter->context_int_value = -1;
+	filter->context_string_value = NULL;
+
+	return filter;
+}
+
+// returns 1 on no filter values -1 or NULL
+static int check_filter_default_values(struct bf_user_filter* filter)
+{
+	int firstCheck = 0;
+	int secondCheck = 0;
+
+	if (filter == NULL) {
+		return 0;
+	}
+
+	firstCheck = (filter->action != -1) && (filter->uid != -1) && (filter->message != NULL)
+			&& (filter->data != NULL) && (filter->context != -1);
+
+	if (filter->context > 0) {
+		if (filter->context_type == CONTEXT_TYPE_INT) {
+			if (filter->context_int_value != -1) {
+				secondCheck = 1;
+			}
+		} else if (filter->context_type == CONTEXT_TYPE_STRING) {
+			if (filter->context_string_value != NULL) {
+				secondCheck = 1;
+			}
+		}
+	} else if (filter->context == 0) {
+		secondCheck = 1;
+	}
+
+	return (firstCheck == 1) && (secondCheck == 1);
+}
+
 static void apply_policy_line(char* policy) 
 {
-	long action = -1;
-	long uid = -1;
-	char* message = NULL;
-	char* data = NULL;
-	int context = -1;
-	int context_type = -1;
-	int context_int_value = -1;
-	char* context_string_value = NULL;
+	struct bf_user_filter* filter = init_bf_user_filter();
 
-	parse_policy_line(policy, &message, &data, &action, &uid, 
-		&context, &context_type, &context_int_value, &context_string_value);
+	parse_policy_line(policy, filter);
 
 	printk(KERN_INFO "BINDERFILTER: reading policy: {%s}\n", policy);
-	printk(KERN_INFO "BINDERFILTER: parsed policy: {%s} {%d} {%d} \n", 
-		message, (int)uid, (int)action);
+	printk(KERN_INFO "BINDERFILTER: parsed policy: {%s} {%d} {%d} {%d}\n", 
+		filter->message, filter->uid, filter->action, filter->context);
 
-	if (message != NULL && uid != -1 && action != -1 && data != NULL &&
-		context != -1 && context_type != -1 && context_int_value != -1 &&
-		context_string_value != NULL) {
+	if (filter->context > 0) {
+		if (filter->context_type == CONTEXT_TYPE_INT) {
+			printk(KERN_INFO "BINDERFILTER: with context: %d %d %d\n", 
+				filter->context, filter->context_type, filter->context_int_value);
+		} else {
+			printk(KERN_INFO "BINDERFILTER: with context: %d %d %s\n", 
+				filter->context, filter->context_type, filter->context_string_value);
+		}
+	}
 
-		add_filter((int)action, (int)uid, message, "", context, context_type,
-			context_int_value, context_string_value);
-
+	if (check_filter_default_values(filter) == 1) {
+		add_filter(filter);
 	} else {
 		printk(KERN_INFO "BINDERFILTER: could not parse policy!\n");
 	}
 	
-	if (message != NULL) {
-		kfree(message);
+	if (policy != NULL) {
+		kfree(policy);
 	}
-	if (data != NULL) {
-		kfree(data);
+	if (filter != NULL) {
+		free_bf_user_filter(filter);
 	}
-
-	kfree(policy);
 }
 
 static void apply_policy(char* policy) 
@@ -959,7 +1051,7 @@ static void apply_policy(char* policy)
 		line = (char*) kzalloc(size+2, GFP_KERNEL);
 		strncpy(line, policy+old_index, size);
 		line[size] = '\0';
-		printk(KERN_INFO "BINDERFILTER: line: {%s}\n", line);
+		//printk(KERN_INFO "BINDERFILTER: line: {%s}\n", line);
 
 		if (size < 4) {
 			return;
@@ -1012,7 +1104,7 @@ int filter_binder_message(unsigned long addr, signed long size, int reply, int e
 	return 1;
 }
 
-// message:uid:action_code:context:context_type:context_val
+// message:uid:action_code:context:(context_type:context_val:)(data:)
 static char* get_policy_string(void)
 {
 	int policy_str_len_max = LARGE_BUFFER_SIZE;
@@ -1033,16 +1125,16 @@ static char* get_policy_string(void)
 
 		if (rule->context > 0) {
 			if (rule->context_type == CONTEXT_TYPE_INT) {
-				sprintf(temp, "%s:%d:%d:%d:%d:%d:", 
+				sprintf(temp, "%s:%d:%d:%d:%d:%d:\n", 
 					rule->message, rule->uid, rule->block_or_modify, 
 					rule->context, rule->context_type, rule->context_int_value);
 			} else {
-				sprintf(temp, "%s:%d:%d:%d:%d:%s:", 
+				sprintf(temp, "%s:%d:%d:%d:%d:%s:\n", 
 					rule->message, rule->uid, rule->block_or_modify, 
 					rule->context, rule->context_type, rule->context_string_value);
 			}
 		} else {
-			sprintf(temp, "%s:%d:%d:%d:", 
+			sprintf(temp, "%s:%d:%d:%d:\n", 
 				rule->message, rule->uid, rule->block_or_modify, rule->context);
 		}
 
@@ -1069,7 +1161,7 @@ static void init_context_values(void)
 static void write_persistent_policy(void) 
 {
 	char* policy = get_policy_string();
-	printk(KERN_INFO "BINDERFILTER: writing policy: {%s}\n", policy);
+	//printk(KERN_INFO "BINDERFILTER: writing policy: {%s}\n", policy);
 	write_file("/data/local/tmp/bf.policy", policy);
 	kfree(policy);
 }
@@ -1116,44 +1208,39 @@ static ssize_t bf_read(struct file * file, char * buf, size_t count, loff_t *ppo
 
 static ssize_t bf_write(struct file *file, const char __user *buf, size_t len, loff_t *ppos)
 {
-	struct bf_user_filter user_filter;
+	struct bf_user_filter* user_filter;
 
-	if (len < 0 || len > 5000 || buf == NULL) {
+	if (len < 0 || len > 4096 || buf == NULL) {
 		printk(KERN_INFO "BINDERFILTER: bf_write bad arguments\n");
 		return 0;
 	}
 
-	if (copy_from_user(&user_filter, buf, sizeof(user_filter))) {
+	user_filter = init_bf_user_filter();
+	if (copy_from_user(user_filter, buf, sizeof(struct bf_user_filter))) {
 		printk(KERN_INFO "BINDERFILTER: bf_write copy_from_user failed\n");
 		return 0;
 	}
 
-	switch (user_filter.action) {
+	switch (user_filter->action) {
 		case BLOCK_ACTION:
-			add_filter(BLOCK_ACTION, user_filter.uid, user_filter.message, "", 
-				user_filter.context, user_filter.context_type, user_filter.context_int_value, 
-				user_filter.context_string_value);
+			add_filter(user_filter);
 			break;
 		case UNBLOCK_ACTION:
-			// pass in BLOCK_ACTION to remove the BLOCK_ACTION rule previously set
-			remove_filter(BLOCK_ACTION, user_filter.uid, user_filter.message, user_filter.data,
-				user_filter.context, user_filter.context_type, user_filter.context_int_value, 
-				user_filter.context_string_value);
+			remove_filter(user_filter);
 			break;
 		case MODIFY_ACTION:
-			//add_filter(MODIFY_ACTION, user_filter.uid, user_filter.message, user_filter.data);
 			// fall
 		case UNMODIFY_ACTION:
-			//remove_filter(MODIFY_ACTION, user_filter.uid, user_filter.message, user_filter.data);
 			// fall
 		default:
 			printk(KERN_INFO "BINDERFILTER: bf_write bad action %d\n", 
-				user_filter.action);
+				user_filter->action);
 			return 0;
 	}
 
 	write_persistent_policy();
-    return sizeof(user_filter);
+	kfree(user_filter);
+    return sizeof(struct bf_user_filter);
 }
 
 static const struct file_operations bf_fops = {
@@ -1175,13 +1262,20 @@ static int __init binder_filter_init(void)
 
 #ifdef BF_SEQ_FILE_OUTPUT
 	int i;
+#endif
 
 	bf_debugfs_dir_entry_root = debugfs_create_dir("binder_filter", NULL);
 	if (bf_debugfs_dir_entry_root == NULL) {
 		printk(KERN_INFO "BINDERFILTER: could not create debugfs entry!");
 		return 1;
 	}
+	debugfs_create_file("context_values",
+			    S_IRUGO,
+			    bf_debugfs_dir_entry_root,
+			    NULL,
+			    &bf_context_values_fops);
 
+#ifdef BF_SEQ_FILE_OUTPUT
 	debugfs_create_file("buffers",
 			    S_IRUGO,
 			    bf_debugfs_dir_entry_root,
