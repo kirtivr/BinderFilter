@@ -41,6 +41,15 @@ enum {
     CONTEXT_TYPE_STRING = 2,
 };
 
+struct bf_filter_param {
+	unsigned long addr;
+	size_t size; 
+	int reply; 
+	int euid;
+	void* offsets;
+	size_t offsets_size;
+};
+
 // what the user passes in
 struct bf_user_filter {
 	int action;
@@ -83,6 +92,7 @@ struct bf_battery_level_struct {
 /* current values for different enviornment or sensor data */
 struct bf_context_values_struct {
 	int bluetooth_enabled;
+	int wifi_enabled;
 	char wifi_ssid[33]; 			
 	char gps[3];		// there are a lot of problems reducing doubles to 3 bytes... but it's what we're doing for now
 };

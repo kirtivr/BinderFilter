@@ -30,8 +30,24 @@ action(08)(08)(08)(08)4(08)com.android.bluetooth.btservice.action.STATE_CHANGED(
 android.bluetooth.adapter.extra.STATE(08)(18)(08)(12)(0)(255)(255)(21)(0)}
 
 BC_REPLY
-{(0)(0)(1)(0)(1)(0)(0)(0)(4)(0)WIFI(0)(0)(0)(0)(0)(0)
-(9)(0)CONNECTED(0)(9)(0)CONNECTED(0)(0)(0)(1)(0)(0)(0)(255)(255)(18)(0)"Dartmouth Public"(0)(0)}
+{(0)(0)(1)(0)(29)(0)android.net.wifi.STATE_CHANGE(0)(0)(0)(255)(255)(16)(0)(255)(255)(255)(255)(05)(05)(05)(05)(05)(05)(05)(05)(254)(255)(168)
+(08)BD(48)(08)(11)(0)networkInfo(0)(4)(0)
+(23)(0)android.net.NetworkInfo(0)(1)(0)(0)(0)
+(4)(0)WIFI(0)(0)(0)(0)(0)(0)
+(9)(0)CONNECTED(0)
+(9)(0)CONNECTED(0)(0)(0)(1)(0)(0)(0)(255)(255)
+(18)(0)"Dartmouth Secure"(0)(0)
+(8)(0)wifiInfo(0)(0)(4)(0)
+(25)(0)android.net.wifi.WifiInfo(0)(0)(0)(204)(255)6(05)(158)(08)(18)(08)(48)(08)(10)(233)(13)(03)(16)(0)
+(16)(0)DrmuhScr(17)}
+
+BC_TRANSACTION
+{(0)@(30)(0)android.app.IApplicationThread(0)(0)(133)h(127)(07)(247)(07)(07)(07)
+$(07)android.net.conn.CONNECTIVITY_CHANGE(07)(07)(07)(07)(255)(255)(16)(0)(255)(255)(255)(255)(05)(05)(05)(05)(05)(05)(05)(05)(254)(255)x
+(05)BD(45)(05)(11)(0)networkInfo(0)(4)(0)(23)(0)android.net.NetworkInfo(0)(1)(0)(0)(0)
+(4)(0)WIFI(0)(0)(0)(0)(0)(0)(9)(0)CONNECTED(0)(9)(0)CONNECTED(0)(0)(0)(1)(0)(0)(0)(255)(255)
+(18)(0)"Dartmouth Secure"(0)(0)(11)(0)networkType(0)(1)(0)(1)(0)(13)(0)inetCond}
+
 
 */
 

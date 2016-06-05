@@ -20,7 +20,7 @@ $ git checkout 8ba2631
 ### Compile a linux kernel module
 ### do this in linux (with shared folder sources if downloaded on osx)
 ### requires a kernel on your phone with CONFIG_MODULES set when built
-### if the kernel doesn't have modules supported (all kernels after 4.3 don't have it supported), then you need to recompile the kernel and flash it onto your phone
+### if the kernel doesn't have modules supported (all androids after 4.3 don't have it supported), then you need to recompile the kernel and flash it onto your phone
 
 $ export ARCH=arm
 $ export SUBARCH=arm
@@ -83,6 +83,16 @@ $ vi .config
 	CONFIG_MODULE_FORCE_UNLOAD=y
 	CONFIG_MODVERSIONS=y
 
+### copy over files
+	rm /drivers/staging/android/binder.c
+	rm /driver/staging/android/Kconfig
+	rm /driver/staging/android/Makefile
+	cp ./binder.c /drivers/staging/android/binder.c
+	cp ./binder_filter.c /drivers/staging/android/binder_filter.c
+	cp ./binder_filter.h /drivers/staging/android/binder_filter.h
+	cp ./Kconfig /drivers/staging/android/Kconfig
+	cp ./Makefile /drivers/staging/android/Makefile
+
 $ make
 
 ### building kernel results in zImage at /media/sf_msm/arch/arm/boot/zImage
@@ -103,5 +113,5 @@ $ make
 
 ### flash to phone
 	adb reboot bootloader
-	fastboot boot cur-boot.img
+	fastboot flash boot cur-boot.img
 

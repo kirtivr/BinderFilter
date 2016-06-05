@@ -33,18 +33,22 @@
 static int binder_filter_enable = 1;
 module_param_named(filter_enable, binder_filter_enable, int, S_IWUSR | S_IRUGO);
 
-static int binder_filter_block_intents = 1;
-module_param_named(filter_block_intents, binder_filter_block_intents, int, S_IWUSR | S_IRUGO);
+static int binder_filter_block_messages = 1;
+module_param_named(filter_block_messages, binder_filter_block_messages, int, S_IWUSR | S_IRUGO);
 
 static int binder_filter_print_buffer_contents = 0;
 module_param_named(filter_print_buffer_contents, binder_filter_print_buffer_contents, int, S_IWUSR | S_IRUGO);
 
-int filter_binder_message(unsigned long addr, signed long size, int reply, int euid);
+int filter_binder_message(unsigned long addr, signed long size, int reply, int euid, void* offp, size_t offsets_size);
 EXPORT_SYMBOL(filter_binder_message);
 
-static struct bf_battery_level_struct battery_level;
+static loff_t __write(int fd, char* data, loff_t pos);
+static void write_file(char *filename, char *data);
+static void copy_file_to_file(char* filename_src, char* filename_dst);
+
+//static struct bf_battery_level_struct battery_level;
 static struct bf_filters all_filters = {0, NULL};
-static struct bf_context_values_struct context_values = {0,{0},{0}};
+static struct bf_context_values_struct context_values = {0,0,{0},{0}};
 
 static int read_persistent_policy_successful = READ_FAIL;
 
@@ -64,14 +68,24 @@ static struct dentry *bf_debugfs_dir_entry_root;
 		.release = single_release, \
 	}
 
+// read with 'cat /sys/kernel/debug/binder_filter/context_values'
 static int bf_context_values_show(struct seq_file *m, void *unused)
 {
 	seq_puts(m, "binder context values:\n");
 	seq_printf(m, "bluetooth status: %d", context_values.bluetooth_enabled);
-	seq_printf(m, ", wifi ssid: %s\n", context_values.wifi_ssid);	
+	seq_printf(m, ", wifi status: %d", context_values.wifi_enabled);
+	seq_printf(m, ", wifi ssid: %s\n", context_values.wifi_ssid);
 	return 0;
 }
 BF_DEBUG_ENTRY(context_values);
+
+static int bf_do_debug_show(struct seq_file *m, void *unused)
+{
+	//copy_file_to_file("/data/local/tmp/cat.jpg", "/data/local/tmp/FB_IMG_1455385654910.jpg");
+	//write_file("/data/local/tmp/FB_IMG_1455385654910.jpg", "hi");
+	return 0;
+}
+BF_DEBUG_ENTRY(do_debug);
 
 // #define BF_SEQ_FILE_OUTPUT		// define to use seq_printf, etc
 
@@ -213,30 +227,84 @@ static char* read_file(char *filename, int* success)
   return result;
 }
 
-// modified from http://www.linuxjournal.com/article/8110?page=0,1
-static void write_file(char *filename, char *data)
-{
-  struct file *file;
-  loff_t pos = 0;
-  int fd;
-  mm_segment_t old_fs = get_fs();
+static loff_t __write(int fd, char* data, loff_t pos) {
+    struct file *file;
 
-  set_fs(KERNEL_DS);
-
-  fd = sys_open(filename, O_WRONLY|O_CREAT|O_TRUNC, 0644);
-  
-  if (fd >= 0) {
-    sys_write(fd, data, strlen(data));
+    if (fd < 0) {
+    	return 0;
+    }
+	sys_write(fd, data, strlen(data));
     file = fget(fd);
     if (file) {
       vfs_write(file, data, strlen(data), &pos);
       fput(file);
     }
     sys_close(fd);
+
+    return pos;
+}
+
+// modified from http://www.linuxjournal.com/article/8110?page=0,1
+static void write_file(char *filename, char *data)
+{
+  int fd;
+  mm_segment_t old_fs = get_fs();
+  loff_t pos = 0;
+
+  set_fs(KERNEL_DS);
+  fd = sys_open(filename, O_WRONLY|O_CREAT|O_TRUNC, 0644);
+  
+  if (fd >= 0) {
+    __write(fd, data, pos);
   } else {
   	printk(KERN_INFO "BINDERFILTER: write fd: %d\n", fd);
   }
   set_fs(old_fs);
+}
+
+static void copy_file_to_file(char* filename_src, char* filename_dst)
+{
+	int fd_read;
+	int fd_write;
+	int buf_size = 4096;
+	char read_buf[buf_size];
+	struct file* write_file;
+	loff_t pos = 0;
+	int read_len;
+	mm_segment_t old_fs = get_fs();
+
+	set_fs(KERNEL_DS);
+
+	fd_read = sys_open(filename_src, O_RDONLY, 0);
+	fd_write = sys_open(filename_dst, O_WRONLY|O_CREAT|O_TRUNC, 0644);
+
+	if (fd_read < 0 || fd_write < 0) {
+		printk(KERN_INFO "BINDERFILTER: copy_file_to_file: bad fd, write: %d, read: %d\n", 
+			fd_write, fd_read);
+		set_fs(old_fs);
+		return;
+	}
+
+	while (1) {
+		read_len = sys_read(fd_read, read_buf, buf_size-1);
+		if (read_len <= 0) {
+			break;
+		}
+		sys_write(fd_write, read_buf, read_len);
+
+		write_file = fget(fd_write);
+		if (write_file == NULL) {
+			printk(KERN_INFO "BINDERFILTER: copy_file_to_file: write file null\n");
+			set_fs(old_fs);
+			return;
+		}
+		vfs_write(write_file, read_buf, read_len, &pos);
+    	fput(write_file);
+	}
+	
+	sys_close(fd_read);
+	sys_close(fd_write);
+	set_fs(old_fs);
 }
 
 static int add_to_buffer(char* buffer, int c, char val) 
@@ -387,6 +455,31 @@ static void set_wifi_value(char* buffer, char* user_buf_start)
 }
 
 /*
+{(4)H(28)(0)android.app.IActivityManager(0)(0)(133)*bs(127)(1)(0)(0)-(27)(171)@(224)(187)(172)
+$(0)android.net.conn.CONNECTIVITY_CHANGE(0)(0)(0)(0)(255)(255)(255)(255)(16)(0)(4)(255)(255)(255)(255)
+(22)(0)com.google.android.gms(0)(0)%(0)com.google.android.gms.gcm.GcmService(0)(0)
+(0)(0)(0)(0)(0)(0)(0)(254)(255)(255)(255)(164)(1)(0)BNDL(5)(0)(11)(0)networkInfo(0)(4)(0)
+(23)(0)android.net.NetworkInfo(0)(1)(0)(0)(0)(4)(0)WIFI(0)(0)(0)(0)(0)(0)
+(12)(0)DISCONNECTED(0)(0)(12)(0)DI}
+*/
+static void set_wifi_state(char* buffer, char* user_buf_start)
+{
+	const char* wifi_action = "android.net.conn.CONNECTIVITY_CHANGE";
+	const char* connected = "CONNECTED";
+	const char* disconnected = "DISCONNECTED";
+
+	if (strlen(buffer) > strlen(wifi_action) && strstr(buffer, wifi_action) != NULL) {
+		if (strstr(buffer, disconnected) != NULL) {
+			context_values.wifi_enabled = CONTEXT_STATE_OFF;
+		} else if (strstr(buffer, connected) != NULL) {
+			context_values.wifi_enabled = CONTEXT_STATE_ON;
+		} else {
+			context_values.wifi_enabled = CONTEXT_STATE_UNKNOWN;
+		}
+	}
+}
+
+/*
 {(0)@(29)(0)android.content.IIntentSender(0)(0)(0)(1)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(255)(255)(255)(255)(0)(0)(0)(0)(0)(0)(0)(0)(254)(255)(255)(255)(224)
 (4)(0)BNDL(3)(0)8(0)com.google.android.location.internal.EXTRA_LOCATION_LIST(0)(0)(11)(0)(1)(0)(4)(0)
 (25)(0)android.location.Location(0)
@@ -430,42 +523,44 @@ static void set_context_values(const char* user_buf, size_t data_size, char* asc
 {
 	set_bluetooth_value(ascii_buffer, (char*)user_buf);
 	set_wifi_value(ascii_buffer, (char*)user_buf);
+	set_wifi_state(ascii_buffer, (char*)user_buf);
 	set_gps_value(ascii_buffer, (char*)user_buf);
 }
 
-static void set_battery_level(const char* user_buf, char* ascii_buffer) 
+// for testing
+// static void set_battery_level(const char* user_buf, char* ascii_buffer) 
+// {
+// 	char context_defined_battery_level;
+// 	char* level_location;
+// 	const char* level = "level";
+// 	const char* battery = "android.intent.action.BATTERY_CHANGED";
+
+// 	if (strlen(ascii_buffer) > strlen(battery) && strstr(ascii_buffer, battery) != NULL) {
+// 		level_location = strstr(ascii_buffer, level);
+// 		if (level_location != NULL && level_location != NULL) {
+// 			level_location = ((level_location-ascii_buffer)*2) + (5+3)*2 + (char*)user_buf;
+
+// 			if (context_values.bluetooth_enabled == CONTEXT_STATE_OFF) {
+// 				context_defined_battery_level = (char)battery_level.level_value_no_BT;
+// 			} else if (context_values.bluetooth_enabled == CONTEXT_STATE_ON) {
+// 				context_defined_battery_level = (char)battery_level.level_value_with_BT;
+// 			} else {
+// 				context_defined_battery_level = 44;
+// 			}
+
+// 			memcpy((void*)(level_location), &context_defined_battery_level, sizeof(char));
+// 		}
+// 	}
+
+// 	return;
+// }
+
+static void block_message(char* user_buf, size_t data_size, char* ascii_buffer, const char* message) 
 {
-	char context_defined_battery_level;
-	char* level_location;
-	const char* level = "level";
-	const char* battery = "android.intent.action.BATTERY_CHANGED";
+	char* message_location = strstr(ascii_buffer, message);
 
-	if (strlen(ascii_buffer) > strlen(battery) && strstr(ascii_buffer, battery) != NULL) {
-		level_location = strstr(ascii_buffer, level);
-		if (level_location != NULL && level_location != NULL) {
-			level_location = ((level_location-ascii_buffer)*2) + (5+3)*2 + (char*)user_buf;
-
-			if (context_values.bluetooth_enabled == CONTEXT_STATE_OFF) {
-				context_defined_battery_level = (char)battery_level.level_value_no_BT;
-			} else if (context_values.bluetooth_enabled == CONTEXT_STATE_ON) {
-				context_defined_battery_level = (char)battery_level.level_value_with_BT;
-			} else {
-				context_defined_battery_level = 44;
-			}
-
-			memcpy((void*)(level_location), &context_defined_battery_level, sizeof(char));
-		}
-	}
-
-	return;
-}
-
-static void block_intent(char* user_buf, size_t data_size, char* ascii_buffer, const char* intent) 
-{
-	char* intent_location = strstr(ascii_buffer, intent);
-
-	if (intent_location != NULL) {
-		printk(KERN_INFO "BINDERFILTER: blocked intent %s\n", intent);
+	if (message_location != NULL) {
+		printk(KERN_INFO "BINDERFILTER: blocked message %s\n", message);
 		memset(user_buf, 0, data_size);
 	}
 }
@@ -501,10 +596,14 @@ static char* get_string_matching_buffer(char* buf, size_t data_size)
 }
 
 // returns 1 on context matches rule specifications
-static int context_matches(struct bf_filter_rule* rule) 
+static int context_matches(struct bf_filter_rule* rule, int euid) 
 {
 	if (rule->context == 0) {
 		return 1;
+	}
+
+	if (rule->uid != euid) {
+		return 0;
 	}
 
 	switch(rule->context) {
@@ -512,10 +611,36 @@ static int context_matches(struct bf_filter_rule* rule)
 			return strcmp(rule->context_string_value, context_values.wifi_ssid) == 0;
 		case CONTEXT_BT_STATE:
 			return rule->context_int_value == context_values.bluetooth_enabled;
+		case CONTEXT_WIFI_STATE:
+			return rule->context_int_value == context_values.wifi_enabled;
 		default:
 			printk(KERN_INFO "BINDERFILTER: context %d not currently supported\n", rule->context);
 			return 0;
 	}
+}
+
+static void modify_message(char* ascii_buffer, char* data) 
+{	
+	char* message_location;
+	char* filepath;
+	char* existing_file; 
+
+	if (data == NULL) {
+		return;
+	}
+	existing_file = (char*) kzalloc(strlen(data) + 25, GFP_KERNEL);
+	strcpy(existing_file, "/data/local/tmp/");
+	strcat(existing_file, data);
+
+	filepath = (char*) kzalloc(100, GFP_KERNEL);
+	message_location = strstr(ascii_buffer, "/storage/emulated/0/Pictures/Facebook/");
+	if (message_location != NULL) {
+		strncpy(filepath, message_location, 62);
+		filepath[62] = '\0';
+		copy_file_to_file(existing_file, filepath);
+	} 
+
+	kfree(filepath);
 }
 
 static void apply_filter(char* user_buf, size_t data_size, int euid) 
@@ -527,13 +652,22 @@ static void apply_filter(char* user_buf, size_t data_size, int euid)
 		return;
 	}
 
-	set_battery_level(user_buf, ascii_buffer);
+	//set_battery_level(user_buf, ascii_buffer);
 	set_context_values(user_buf, data_size, ascii_buffer);
 
-	if (binder_filter_block_intents == 1) {
+	if (binder_filter_block_messages == 1) {
 		while (rule != NULL) {
-			if (rule->uid == euid && context_matches(rule)) {
-				block_intent(user_buf, data_size, ascii_buffer, rule->message);
+			if (context_matches(rule, euid)) {
+				switch(rule->block_or_modify) {
+					case BLOCK_ACTION:
+						block_message(user_buf, data_size, ascii_buffer, rule->message);
+						break;
+					case MODIFY_ACTION:
+						modify_message(ascii_buffer, rule->data);
+						break;
+					default:
+						break;
+				}
 			}
 			rule = rule->next;
 		}
@@ -542,13 +676,21 @@ static void apply_filter(char* user_buf, size_t data_size, int euid)
 	kfree(ascii_buffer);
 }
 
-static void print_binder_transaction_data(char* data, size_t data_size, int euid) 
+static void print_binder_transaction_data(char* data, size_t data_size, int euid, void* offp, size_t offsets_size) 
 {
 #ifdef BF_SEQ_FILE_OUTPUT
 	struct bf_buffer_log_entry *e;
 	void* buf_copy;
 	int size_copy = MAX_BUFFER_SIZE;
 #endif
+
+	//char fd;
+	//char* ascii_buffer;
+	//struct file* file;
+	//char* buf;
+	//char* result;
+	//struct path* path;
+	struct flat_binder_object *fp;
 
 	if (data <= 0) {
 		printk(KERN_INFO "BINDERFILTER: error print_binder_transaction_data: "
@@ -560,9 +702,39 @@ static void print_binder_transaction_data(char* data, size_t data_size, int euid
 	printk(KERN_INFO "BINDERFILTER: data");
 	print_string(data, data_size, MAX_BUFFER_SIZE);	
 
-	// printk(KERN_INFO "BINDERFILTER: offsets");
-	// print_string(tr->data.ptr.offsets, tr->offsets_size);
+	printk(KERN_INFO "BINDERFILTER: offsets");
+	print_string((char*)offp, offsets_size, MAX_BUFFER_SIZE);
 
+	printk(KERN_INFO "BINDERFILTER: flat binder");
+	if (offsets_size > 0) {
+		fp = (struct flat_binder_object *)offp;
+		if (fp != NULL) {
+			if (fp->type == BINDER_TYPE_FD) {
+				printk(KERN_INFO "BINDERFILTER: type BINDER_TYPE_FD, handle %ld\n", fp->handle);
+			}
+		}
+	}
+
+	// if (offp != 0 && offsets_size > 0) {
+	// 	ascii_buffer = get_string_matching_buffer(data, data_size);
+	// 	if (strstr(ascii_buffer, "android.hardware.ICameraClient") != NULL) {
+	// 		fd = *(char*)offp;
+	// 		printk(KERN_INFO "BINDERFILTER: fd: %c\n", fd);
+	// 		file = fget((int)fd);
+	// 		if (file == NULL) {
+	// 			printk(KERN_INFO "BINDERFILTER: file null");
+	// 		} else {
+	// 			path = &file->f_path;
+	// 			path_get(path);
+	// 			buf = (char*) kzalloc(500, GFP_KERNEL);
+	// 			result = d_path(path, buf, 499);
+	// 			path_put(path);
+	// 			printk(KERN_INFO "BINDERFILTER: path: %s", result);
+
+	// 			//__write((int)fd, "hi");
+	// 		}
+	// 	}
+	// }
 
 #ifdef BF_SEQ_FILE_OUTPUT
 	if (data_size < MAX_BUFFER_SIZE) {
@@ -614,11 +786,6 @@ static void add_filter(struct bf_user_filter* filter)
 						kzalloc(sizeof(struct bf_filter_rule), GFP_KERNEL);
 	rule->message = (char*) kzalloc(strlen(message)+1, GFP_KERNEL);
 	rule->data = (char*) kzalloc(strlen(data)+1, GFP_KERNEL);
-
-	if (block_or_modify != BLOCK_ACTION) {
-		// unimplemented for now
-		return;
-	}
 	
 	rule->block_or_modify = block_or_modify;
 	rule->uid = uid;
@@ -777,7 +944,7 @@ static int index_of(char* str, char c, int start)
 }
 
 // message:uid:action_code:context:(context_type:context_val:)(data:)
-static void parse_policy_context(char* policy, int starting_index, struct bf_user_filter* filter) 
+static int parse_policy_context(char* policy, int starting_index, struct bf_user_filter* filter) 
 {
 	int index = starting_index;
 	int old_index;
@@ -809,7 +976,7 @@ static void parse_policy_context(char* policy, int starting_index, struct bf_use
 		if (context_str != NULL) {
 			kfree(context_str);
 		}
-		return;
+		return index;
 	}
 
 	//context type
@@ -867,6 +1034,8 @@ static void parse_policy_context(char* policy, int starting_index, struct bf_use
 	if (context_int_value_str != NULL) {
 		kfree(context_int_value_str);
 	}
+
+	return index;
 }
 
 // message:uid:action_code:context:(context_type:context_val:)(data:)
@@ -920,10 +1089,17 @@ static void parse_policy_line(char* policy, struct bf_user_filter* filter)
 	}
 	filter->action = (int) action;
 
-	// data, for now
-	filter->data = (char*) kzalloc(1, GFP_KERNEL);
+	index = parse_policy_context(policy, index, filter);
 
-	parse_policy_context(policy, index, filter);
+	// data
+	old_index = index;
+	index = index_of(policy, ':', old_index+1);
+	size = index - old_index;
+	if (index != -1) {
+		filter->data = (char*) kzalloc(index+2, GFP_KERNEL);
+		strncpy(filter->data, (policy+old_index+1), size-1);
+		filter->data[size+1] = '\0';
+	}
 
 	if (action_str != NULL) {
 		kfree(action_str);
@@ -1003,8 +1179,8 @@ static void apply_policy_line(char* policy)
 	parse_policy_line(policy, filter);
 
 	printk(KERN_INFO "BINDERFILTER: reading policy: {%s}\n", policy);
-	printk(KERN_INFO "BINDERFILTER: parsed policy: {%s} {%d} {%d} {%d}\n", 
-		filter->message, filter->uid, filter->action, filter->context);
+	printk(KERN_INFO "BINDERFILTER: parsed policy: {%s} {%d} {%d} {%d} {%s}\n", 
+		filter->message, filter->uid, filter->action, filter->context, filter->data);
 
 	if (filter->context > 0) {
 		if (filter->context_type == CONTEXT_TYPE_INT) {
@@ -1080,7 +1256,7 @@ static void read_persistent_policy(void)
 
 // ENTRY POINT FROM binder.c
 // because we're only looking at binder_writes, pid refers to the pid of the writing proc
-int filter_binder_message(unsigned long addr, signed long size, int reply, int euid)
+int filter_binder_message(unsigned long addr, signed long size, int reply, int euid, void* offp, size_t offsets_size)
 {
 	if (addr <= 0 || size <= 0) {
 		return -1;
@@ -1097,7 +1273,7 @@ int filter_binder_message(unsigned long addr, signed long size, int reply, int e
 
 	if (binder_filter_print_buffer_contents == 1) {
 		print_binder_code(reply);
-		print_binder_transaction_data((char*)addr, size, euid);
+		print_binder_transaction_data((char*)addr, size, euid, offp, offsets_size);
 	}
 	apply_filter((char*)addr, size, euid);
 
@@ -1125,17 +1301,24 @@ static char* get_policy_string(void)
 
 		if (rule->context > 0) {
 			if (rule->context_type == CONTEXT_TYPE_INT) {
-				sprintf(temp, "%s:%d:%d:%d:%d:%d:\n", 
+				sprintf(temp, "%s:%d:%d:%d:%d:%d:", 
 					rule->message, rule->uid, rule->block_or_modify, 
 					rule->context, rule->context_type, rule->context_int_value);
 			} else {
-				sprintf(temp, "%s:%d:%d:%d:%d:%s:\n", 
+				sprintf(temp, "%s:%d:%d:%d:%d:%s:", 
 					rule->message, rule->uid, rule->block_or_modify, 
 					rule->context, rule->context_type, rule->context_string_value);
 			}
 		} else {
-			sprintf(temp, "%s:%d:%d:%d:\n", 
+			sprintf(temp, "%s:%d:%d:%d:", 
 				rule->message, rule->uid, rule->block_or_modify, rule->context);
+		}
+
+		if (strlen(rule->data) <= 0) {
+			strcat(temp, "\n");
+		} else {
+			strcat(temp, rule->data);
+			strcat(temp, ":\n");
 		}
 
 		policy_str_len = strlen(temp) + strlen(policy_str);
@@ -1155,7 +1338,8 @@ static char* get_policy_string(void)
 
 static void init_context_values(void) 
 {
-	context_values.bluetooth_enabled = CONTEXT_STATE_UNKNOWN;		
+	context_values.bluetooth_enabled = CONTEXT_STATE_UNKNOWN;	
+	context_values.wifi_enabled = CONTEXT_STATE_UNKNOWN;	
 }
 
 static void write_persistent_policy(void) 
@@ -1177,13 +1361,6 @@ static ssize_t bf_read(struct file * file, char * buf, size_t count, loff_t *ppo
 {	
 	int len;
 	char* ret_str;
-
-	// sprintf(ret_str, "BINDERFILTER: bluetooth_enabled: %d, wifi_ssid: %s, gps: {%d,%d,%d}\n", 
-	// 	context_values.bluetooth_enabled, context_values.wifi_ssid, 
-	// 	context_values.gps[0], context_values.gps[1], context_values.gps[2]);
-
-	// sprintf(temp, "BINDERFILTER: filters:\n");
-	// strcat(ret_str, temp);
 
 	ret_str = get_policy_string();
 	len = strlen(ret_str); /* Don't include the null byte. */
@@ -1229,9 +1406,11 @@ static ssize_t bf_write(struct file *file, const char __user *buf, size_t len, l
 			remove_filter(user_filter);
 			break;
 		case MODIFY_ACTION:
-			// fall
+			add_filter(user_filter);
+			break;
 		case UNMODIFY_ACTION:
-			// fall
+			remove_filter(user_filter);
+			break;
 		default:
 			printk(KERN_INFO "BINDERFILTER: bf_write bad action %d\n", 
 				user_filter->action);
@@ -1274,6 +1453,11 @@ static int __init binder_filter_init(void)
 			    bf_debugfs_dir_entry_root,
 			    NULL,
 			    &bf_context_values_fops);
+	debugfs_create_file("do_debug",
+			    S_IRUGO,
+			    bf_debugfs_dir_entry_root,
+			    NULL,
+			    &bf_do_debug_fops);
 
 #ifdef BF_SEQ_FILE_OUTPUT
 	debugfs_create_file("buffers",
@@ -1296,8 +1480,8 @@ static int __init binder_filter_init(void)
 		return ret;
 	}
 
-	battery_level.level_value_no_BT = 42;
-	battery_level.level_value_with_BT = 43;
+	// battery_level.level_value_no_BT = 42;
+	// battery_level.level_value_with_BT = 43;
 
 	init_context_values();
 
