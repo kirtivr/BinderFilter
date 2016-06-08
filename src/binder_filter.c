@@ -48,7 +48,7 @@ static void copy_file_to_file(char* filename_src, char* filename_dst);
 
 //static struct bf_battery_level_struct battery_level;
 static struct bf_filters all_filters = {0, NULL};
-static struct bf_context_values_struct context_values = {0,0,{0},{0}};
+static struct bf_context_values_struct context_values = {0,0,{0},{0}, 0};
 
 static int read_persistent_policy_successful = READ_FAIL;
 
@@ -71,10 +71,17 @@ static struct dentry *bf_debugfs_dir_entry_root;
 // read with 'cat /sys/kernel/debug/binder_filter/context_values'
 static int bf_context_values_show(struct seq_file *m, void *unused)
 {
+	struct app_context_entry* e = context_values.app_context_queue;
+
 	seq_puts(m, "binder context values:\n");
 	seq_printf(m, "bluetooth status: %d", context_values.bluetooth_enabled);
 	seq_printf(m, ", wifi status: %d", context_values.wifi_enabled);
 	seq_printf(m, ", wifi ssid: %s\n", context_values.wifi_ssid);
+
+	while (e != NULL) {
+		seq_printf(m, "app %s running: %d\n", e->package_name, e->state);
+		e = e->next;
+	}
 	return 0;
 }
 BF_DEBUG_ENTRY(context_values);
@@ -462,7 +469,7 @@ $(0)android.net.conn.CONNECTIVITY_CHANGE(0)(0)(0)(0)(255)(255)(255)(255)(16)(0)(
 (23)(0)android.net.NetworkInfo(0)(1)(0)(0)(0)(4)(0)WIFI(0)(0)(0)(0)(0)(0)
 (12)(0)DISCONNECTED(0)(0)(12)(0)DI}
 */
-static void set_wifi_state(char* buffer, char* user_buf_start)
+static void set_wifi_state(char* buffer)
 {
 	const char* wifi_action = "android.net.conn.CONNECTIVITY_CHANGE";
 	const char* connected = "CONNECTED";
@@ -519,12 +526,50 @@ static void set_gps_value(char* buffer, char* user_buf_start)
 	}
 }
 
+/*
+[ 1888.590667] BINDERFILTER: buffer contents: {(4)H"(0)android.content.pm.IPackageManager(0)(0)(12)(0)com.evernote(0)(0)(0)(0)(0)(0)}
+[ 2479.742126] BINDERFILTER: buffer contents: {(0)@(30)(0)android.app.IApplicationThread(0)(0)(133)*hs(127)(1)(0)(3)(3)(0)(0)(0)'(0)android.intent.action.PACKAGE_RESTARTED(0)(2)(0)(7)(0)package(0)(2)(0)(19)(0)com.facebook.katana(0)(0)(0)(255)(255)(255)(255)(255)(255)(255)(255)(255)(255)(255)(255)(16)(0)(255)(255)(255)(255)(255)(255)(255)(255)(0)(0)(0)(0)(0)(0)(0)(0)(254)(255)(255)(255)(148)(0)BNDL(2)(0)(24)(0)android.intent.extra.UID(0)(0)(1)(0)^'(0) (0)android.intent.extra.user_handle(0)(0)(1)(0)(0)(0)(0)(0)(255)(255)(255)(255)(255)(255)(25}
+
+*/
+static void set_app_context(char* buffer)
+{
+	// set app status for apps that the user is interested in
+	struct app_context_entry* e = context_values.app_context_queue;
+	const char* state_off = "android.intent.action.PACKAGE_RESTARTED";
+	int flag = 0; 	// 1 for state_on exists, 2 for state_off exists
+	
+	if (strlen(buffer) < strlen(state_off)) {
+		return;
+	}
+	if (strstr(buffer, "android.app.IApplicationThread") != NULL &&
+		strstr(buffer, "android.intent.action.MAIN") != NULL &&
+		strstr(buffer, "android.intent.category.LAUNCHER") != NULL) {
+		flag = CONTEXT_STATE_ON;
+	} else if (strstr(buffer, state_off) != NULL) {
+		flag = CONTEXT_STATE_OFF;
+	}
+	if (flag == 0) {
+		return;
+	}
+	//printk(KERN_INFO "BINDERFILTER: message {%s}", buffer);
+
+	while (e != NULL) {
+		if (strstr(buffer, e->package_name) != NULL) {
+			e->state = flag;
+			//printk(KERN_INFO "BINDERFILTER: setting state for package %s to %d\n", e->package_name, e->state);
+			return;
+		} 
+		e = e->next;
+	}
+}
+
 static void set_context_values(const char* user_buf, size_t data_size, char* ascii_buffer) 
 {
 	set_bluetooth_value(ascii_buffer, (char*)user_buf);
 	set_wifi_value(ascii_buffer, (char*)user_buf);
-	set_wifi_state(ascii_buffer, (char*)user_buf);
+	set_wifi_state(ascii_buffer);
 	set_gps_value(ascii_buffer, (char*)user_buf);
+	set_app_context(ascii_buffer);
 }
 
 // for testing
@@ -595,6 +640,24 @@ static char* get_string_matching_buffer(char* buf, size_t data_size)
 	return buffer;
 }
 
+// returns 1 on app is running
+static int app_running(char* package_name) 
+{
+	struct app_context_entry* e = context_values.app_context_queue;
+
+	while (e != NULL) {
+		if (e->state == CONTEXT_STATE_ON) {
+			if (strcmp(e->package_name, package_name) == 0) {
+				return 1;
+			}
+		}
+
+		e = e->next;
+	}
+
+	return 0;
+}
+
 // returns 1 on context matches rule specifications
 static int context_matches(struct bf_filter_rule* rule, int euid) 
 {
@@ -613,6 +676,8 @@ static int context_matches(struct bf_filter_rule* rule, int euid)
 			return rule->context_int_value == context_values.bluetooth_enabled;
 		case CONTEXT_WIFI_STATE:
 			return rule->context_int_value == context_values.wifi_enabled;
+		case CONTEXT_APP_RUNNING:
+			return app_running(rule->context_string_value);
 		default:
 			printk(KERN_INFO "BINDERFILTER: context %d not currently supported\n", rule->context);
 			return 0;
@@ -766,6 +831,59 @@ void print_binder_code(int reply) {
 	}
 }
 
+// add packagename to queue
+// only do it for ones that the user is interested in
+static void add_app_running_context(char* context_string_value)
+{
+	struct app_context_entry* e;
+
+	if (context_string_value == NULL || strlen(context_string_value) < 1) {
+		return;
+	}
+
+	// check if packagename is already present in queue!
+
+	e = (struct app_context_entry*) kzalloc(sizeof(struct app_context_entry), GFP_KERNEL);
+	e->package_name = (char*) kzalloc(strlen(context_string_value)+1, GFP_KERNEL);
+	strncpy(e->package_name, context_string_value, strlen(context_string_value));
+	e->package_name[strlen(e->package_name)] = '\0';
+	e->state = CONTEXT_STATE_UNKNOWN;
+	e->next = NULL;
+
+	if (context_values.app_context_queue == NULL) {
+		context_values.app_context_queue = e;
+	} else {
+		e->next = context_values.app_context_queue;
+		context_values.app_context_queue = e;
+	}
+}
+
+static void remove_app_running_context(char* context_string_value)
+{
+	struct app_context_entry* e = context_values.app_context_queue;
+	struct app_context_entry* prev = NULL;
+
+	if (context_string_value == NULL || strlen(context_string_value) < 1) {
+		return;
+	}
+	
+	while (e != NULL) {
+		if (strcmp(e->package_name, context_string_value) == 0) {
+			if (prev != NULL) {
+				prev->next = e->next;
+			} else {
+				// e is the head of the queue
+				context_values.app_context_queue = NULL;
+			}
+			kfree(e->package_name);
+			kfree(e);
+			return;
+		}
+		prev = e;
+		e = e->next;
+	}
+}
+
 static void add_filter(struct bf_user_filter* filter) 
 {
 	struct bf_filter_rule* rule;
@@ -810,6 +928,11 @@ static void add_filter(struct bf_user_filter* filter)
 			printk(KERN_INFO "BINDERFILTER: bad context type!\n");
 			kfree(rule);
 			return;
+		}
+
+		// apps running
+		if (rule->context == CONTEXT_APP_RUNNING) {
+			add_app_running_context(rule->context_string_value);
 		}
 	} else {
 		rule->context = 0;
@@ -905,6 +1028,11 @@ static void remove_filter(struct bf_user_filter* filter)
 				all_filters.filters_list_head = rule->next;	
 			} else {
 				prev->next = rule->next;
+			}
+
+			// remove from app context list
+			if (rule->context == CONTEXT_APP_RUNNING) {
+				remove_app_running_context(rule->context_string_value);
 			}
 
 			kfree(rule->message);
@@ -1014,11 +1142,12 @@ static int parse_policy_context(char* policy, int starting_index, struct bf_user
 
 	} else if (context_type == CONTEXT_TYPE_STRING) {
 		old_index = index;
-		index = index_of(policy, ':', 0);
+		index = index_of(policy, ':', old_index+1);
+		size = index - old_index;
 		if (index != -1) {
-			filter->context_string_value = (char*) kzalloc(index+2, GFP_KERNEL);
-			strncpy(filter->context_string_value, policy, index);
-			filter->context_string_value[index+1] = '\0';
+			filter->context_string_value = (char*) kzalloc(size+2, GFP_KERNEL);
+			strncpy(filter->context_string_value, (policy+old_index+1), size-1);
+			filter->context_string_value[size+1] = '\0';
 		}
 	} else {
 		printk(KERN_INFO "BINDERFILTER: bad context type! {%d}\n", (int)context_type);		
@@ -1152,8 +1281,13 @@ static int check_filter_default_values(struct bf_user_filter* filter)
 		return 0;
 	}
 
-	firstCheck = (filter->action != -1) && (filter->uid != -1) && (filter->message != NULL)
-			&& (filter->data != NULL) && (filter->context != -1);
+	firstCheck = (filter->action != -1) && (filter->uid != -1) 
+			&& (filter->message != NULL) && (filter->context != -1);
+
+	if (filter->data == NULL) {
+		filter->data = (char*) kzalloc(1, GFP_KERNEL);
+		filter->data[0] = '\0';
+	}
 
 	if (filter->context > 0) {
 		if (filter->context_type == CONTEXT_TYPE_INT) {

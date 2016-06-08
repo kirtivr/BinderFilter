@@ -89,12 +89,19 @@ struct bf_battery_level_struct {
 	int level_value_with_BT;
 };
 
+struct app_context_entry {
+	char* package_name;
+	int state;
+	struct app_context_entry* next;
+};
+
 /* current values for different enviornment or sensor data */
 struct bf_context_values_struct {
 	int bluetooth_enabled;
 	int wifi_enabled;
 	char wifi_ssid[33]; 			
 	char gps[3];		// there are a lot of problems reducing doubles to 3 bytes... but it's what we're doing for now
+	struct app_context_entry* app_context_queue;		// list of apps to check running state of
 };
 
 #endif /* _LINUX_BINDER_FILTER_H */
