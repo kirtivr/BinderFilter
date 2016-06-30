@@ -10,9 +10,10 @@ I compiled on ubuntu linux in virtualbox
 
 ### Determine which git branch you need for your kernel (link above)
 
-$ git clone https://android.googlesource.com/kernel/flo-kernel
+$ git clone https://android.googlesource.com/kernel/msm
 $ git log --max-count=1 flo-kernel/kernel | grep "Linux version" | cut -d' ' -f7
 $ > 3.4.0-g8ba2631 (branch is what's after the -g)
+$ git clone https://android.googlesource.com/kernel/msm.git
 $ cd msm/ (i.e. the git directory for your kernel source)
 $ git checkout 8ba2631
 
@@ -25,7 +26,7 @@ $ git checkout 8ba2631
 $ export ARCH=arm
 $ export SUBARCH=arm
 $ export CROSS_COMPILE=arm-eabi-
-$ export PATH=arm-eabi-4.6/libexec:arm-eabi-4.6/bin:$PATH
+$ export PATH=/media/sf_sharedVm/libexec/gcc/arm-linux-androideabi/4.9.x-google:arm-eabi-4.6/bin:$PATH
 
 $ arm-eabi-gcc --version 
 $ > should give 4.6.x-google etc
