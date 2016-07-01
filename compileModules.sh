@@ -5,8 +5,8 @@ echo "remember to call me as source compileModules.sh"
 export ARCH=arm
 export SUBARCH=arm
 export CROSS_COMPILE=arm-eabi-
-export PATH=/media/sf_sharedVm/arm-eabi-4.6/libexec:/media/sf_sharedVm/arm-eabi-4.6/bin:$PATH
-cd /media/sf_msm/
+export PATH=/media/sf_sharedVm/libexec/gcc/arm-linux-androideabi/4.9.x-google:/media/sf_sharedVm/arm-eabi-4.6/bin:$PATH
+cd /media/sf_msm/msm/
 make flo_defconfig
 make prepare
 echo "CONFIG_MODULES=y" | cat >> .config

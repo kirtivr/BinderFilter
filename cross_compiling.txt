@@ -64,7 +64,7 @@ $ dmesg | grep HELLO
 $ export ARCH=arm
 $ export SUBARCH=arm
 $ export CROSS_COMPILE=arm-eabi-
-$ export PATH=arm-eabi-4.6/libexec:armeabi-4.6/bin:$PATH
+$ export PATH=/media/sf_sharedVm/libexec/gcc/arm-linux-androideabi/4.9.x-google:arm-eabi-4.6/bin:$PATH
 
 $ arm-eabi-gcc --version 
 $ > should give 4.6.x-google etc
@@ -85,14 +85,14 @@ $ vi .config
 	CONFIG_MODVERSIONS=y
 
 ### copy over files
-	rm /drivers/staging/android/binder.c
-	rm /driver/staging/android/Kconfig
-	rm /driver/staging/android/Makefile
-	cp ./binder.c /drivers/staging/android/binder.c
-	cp ./binder_filter.c /drivers/staging/android/binder_filter.c
-	cp ./binder_filter.h /drivers/staging/android/binder_filter.h
-	cp ./Kconfig /drivers/staging/android/Kconfig
-	cp ./Makefile /drivers/staging/android/Makefile
+	rm ./drivers/staging/android/binder.c
+	rm ./drivers/staging/android/Kconfig
+	rm ./drivers/staging/android/Makefile
+	cp /home/dwu/AndroidBinder/src/binder.c ./drivers/staging/android/binder.c
+	cp /home/dwu/AndroidBinder/src/binder_filter.c ./drivers/staging/android/binder_filter.c
+	cp /home/dwu/AndroidBinder/src/binder_filter.h ./drivers/staging/android/binder_filter.h
+	cp /home/dwu/AndroidBinder/src/Kconfig ./drivers/staging/android/Kconfig
+	cp /home/dwu/AndroidBinder/src/Makefile ./drivers/staging/android/Makefile
 
 $ make
 
