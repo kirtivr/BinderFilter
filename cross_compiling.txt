@@ -1,5 +1,5 @@
 Cross compiling the linux kernel / kernel modules for android
-https://source.android.com/source/building-kernels.html
+https://source.android.com/source/building-kernels.html 
 
 Need two git repos: kernel source for your device (1), cross-compiling gcc (2)
 1) determine which version you need from above link, git clone https://android.googlesource.com/kernel/msm.git
@@ -7,6 +7,7 @@ Need two git repos: kernel source for your device (1), cross-compiling gcc (2)
 
 OSX has problems with header files, specifically elf.h and its dependencies, 
 I compiled on ubuntu linux in virtualbox
+If you are downloading the sources into a VirtualBox shared folder with windows, that folder will not be on a case-sensitive filesystem, which will prevent you from compiling the kernel. Your best bet is to download the sources onto a linux (non virtualbox shared folder) fs).
 
 ### Determine which git branch you need for your kernel (link above)
 
