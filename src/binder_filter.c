@@ -718,7 +718,11 @@ static void apply_filter(char* user_buf, size_t data_size, int euid)
 	}
 
 	//set_battery_level(user_buf, ascii_buffer);
-	set_context_values(user_buf, data_size, ascii_buffer);
+	
+	// only get sensor values from the system
+	if (euid == 1000) {
+		set_context_values(user_buf, data_size, ascii_buffer);
+	}
 
 	if (binder_filter_block_messages == 1) {
 		while (rule != NULL) {
