@@ -76,7 +76,8 @@ static int bf_context_values_show(struct seq_file *m, void *unused)
 	seq_puts(m, "binder context values:\n");
 	seq_printf(m, "bluetooth status: %d", context_values.bluetooth_enabled);
 	seq_printf(m, ", wifi status: %d", context_values.wifi_enabled);
-	seq_printf(m, ", wifi ssid: %s\n", context_values.wifi_ssid);
+	seq_printf(m, ", wifi ssid: %s", context_values.wifi_ssid);
+	seq_printf(m, ", gps: %c %c %c\n", context_values.gps[0], context_values.gps[1], context_values.gps[2]);
 
 	while (e != NULL) {
 		seq_printf(m, "app %s running: %d\n", e->package_name, e->state);
@@ -486,13 +487,55 @@ static void set_wifi_state(char* buffer)
 	}
 }
 
+// byte[16] in the form of lat[8] long[8] bytes for decimal gps values
+// each byte is separated by '.'
+// had to do this because we are passing string from userland
+// some char values wouldn't show up in the string (i.e. non alphanumeric)
+static char* get_gps_user_value(char* user_gps_bytes)
+{
+	char* byte_array;
+	int i = 0;
+	char* string_val;
+	long long_val;
+	char* user_gps_bytes_p;
+
+	if (user_gps_bytes == NULL) {
+		return NULL;
+	}
+
+	user_gps_bytes_p = (char*) kzalloc(strlen(user_gps_bytes)+1, GFP_KERNEL);
+	strncpy(user_gps_bytes_p, user_gps_bytes, strlen(user_gps_bytes));
+	user_gps_bytes_p[strlen(user_gps_bytes_p)] = '\0';
+	//printk(KERN_INFO "BINDERFILTER: user string: {%s}\n", user_gps_bytes_p);
+
+	byte_array = (char*) kzalloc(16, GFP_KERNEL);
+	string_val = strsep(&user_gps_bytes_p, ".");
+	while (string_val != NULL && strcmp(string_val, "") != 0) {
+		if (kstrtol(string_val, 10, &long_val) != 0) {
+			printk(KERN_INFO "BINDERFILTER: could not parse gps! {%s}\n", string_val);
+			kfree(user_gps_bytes_p);
+			return byte_array;
+		}
+		//printk(KERN_INFO "BINDERFILTER: string_val: %s, long: %d\n", string_val, (int)long_val);
+		byte_array[i] = (char)((int)long_val); 
+		i++;
+		string_val = strsep(&user_gps_bytes_p, ".");
+	}
+
+	kfree(user_gps_bytes_p);
+	return byte_array;
+} 
+
 /*
-{(0)@(29)(0)android.content.IIntentSender(0)(0)(0)(1)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(255)(255)(255)(255)(0)(0)(0)(0)(0)(0)(0)(0)(254)(255)(255)(255)(224)
-(4)(0)BNDL(3)(0)8(0)com.google.android.location.internal.EXTRA_LOCATION_LIST(0)(0)(11)(0)(1)(0)(4)(0)
-(25)(0)android.location.Location(0)
-(7)(0)network(0)
-(192)(191)(187)(145)T(1)(0)@
-(165)R(132)\(0)(177)(237)(254)(194)<(218)E@y(189)(234)(183)e(18)R(192)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(1)(0)u(19)(}
+{(0)@(29)(0)android.content.IIntentSender(0)(0)(0)(1)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)
+(0)(0)(255)(255)(255)(255)(255)(255)(255)(255)(0)(0)(0)(0)(0)(0)(0)(0)(254)(255)(255)(255)(160)(3)
+(0)BNDL(3)(0)8(0)com.google.android.location.internal.EXTRA_LOCATION_LIST(0)(0)(11)(0)(1)(0)(4)(0)(25)(0)android.location.Location(0)(7)
+(0)network(0)(159)l}(225)U(1)(0)@m2(135)(7)(0)(243)(174)z(192)<(218)E@O>=(182)e(18)R(192)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)
+(1)(0)(0)(240)A(160)(0)BNDL(3)(0)(19)(0)networkLocationType(0)(0)(0)(4)(0)wifi(0)(0)(8)(0)wifiScan(0)(0)(13)(0)(22)(0)
+(0)(0)(0)~? N(127)(130)_W(194) N(127)(130)_U(204)(0)(10)(0)nlpVersion(0)(0)(1)(0)(231)(7)(0)(0)(0):
+(0)com.google.android.location.internal.EXTRA_RELEASE_VERSION(0)(0)(1)(0)(231)(7)(0)(8)(0)location(0)(0)(4)(0)(25)
+(0)android.location.Location(0)(7)(0)network(0)(159)l}(225)U(1)(0)@m2(135)(7)(0)h(151)o}XvD@r?(150)(244)(230)AR(192)
+(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(1)(0)(0)(240)A(160)(0)BNDL(3)(0)
 
 {r*k*(0)*C4(247)(145)T(1)(0)*(0)(29)[(204)(16)*(0)*(177)(27)(17)(231)<(218)E@(246)#(234)(170)e(18)R(192)
 (0)*(0)*(0)*(0)*(0)*(0)*(0)*(0)*(0)*(0)*(0)*(0)*(0)*(0)*(1)*(0)*(182)(243)(6)B@(1)
@@ -503,25 +546,102 @@ static void set_gps_value(char* buffer, char* user_buf_start)
 	const char* gps_action = "com.google.android.location.internal.EXTRA_LOCATION_LIST";
 	const char* gps_action2 = "android.content.IIntentSender";
 	char* state_location;
+	char* state_location2;
 	int offset;
-	char float_char_output[8];
+	int offset2;
+	char float_char_output[16];
 
-	if (strlen(buffer) > strlen(gps_action) && strstr(buffer, gps_action) != NULL && strstr(buffer, gps_action2) != NULL) {
+	struct bf_filter_rule* rule = all_filters.filters_list_head;
+	char* gps_bytes;
+
+	if (strstr(buffer, gps_action) != NULL && strstr(buffer, gps_action2) != NULL) {
 		state_location = strstr(buffer, gps_state);
+
+		state_location2 = strstr(state_location+1, "android.location.Location");
+		state_location2 = strstr(state_location2+1, gps_state);
+
 		if (state_location != NULL) {
 			offset = ((state_location-buffer) + 7+1+4+4) * 2;
+			offset2 = ((state_location2-buffer) + 7+1+4+4) * 2;
 			
-			memcpy(float_char_output, user_buf_start+offset, 8);
+			memcpy(float_char_output, user_buf_start+offset, 16);
 
-			// attempt at floating point math.... not very good
-			context_values.gps[0] = float_char_output[5];
-			context_values.gps[1] = float_char_output[6];
-			context_values.gps[2] = float_char_output[7];
+			// temporary context from gps
+			context_values.gps[0] = float_char_output[0];
+			context_values.gps[1] = float_char_output[1];
+			context_values.gps[2] = float_char_output[2];
 
-			// for (i=0; i<8; i++) {
-			// 	printk(KERN_INFO "BINDERFILTER: {%d}\n", float_char_output[i]);
-			// }
-			//printk(KERN_INFO "BINDERFILTER: gps: %d %d %d\n", context_values.gps[0], context_values.gps[1], context_values.gps[2]);
+			// modify gps
+			if (binder_filter_block_messages == 1) {
+				while (rule != NULL) {
+					if (rule->block_or_modify == MODIFY_ACTION &&
+						strcmp(rule->message, "android.permission.ACCESS_FINE_LOCATION") == 0) {
+												
+						gps_bytes = get_gps_user_value(rule->data);
+						memcpy(user_buf_start+offset, gps_bytes, 16);
+						memcpy(user_buf_start+offset2, gps_bytes, 16);
+
+						// printk(KERN_INFO "BINDERFILTER: memcpyd data %d %d %d", 
+						// 	(int)gps_bytes[7], (int)gps_bytes[6], (int)gps_bytes[5]);
+						// print_string(user_buf_start, 900, 900);
+
+						kfree(gps_bytes);
+						break;
+					}
+					rule = rule->next;
+				}
+			}
+		}
+	}
+}
+
+/*
+[  249.832458] BINDERFILTER: buffer contents: {(0)@(29)(0)android.content.IIntentSender(0)(0)(0)(1)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(255)(255)(255)(255)(0)(0)(0)(0)(0)(0)(0)(0)(254)(255)(255)(255)p(4)(0)BNDL(2)(0)$(0)com.google.android.location.LOCATION(0)(0)(4)(0)(25)(0)
+android.location.Location(0)(5)(0)
+fused(0)(136)\(228)(223)U(1)(0)(128)mN%:(0)
+(210)(25)(24)yYvD@(168)(249)(207)?(230)AR(192)
+(1)(0)(0)(0)(160)(153)(153)4@(1)(0)(0)(0)(0)(0)(0)(0)(1)(0)(0)(128)@(20)(1)(0)BNDL(2)(0)(13)(0)noGPSLocation(0}
+
+f*u*s*e*d*(0)*(207)8'(225)U(1)(0)*(128)e+j(7)*(0)*
+(243)(174)z(192)<(218)E@O>=(182)e(18)R(192)
+*/
+static void set_gps_value2(char* buffer, char* user_buf_start)
+{
+	const char* gps_state = "fused";
+	const char* gps_action = "com.google.android.location.LOCATION";
+	const char* gps_action2 = "android.content.IIntentSender";
+	char* state_location;
+	char* state_location2;
+	int offset;
+	int offset2;
+
+	struct bf_filter_rule* rule = all_filters.filters_list_head;
+	char* gps_bytes;
+
+	if (strstr(buffer, gps_action) != NULL && strstr(buffer, gps_action2) != NULL) {
+		state_location = strstr(buffer, gps_state);
+		state_location2 = strstr(state_location+1, gps_state);
+		if (state_location != NULL) {
+			offset = ((state_location-buffer) + 14) * 2;
+			offset2 = ((state_location2-buffer) + 14) * 2;
+
+			// modify gps
+			if (binder_filter_block_messages == 1) {
+				while (rule != NULL) {
+					if (rule->block_or_modify == MODIFY_ACTION &&
+						strcmp(rule->message, "android.permission.ACCESS_FINE_LOCATION") == 0) {
+												
+						gps_bytes = get_gps_user_value(rule->data);
+						memcpy(user_buf_start+offset, gps_bytes, 16);
+						memcpy(user_buf_start+offset2, gps_bytes, 16);
+
+						//print_string(user_buf_start, 900, 900);
+						kfree(gps_bytes);
+						break;
+					}
+					rule = rule->next;
+				}
+			}
 		}
 	}
 }
@@ -568,7 +688,6 @@ static void set_context_values(const char* user_buf, size_t data_size, char* asc
 	set_bluetooth_value(ascii_buffer, (char*)user_buf);
 	set_wifi_value(ascii_buffer, (char*)user_buf);
 	set_wifi_state(ascii_buffer);
-	set_gps_value(ascii_buffer, (char*)user_buf);
 	set_app_context(ascii_buffer);
 }
 
@@ -684,15 +803,14 @@ static int context_matches(struct bf_filter_rule* rule, int euid)
 	}
 }
 
-static void modify_message(char* ascii_buffer, char* data) 
-{	
+static void modify_camera_message(char* ascii_buffer, char* data)
+{
 	char* message_location;
 	char* filepath;
 	char* existing_file; 
 
-	if (data == NULL) {
-		return;
-	}
+	//printk(KERN_INFO "BINDERFILTER: modifying camera message\n");
+
 	existing_file = (char*) kzalloc(strlen(data) + 25, GFP_KERNEL);
 	strcpy(existing_file, "/data/local/tmp/");
 	strcat(existing_file, data);
@@ -700,12 +818,24 @@ static void modify_message(char* ascii_buffer, char* data)
 	filepath = (char*) kzalloc(100, GFP_KERNEL);
 	message_location = strstr(ascii_buffer, "/storage/emulated/0/Pictures/Facebook/");
 	if (message_location != NULL) {
+		// modify facebook picture
 		strncpy(filepath, message_location, 62);
 		filepath[62] = '\0';
 		copy_file_to_file(existing_file, filepath);
-	} 
+	}
 
 	kfree(filepath);
+} 
+
+static void modify_message(char* user_buf, char* ascii_buffer, char* data, char* message) 
+{	
+	if (data == NULL || message == NULL) {
+		return;
+	}
+
+	if (strcmp(message, "android.permission.CAMERA") == 0) {
+		modify_camera_message(ascii_buffer, data);
+	} 
 }
 
 static void apply_filter(char* user_buf, size_t data_size, int euid) 
@@ -723,6 +853,9 @@ static void apply_filter(char* user_buf, size_t data_size, int euid)
 	if (euid == 1000) {
 		set_context_values(user_buf, data_size, ascii_buffer);
 	}
+	// from euid 10008
+	set_gps_value(ascii_buffer, (char*)user_buf);
+	set_gps_value2(ascii_buffer, (char*)user_buf);
 
 	if (binder_filter_block_messages == 1) {
 		while (rule != NULL) {
@@ -732,7 +865,7 @@ static void apply_filter(char* user_buf, size_t data_size, int euid)
 						block_message(user_buf, data_size, ascii_buffer, rule->message);
 						break;
 					case MODIFY_ACTION:
-						modify_message(ascii_buffer, rule->data);
+						modify_message(user_buf, ascii_buffer, rule->data, rule->message);
 						break;
 					default:
 						break;
@@ -742,6 +875,9 @@ static void apply_filter(char* user_buf, size_t data_size, int euid)
 		}
 	}
 
+	if (strstr(ascii_buffer, "android.content.IIntentSender") != NULL) {
+		print_string(user_buf, data_size, 1500);
+	}
 	kfree(ascii_buffer);
 }
 
@@ -846,7 +982,14 @@ static void add_app_running_context(char* context_string_value)
 	}
 
 	// check if packagename is already present in queue!
-
+	e = context_values.app_context_queue;
+	while (e != NULL) {
+		if (strcmp(e->package_name, context_string_value) == 0) {
+			return;
+		}
+		e = e->next;
+	}	
+	
 	e = (struct app_context_entry*) kzalloc(sizeof(struct app_context_entry), GFP_KERNEL);
 	e->package_name = (char*) kzalloc(strlen(context_string_value)+1, GFP_KERNEL);
 	strncpy(e->package_name, context_string_value, strlen(context_string_value));
