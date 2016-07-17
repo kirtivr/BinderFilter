@@ -2,7 +2,9 @@ README
 David Wu
 
 
-The BinderFilter + Picky project is described in detail in the accompanying pdf writeup. For technical instructions on how everything compiles, continue reading.
+For Picky, the Java Android app that accompanies this, see github.com/dxwu/Picky.
+
+The BinderFilter + Picky project is described in detail in the accompanying pdf writeup. [NOTE: paper will be uplaoded pending anonymized paper submission decision] For technical instructions on how everything compiles, continue reading.
 
 This is a kernel firewall for Android. We implement it in two projects: BinderFilter is the kernel driver that implements blocking, modifying, context values, etc. Picky is the Android application that allows users to set firewall policy. Our BinderFilter kernel driver hooks Binder's kernel driver by adding our function hook into /drivers/staging/android/binder.c. This requires us to recompile the kernel and then "flash" the new image onto a phone.
 
@@ -22,5 +24,3 @@ The easiest "installation" of this project is as follows:
 8. press start
 9. phone will reboot, then install picky apk (adb install picky.apk)
 
-kernel-image.img and picky.apk can be found at:
-A full installation guide can be found at: 
