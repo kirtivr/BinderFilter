@@ -2,13 +2,13 @@
 
 BinderFilter is a Linux kernel message firewall for Android. It is written as a kernel driver that implements reading, blocking, and modifying Android IPC messages. Our BinderFilter kernel driver hooks Android Binder's kernel driver in /drivers/staging/android/binder.c. 
 
-Android's Binder IPC system completely mediates all inter-application messages, including requests by applications for private user data. We give users control and visibility over all such IPC messages, including dynamic permission blocking, with our open source BinderFilter project. This includes userland filtering, blocking, and logging of any IPC message in Android. Moreover, userland policy can be informed by the system's context, i.e. environmental data such as GPS location and wifi network, which addresses the current lack of native Android support for context-based security policies.
+Android's Binder IPC system completely mediates all inter-application messages, including requests by applications for private user data. We give users control and visibility over all such IPC messages, including dynamic permission blocking, with our open source BinderFilter project. This includes userland filtering, blocking, and logging of any IPC message in Android. Userland policy can be informed by the system's context, i.e. environmental data such as GPS location and wifi network, which addresses the current lack of native Android support for context-based security policies.
 
 ![alt tag](bf_hook.png?raw=true)
 
 ## Parsing 
 
-BinderFilter parses kernel IPC messages, which are often unencrpyted and assumed by applications to be secure (man in the binder presentation). These messages include Intents sent to system services, and Intents to start new activities. An example IPC message from the GPS system service is shown below. 
+BinderFilter parses kernel IPC messages, which are often unencrpyted and assumed by applications to be secure - as demonstrated [here](https://www.blackhat.com/docs/eu-14/materials/eu-14-Artenstein-Man-In-The-Binder-He-Who-Controls-IPC-Controls-The-Droid.pdf). These messages include Intents sent to system services, and Intents to start new activities. An example IPC message from the GPS system service is shown below. 
 
 ```
 {(0)@(29)(0)android.content.IIntentSender(0)(0)(0)(1)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(0)(0)(255)(255)(255)(255)(255)(255)(255)(255)(0)(0)(0)(0)(0)(0)(0)(0)(254)(255)(255)(255)(224)(4)(0)BNDL(3)(0)8(0)com.google.android.location.internal.EXTRA_LOCATION_LIST(0)(0)(11)(0)(1)(0)(4)(0)(25)(0)android.location.Location(0)(7)(0)network(0)(192)(191)(187)(145)T(1)(0)@(165)R(132)\(0)(177)(237)(254)(194)(60)(218)(69)(64)(121)(189)(234)(183)(101)(18)(82)(192)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(0)(1)(0)u(19)(...}
