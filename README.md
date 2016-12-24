@@ -4,7 +4,7 @@ BinderFilter is a Linux kernel message firewall for Android. It is written as a 
 
 Android's Binder IPC system completely mediates all inter-application messages, including requests by applications for private user data. We give users control and visibility over all such IPC messages, including dynamic permission blocking, with our open source BinderFilter project. This includes userland filtering, blocking, and logging of any IPC message in Android. Moreover, userland policy can be informed by the system's context, i.e. environmental data such as GPS location and wifi network, which addresses the current lack of native Android support for context-based security policies.
 
-![alt tag](bf_hook.svg?raw=true)
+![alt tag](bf_hook.png?raw=true)
 
 ## Parsing 
 
