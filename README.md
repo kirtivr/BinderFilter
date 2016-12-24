@@ -35,10 +35,12 @@ Because we hook an existing Linux driver, BinderFilter code requires a recompila
 4. Download fastboot and adb
 
 5. Connect your phone to the laptop with USB debugging enabled
-6. In terminal, adb reboot bootloader
-7. Fastboot flash boot kernel-image.img
-8. Press start
-9. Phone will reboot, then install picky apk (adb install picky.apk) or the command line tools.
+```
+adb reboot bootloader
+fastboot flash boot kernel-image.img
+```
+6. Press start
+7. Phone will reboot, then install picky apk (adb install picky.apk) or the command line tools.
 
 ## Picky
 
