@@ -1,18 +1,3 @@
-# Copyright (C) 2010, 2011 Free Software Foundation, Inc.
-
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-import gdb.command.pretty_printers
-
-gdb.command.pretty_printers.register_pretty_printer_commands()
+version https://git-lfs.github.com/spec/v1
+oid sha256:24898fd3e4ff8af6e431d467582133748311ee4ea4b7fc949a763e2194ae59a5
+size 811
