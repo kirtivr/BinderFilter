@@ -22,14 +22,14 @@ $ git checkout 8ba2631
 $ export ARCH=arm
 $ export SUBARCH=arm
 $ export CROSS_COMPILE=arm-eabi-
-$ export PATH=/media/sf_sharedVm/libexec/gcc/arm-linux-androideabi/4.9.x-google:arm-eabi-4.6/bin:$PATH
+$ export PATH={PATH_TO_BINDERFILTER_PROJECT}/resources/libexec/gcc/arm-linux-androideabi/4.9.x-google:arm-eabi-4.6/bin:$PATH
 
 $ arm-eabi-gcc --version 
 $ > should give 4.6.x-google etc
 $ cc1 --version 
 $ > should give no errors
 
-$ cd msm/
+$ cd msm/ 			   (for me it's /media/sf_msm)
 $ make flo_defconfig   (replace flo with your kernel name)
 $ make prepare
 
@@ -42,19 +42,19 @@ $ vi .config
 	CONFIG_MODULE_FORCE_UNLOAD=y
 	CONFIG_MODVERSIONS=y
 
-### copy over files
+### copy over files (working directory should be msm/)
 	rm ./drivers/staging/android/binder.c
 	rm ./drivers/staging/android/Kconfig
 	rm ./drivers/staging/android/Makefile
-	cp /home/dwu/AndroidBinder/src/binder.c ./drivers/staging/android/binder.c
-	cp /home/dwu/AndroidBinder/src/binder_filter.c ./drivers/staging/android/binder_filter.c
-	cp /home/dwu/AndroidBinder/src/binder_filter.h ./drivers/staging/android/binder_filter.h
-	cp /home/dwu/AndroidBinder/src/Kconfig ./drivers/staging/android/Kconfig
-	cp /home/dwu/AndroidBinder/src/Makefile ./drivers/staging/android/Makefile
+	cp {PATH_TO_BINDERFILTER_PROJECT}/src/binder.c ./drivers/staging/android/binder.c
+	cp {PATH_TO_BINDERFILTER_PROJECT}/src/binder_filter.c ./drivers/staging/android/binder_filter.c
+	cp {PATH_TO_BINDERFILTER_PROJECT}/src/binder_filter.h ./drivers/staging/android/binder_filter.h
+	cp {PATH_TO_BINDERFILTER_PROJECT}/src/Kconfig ./drivers/staging/android/Kconfig
+	cp {PATH_TO_BINDERFILTER_PROJECT}/src/Makefile ./drivers/staging/android/Makefile
 
 $ make
 
-### building kernel results in zImage at /media/sf_msm/arch/arm/boot/zImage
+### building kernel results in zImage at msm/arch/arm/boot/zImage
 ### get existing boot image from phone:
 	adb shell
 	su
@@ -66,7 +66,7 @@ $ make
 	adb pull /sdcard/Download/cur-boot.img .
 
 ### add recently built kernel to that image
-	cp /media/sf_msm/arch/arm/boot/zImage .
+	cp msm/arch/arm/boot/zImage .
 	(sudo apt-get abootimg)
 	abootimg -u cur-boot.img -k zImage
 
@@ -85,7 +85,7 @@ $ make
 $ export ARCH=arm
 $ export SUBARCH=arm
 $ export CROSS_COMPILE=arm-eabi-
-$ export PATH=/media/sf_sharedVm/libexec/gcc/arm-linux-androideabi/4.9.x-google:arm-eabi-4.6/bin:$PATH
+$ export PATH={PATH_TO_BINDERFILTER_PROJECT}/resources/libexec/gcc/arm-linux-androideabi/4.9.x-google:arm-eabi-4.6/bin:$PATH
 
 $ arm-eabi-gcc --version 
 $ > should give 4.6.x-google etc

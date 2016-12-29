@@ -5,8 +5,8 @@ echo "remember to call me as source compileModules.sh"
 export ARCH=arm
 export SUBARCH=arm
 export CROSS_COMPILE=arm-eabi-
-export PATH=/home/dwu/sharedVm/libexec/gcc/arm-linux-androideabi/4.9.x-google:/home/dwu/sharedVm//arm-eabi-4.6/bin:$PATH
-cd /home/dwu/msm/
+export PATH={PATH_TO_BINDERFILTER_PROJECT}/resources/libexec/gcc/arm-linux-androideabi/4.9.x-google:{PATH_TO_BINDERFILTER_PROJECT}/resources/arm-eabi-4.6/bin:$PATH
+cd {PATH_TO_KERNEL_SOURCE_TREE}/msm/
 #make flo_defconfig
 #make prepare
 #echo "CONFIG_MODULES=y" | cat >> .config
