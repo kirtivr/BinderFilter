@@ -42,6 +42,10 @@ fastboot flash boot kernel-image.img
 6. Press start
 7. Phone will reboot, then install picky apk (adb install picky.apk) or the command line tools.
 
+## Cross-compiling for Android
+
+This is a complex process. Please see "Compile linux kernel for android" in ./documentation/cross-compiling/cross_compiling.txt
+
 ## Picky
 
 Picky is the Android application that allows users to set firewall policy. See github.com/dxwu/Picky.

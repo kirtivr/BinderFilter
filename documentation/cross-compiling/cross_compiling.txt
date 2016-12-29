@@ -18,49 +18,6 @@ $ git clone https://android.googlesource.com/kernel/msm.git
 $ cd msm/ (i.e. the git directory for your kernel source)
 $ git checkout 8ba2631
 
-
-### Compile a linux kernel module
-### do this in linux (with shared folder sources if downloaded on osx)
-### requires a kernel on your phone with CONFIG_MODULES set when built
-### if the kernel doesn't have modules supported (all androids after 4.3 don't have it supported), then you need to recompile the kernel and flash it onto your phone
-
-$ export ARCH=arm
-$ export SUBARCH=arm
-$ export CROSS_COMPILE=arm-eabi-
-$ export PATH=/media/sf_sharedVm/libexec/gcc/arm-linux-androideabi/4.9.x-google:arm-eabi-4.6/bin:$PATH
-
-$ arm-eabi-gcc --version 
-$ > should give 4.6.x-google etc
-$ cc1 --version 
-$ > should give no errors
-
-$ cd msm/
-$ make flo_defconfig   (replace flo with your kernel name)
-$ make prepare
-
-$ vi .config 
-
-### edit .config to include
-	CONFIG_MODULES=y
-	CONFIG_MODULE_FORCE_LOAD=y
-	CONFIG_MODULE_UNLOAD=y
-	CONFIG_MODULE_FORCE_UNLOAD=y
-	CONFIG_MODVERSIONS=y
-
-$ make modules_prepare
-$ make ARCH=arm CONFIG_HELLOWORLD=m M=drivers/helloworld 
-
-$ adb push helloworld_mod.ko /data/local/tmp
-$ adb shell 
-$ cd /data/local/tmp
-$ su
-$ insmod helloworld_mod.ko
-$ dmesg | grep HELLO
-
-
-----------------------------------------------------------------------------
-
-
 ### Compile linux kernel for android
 $ export ARCH=arm
 $ export SUBARCH=arm
@@ -117,3 +74,43 @@ $ make
 	adb reboot bootloader
 	fastboot flash boot cur-boot.img
 
+
+----------------------------------------------------------------------------
+
+### Compile a linux kernel module
+### do this in linux (with shared folder sources if downloaded on osx)
+### requires a kernel on your phone with CONFIG_MODULES set when built
+### if the kernel doesn't have modules supported (all androids after 4.3 don't have it supported), then you need to recompile the kernel and flash it onto your phone
+
+$ export ARCH=arm
+$ export SUBARCH=arm
+$ export CROSS_COMPILE=arm-eabi-
+$ export PATH=/media/sf_sharedVm/libexec/gcc/arm-linux-androideabi/4.9.x-google:arm-eabi-4.6/bin:$PATH
+
+$ arm-eabi-gcc --version 
+$ > should give 4.6.x-google etc
+$ cc1 --version 
+$ > should give no errors
+
+$ cd msm/
+$ make flo_defconfig   (replace flo with your kernel name)
+$ make prepare
+
+$ vi .config 
+
+### edit .config to include
+	CONFIG_MODULES=y
+	CONFIG_MODULE_FORCE_LOAD=y
+	CONFIG_MODULE_UNLOAD=y
+	CONFIG_MODULE_FORCE_UNLOAD=y
+	CONFIG_MODVERSIONS=y
+
+$ make modules_prepare
+$ make ARCH=arm CONFIG_HELLOWORLD=m M=drivers/helloworld 
+
+$ adb push helloworld_mod.ko /data/local/tmp
+$ adb shell 
+$ cd /data/local/tmp
+$ su
+$ insmod helloworld_mod.ko
+$ dmesg | grep HELLO
