@@ -9,10 +9,14 @@
 #
 
 # todo: make sure setting policy checks if binder-filter-block-messages = 1
+# handle 1-4 digit timestamps (when system just starts up)
+# convert these opts to argsparse
+# call PrettyPrintBinder
 
 import sys, getopt
 from subprocess import call
 import subprocess
+import PrettyPrintBinder
 
 binderFilterPolicyFile = "/data/local/tmp/bf.policy"
 binderFilterContextValuesFile = "/sys/kernel/debug/binder_filter/context_values"
@@ -205,10 +209,9 @@ def printIpcBuffersForever():
 
 def printBinderLog():
 	checkFilterEnabled()
-	
+	PrettyPrintBinder.PrettyPrint(1111111111111111, True, False)
+
 def main(argv):
-	inputfile = ''
-	outputfile = ''
 	try:
 		opts, args = getopt.getopt(argv,"hpfcaboiyzwxl",
 			["print-policy", "print-policy-formatted", 

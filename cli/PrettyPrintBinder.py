@@ -7,9 +7,9 @@
 
 
 '''
--k see kernel debug messages (i.e. binder printks)
+-d see kernel debug messages (i.e. binder printks)
 followed by the number for types of debug messages to see
-i.e. -k1 -k9 would show BINDER_DEBUG_USER_ERROR and BINDER_DEBUG_TRANSACTION  
+i.e. -d1 -d9 would show BINDER_DEBUG_USER_ERROR and BINDER_DEBUG_TRANSACTION  
  a see all BINDER_DEBUG messages
  0 see BINDER_DEBUG_USER_ERROR
  1 see BINDER_DEBUG_FAILED_TRANSACTION 
@@ -34,10 +34,31 @@ import subprocess
 from subprocess import Popen, PIPE
 import datetime
 from datetime import timedelta
+import argparse
+from argparse import RawTextHelpFormatter
 
 # set at the beginning of running, used to print human readable timestamps
 startingSystemTime = ""
 startingTimestamp = ""
+
+helpMessage = """Options:
+a see all BINDER_DEBUG messages (default)
+0 see BINDER_DEBUG_USER_ERROR
+1 see BINDER_DEBUG_FAILED_TRANSACTION
+2 see BINDER_DEBUG_DEAD_TRANSACTION
+3 see BINDER_DEBUG_OPEN_CLOSE
+4 see BINDER_DEBUG_DEAD_BINDER
+5 see BINDER_DEBUG_DEATH_NOTIFICATION
+6 see BINDER_DEBUG_READ_WRITE
+7 see BINDER_DEBUG_USER_REFS
+8 see BINDER_DEBUG_THREADS
+9 see BINDER_DEBUG_TRANSACTION
+10 see BINDER_DEBUG_TRANSACTION_COMPLETE
+11 see BINDER_DEBUG_FREE_BUFFER
+12 see BINDER_DEBUG_INTERNAL_REFS
+13 see BINDER_DEBUG_BUFFER_ALLOC
+14 see BINDER_DEBUG_PRIORITY_CAP
+15 see BINDER_DEBUG_BUFFER_ALLOC_ASYNC"""
 
 #[ 2159.006957] binder: 188:276 BR_TRANSACTION 325830 14054:14054, cmd -2144833022size 100-0 ptr b6982028-b698208c
 def translateLog(line):
@@ -483,33 +504,34 @@ def generateDebugMask(l):
 
 	return debugMask
 
-def usage():
-	print 'usage: PrettyPrintBinder.py -k <levels>'
-
-def main(argv):
+def PrettyPrint(debugMask, printOnce, printForever):
 	debugArray = []
-	debugMask = 0
-	try:
-		opts, args = getopt.getopt(argv,"hk:o", ["print-once"])
-	except getopt.GetoptError:
-		usage()
-		sys.exit(2)
-	for opt, arg in opts:
-		if opt == '-h':
-			usage()
-			sys.exit()
-  		elif opt in ("-k"):	
-  			if arg == 'a':
-  				debugMask = 1111111111111111
-  				break
-  			if int(arg) < 0 or int(arg) > 15:
-  				print "bad argument to k!"
-  				sys.exit()
+	# debugMask = 0
 
-			debugArray.append(int(arg))
-		else:
-			usage()
-			sys.exit()
+	# parser = argparse.ArgumentParser(description='Android Binder IPC hook and parser.', formatter_class=RawTextHelpFormatter)
+	# parser.add_argument("-d", '--debug-level', action="store", dest="level", nargs="+", help="Kernel debug level. " + helpMessage)
+	# parser.add_argument("-o", '--print-once', action="store_true", dest="printOnce", default=True, help="Print logs once. (default)")
+	# parser.add_argument("-f", '--print-forever', action="store_true", dest="printForever", default=False, help="Print logs forever.")
+
+	# results = parser.parse_args()
+	# opts = results._get_kwargs()
+
+	# for opt in opts:
+	# 	if opt[0] == "level":
+	# 		if opt[1] is None:
+	# 			debugMask = 1111111111111111
+	# 			continue
+	# 		levels = opt[1]
+	# 		for level in levels:
+	# 			if int(level) < 0 or int(level) > 15:
+	# 				print "Bad debug level argument!"
+	# 				parser.print_help()
+	# 				sys.exit()
+	# 			debugArray.append(int(level))
+	# 	if opt[0] == "printOnce":
+	# 		printOnce = opt[1]
+	# 	if opt[0] == "printForever":
+	# 		printForever = opt[1]
 
 	if debugMask == 0:
 		debugMask = generateDebugMask(debugArray)
@@ -533,34 +555,16 @@ def main(argv):
 	startingSystemTime = datetime.datetime.now()
 	startingTimestamp = firstTime
 
-	for line in getDmesg().splitlines():
-		translateLog(line)
+	if printForever == False:
+		print getDmesg()
+		sys.exit()
 
+	mostRecentTime = 0
+	while True:
+		lines = getDmesg().splitlines()
 
-	# # read dmesg from the most recent line until last line printed
-	# while True:
-	# 	firstLoop = True
-	# 	nextTime = 0
-	# 	outputList = []
-	# 	for line in getDmesg().splitlines():
-	# 		currentTime = getTimeStampFromLine(line)
+		for line in getDmesg().splitlines():
+			if (getTimeStampFromLine(line) > mostRecentTime):
+				translateLog(line)
 
-	# 		if firstLoop == True:
-	# 			firstLoop = False
-	# 			nextTime = currentTime
-	# 			#print "set next time as", nextTime
-
-	# 		if currentTime <= firstTime:
-	# 			break
-
-	# 		outputList.insert(0, line)
-
-	# 	for o in outputList:
-	# 		#print o
-	# 		translateLog(o)
-
-	# 	firstTime = nextTime
-
-
-if __name__ == "__main__":
-   	main(sys.argv[1:])
+		mostRecentTime = getTimeStampFromLine(lines[-1])
