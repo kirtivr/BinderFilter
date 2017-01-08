@@ -8,6 +8,8 @@
 # Set NFQUEUE handlers
 #
 
+# todo: make sure setting policy checks if binder-filter-block-messages = 1
+
 import sys, getopt
 from subprocess import call
 import subprocess
@@ -15,6 +17,8 @@ import subprocess
 binderFilterPolicyFile = "/data/local/tmp/bf.policy"
 binderFilterContextValuesFile = "/sys/kernel/debug/binder_filter/context_values"
 binderFilterEnablePrintBufferContents = "/sys/module/binder_filter/parameters/filter_print_buffer_contents"
+binderFilterEnable = "/sys/module/binder_filter/parameters/filter_enable"
+binderFilterBlockAndModifyMessages = "/sys/module/binder_filter/parameters/filter_block_messages"
 
 BINDER_FILTER_DISABLE = 0
 BINDER_FILTER_ENABLE = 1
@@ -44,7 +48,7 @@ CONTEXT_TYPE_INT = 1
 CONTEXT_TYPE_STRING = 2
 
 def printHelp():
-	print './binderfilter.py -p'
+	print './binderfilter.py'
 	sys.exit()
 
 def printPolicy(format):
@@ -147,56 +151,72 @@ def togglePrintBufferContents(action):
 	cmd='adb shell \"su -c \'echo ' + str(action) + ' > ' + binderFilterEnablePrintBufferContents + '\'\"'
 	call(cmd, shell=True)
 
-def printIpcBuffersOnce():
+def toggleFilterEnable(action):
+	cmd='adb shell \"su -c \'echo ' + str(action) + ' > ' + binderFilterEnable + '\'\"'
+	call(cmd, shell=True)
+
+def toggleBlockAndModifyMessages(action):
+	cmd='adb shell \"su -c \'echo ' + str(action) + ' > ' + binderFilterBlockAndModifyMessages + '\'\"'
+	call(cmd, shell=True)
+
+def checkIpcBuffersAndFilterEnabled():
 	p1 = subprocess.Popen(["adb", "shell", "cat", binderFilterEnablePrintBufferContents], stdout=subprocess.PIPE)
 	output = p1.communicate()[0]
-	if int(output) == BINDER_FILTER_DISABLE:
+	if int(output) != BINDER_FILTER_ENABLE:
 		print "Please enable IPC buffers: ./binderfilter.py --enable-ipc-buffers"
 		sys.exit()
+	checkFilterEnabled()
 
+def checkFilterEnabled():
+	p2 = subprocess.Popen(["adb", "shell", "cat", binderFilterEnable], stdout=subprocess.PIPE)
+	output = p2.communicate()[0]
+	if int(output) != BINDER_FILTER_ENABLE:
+		print "Please enable BinderFilter: ./binderfilter.py --enable-binder-filter"
+		sys.exit()
+
+def printIpcBuffersOnce():
+	checkIpcBuffersAndFilterEnabled()
 	cmd='adb shell dmesg | grep "BINDERFILTER"'
 	call(cmd, shell=True)
 
-# def getDmesg():
-# 	p1 = subprocess.Popen(["adb", "shell", "dmesg"], stdout=subprocess.PIPE)
-# 	p2 = subprocess.Popen(["grep", "BINDERFILTER"], stdin=p1.stdout, stdout=subprocess.PIPE)
-# 	p3 = subprocess.Popen(["tail", "-r"], stdin=p2.stdout, stdout=subprocess.PIPE)
-# 	return p3.communicate()[0]
+def getDmesg():
+	p1 = subprocess.Popen(["adb", "shell", "dmesg"], stdout=subprocess.PIPE)
+	p2 = subprocess.Popen(["grep", "BINDERFILTER"], stdin=p1.stdout, stdout=subprocess.PIPE)
+	return p2.communicate()[0]
+
+# [20348.733001] BINDERFILTER: uid: 1000
+def getTime(line):
+	a = line.find('[')
+	b = line.find(']', a)
+	return line[a+1:b]
 
 def printIpcBuffersForever():
-	p1 = subprocess.Popen(["adb", "shell", "cat", binderFilterEnablePrintBufferContents], stdout=subprocess.PIPE)
-	output = p1.communicate()[0]
-	if int(output) == BINDER_FILTER_DISABLE:
-		print "Please enable IPC buffers: ./binderfilter.py --enable-ipc-buffers"
-		sys.exit()
+	checkIpcBuffersAndFilterEnabled()
 
-	# while True:
-	# 	firstLoop = True
-	# 	nextTime = 0
-	# 	outputList = []
-	# 	for line in getDmesg().splitlines():
-	# 		currentTime = getTimeStampFromLine(line)
+	mostRecentTime = 0
+	while True:
+		lines = getDmesg().splitlines()
 
-	# 		if firstLoop == True:
-	# 			firstLoop = False
-	# 			nextTime = currentTime
+		for line in getDmesg().splitlines():
+			if (getTime(line) > mostRecentTime):
+				print line
 
-	# 		if currentTime <= firstTime:
-	# 			break
+		mostRecentTime = getTime(lines[-1])
 
-	# 		outputList.insert(0, line)
-
-	# 	for o in outputList:
-	# 		print o
-
-	# 	firstTime = nextTime
-
+def printBinderLog():
+	checkFilterEnabled()
+	
 def main(argv):
 	inputfile = ''
 	outputfile = ''
 	try:
-		opts, args = getopt.getopt(argv,"hpfcaboi",["print-policy", "print-policy-formatted", "print-system-context", "print-log",
-			"disable-ipc-buffers", "enable-ipc-buffers", "print-ipc-buffers-once", "print-ipc-buffers-forever"])
+		opts, args = getopt.getopt(argv,"hpfcaboiyzwxl",
+			["print-policy", "print-policy-formatted", 
+			"print-system-context", "print-binder-log",
+			"disable-ipc-buffers", "enable-ipc-buffers", 
+			"print-ipc-buffers-once", "print-ipc-buffers-forever",
+			"disable-binder-filter", "enable-binder-filter", 
+			"disable-block-and-modify-messages", "enable-block-and-modify-messages"])
 	except getopt.GetoptError:
 		printHelp()
 	for opt, arg in opts:
@@ -214,8 +234,20 @@ def main(argv):
 			togglePrintBufferContents(BINDER_FILTER_ENABLE)
 		elif opt in ("-o", "--print-ipc-buffers-once"):
 			printIpcBuffersOnce()
+		elif opt in ("-l", "--print-binder-log"):
+			printBinderLog()
 		elif opt in ("-i", "--print-ipc-buffers-forever"):
 			printIpcBuffersForever() 
+		elif opt in ("-y", "--disable-binder-filter"):
+			toggleFilterEnable(BINDER_FILTER_DISABLE)
+		elif opt in ("-z", "--enable-binder-filter"):
+			toggleFilterEnable(BINDER_FILTER_ENABLE)
+		elif opt in ("-w", "--disable-block-and-modify-messages"):
+			toggleBlockAndModifyMessages(BINDER_FILTER_DISABLE)
+		elif opt in ("-x", "--enable-block-and-modify-messages"):
+			toggleBlockAndModifyMessages(BINDER_FILTER_ENABLE)
+		else:
+			printHelp()
 
 if __name__ == "__main__":
 	main(sys.argv[1:])

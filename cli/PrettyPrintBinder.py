@@ -447,8 +447,8 @@ def getProcessNameFor(pid):
 def getDmesg():
 	p1 = Popen(["adb", "shell", "dmesg"], stdout=PIPE)
 	p2 = Popen(["grep", "binder"], stdin=p1.stdout, stdout=PIPE)
-	p3 = Popen(["tail", "-r"], stdin=p2.stdout, stdout=PIPE)
-	return p3.communicate()[0]
+	#p3 = Popen(["tail", "-r"], stdin=p2.stdout, stdout=PIPE)
+	return p2.communicate()[0]
 
 def getTimeStampFromLine(l):
 	a = l.find('[')
@@ -490,7 +490,7 @@ def main(argv):
 	debugArray = []
 	debugMask = 0
 	try:
-		opts, args = getopt.getopt(argv,"hk:")
+		opts, args = getopt.getopt(argv,"hk:o", ["print-once"])
 	except getopt.GetoptError:
 		usage()
 		sys.exit(2)
@@ -526,37 +526,40 @@ def main(argv):
 
 	p1 = Popen(["adb", "shell", "dmesg"], stdout=PIPE)
 	p2 = Popen(["grep", "binder"], stdin=p1.stdout, stdout=PIPE)
-	p3 = Popen(["tail", "-r", "-n", "1"], stdin=p2.stdout, stdout=PIPE)
-	firstLine = p3.communicate()[0]
-	firstTime = getTimeStampFromLine(firstLine)
+	output = p2.communicate()[0]
+	firstTime = getTimeStampFromLine(output.splitlines()[0])
 	
 	global startingSystemTime, startingTimestamp
 	startingSystemTime = datetime.datetime.now()
 	startingTimestamp = firstTime
 
-	# read dmesg from the most recent line until last line printed
-	while True:
-		firstLoop = True
-		nextTime = 0
-		outputList = []
-		for line in getDmesg().splitlines():
-			currentTime = getTimeStampFromLine(line)
+	for line in getDmesg().splitlines():
+		translateLog(line)
 
-			if firstLoop == True:
-				firstLoop = False
-				nextTime = currentTime
-				#print "set next time as", nextTime
 
-			if currentTime <= firstTime:
-				break
+	# # read dmesg from the most recent line until last line printed
+	# while True:
+	# 	firstLoop = True
+	# 	nextTime = 0
+	# 	outputList = []
+	# 	for line in getDmesg().splitlines():
+	# 		currentTime = getTimeStampFromLine(line)
 
-			outputList.insert(0, line)
+	# 		if firstLoop == True:
+	# 			firstLoop = False
+	# 			nextTime = currentTime
+	# 			#print "set next time as", nextTime
 
-		for o in outputList:
-			#print o
-			translateLog(o)
+	# 		if currentTime <= firstTime:
+	# 			break
 
-		firstTime = nextTime
+	# 		outputList.insert(0, line)
+
+	# 	for o in outputList:
+	# 		#print o
+	# 		translateLog(o)
+
+	# 	firstTime = nextTime
 
 
 if __name__ == "__main__":
