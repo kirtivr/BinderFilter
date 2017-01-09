@@ -9,6 +9,7 @@
 #
 
 # todo: make sure setting policy checks if binder-filter-block-messages = 1
+# print list of options (debug level, action, context)
 
 import sys, getopt
 from subprocess import call
@@ -165,6 +166,19 @@ def getPackageNameForUid(uid):
 	package = str.split(package)[1].replace('}','')
 	return package
 
+def getUidStringsForPackages(package):
+	p1 = subprocess.Popen(["adb", "shell", "dumpsys", "package", "|" , "grep", "-A1", package, "|", "grep", "-B1" , "userId"], stdout=subprocess.PIPE)
+	output = p1.communicate()[0]
+	return output
+
+def printPermissions():
+	cmd='adb shell \"su -c \'pm list permissions\'\"'
+	call(cmd, shell=True)
+
+def printApplications():
+	cmd='adb shell \"su -c \'pm list package\'\"'
+	call(cmd, shell=True)
+
 def togglePrintBufferContents(action):
 	cmd='adb shell \"su -c \'echo ' + str(action) + ' > ' + binderFilterEnablePrintBufferContents + '\'\"'
 	call(cmd, shell=True)
@@ -256,17 +270,26 @@ def main(argv):
 	parser.add_argument("-e", '--print-logs-forever', action="store", dest="levelForever", 
 		nargs="*", help="See --print-logs-once")
 
-	parser.add_argument("-y", "--disable-binder-filter", action="store_true", dest="argDisableFilter",
-		 default="False", help="Disable BinderFilter completely")
+	parser.add_argument("-g", "--get-uid-for", action="store", dest="packageName",
+		help="Get UID for an application (string contains)")
 
-	parser.add_argument("-z", "--enable-binder-filter", action="store_true", dest="argEnableFilter",
-		 default="True", help="Enable BinderFilter (This is required for any functionality")
+	parser.add_argument("-j", "--print-permissions", action="store_true", dest="argPrintPermissoins",
+		help="Print all Android system permissions from the packagemanager")
+
+	parser.add_argument("-k", "--print-applications", action="store_true", dest="argPrintApplications",
+		help="Print all Android applications installed")
 
 	parser.add_argument("-w", "--disable-block-and-modify-messages", action="store_true", dest="argDisableBlock",
 		 default="False", help="Disable BinderFilter from blocking and modifying IPC messages. BinderFilter can still parse and log IPC messages if --enable-ipc-buffers is set")
 
 	parser.add_argument("-x", "--enable-block-and-modify-messages", action="store_true", dest="argEnableBlock",
 		 default="True", help="Enable BinderFilter to block and modify IPC messages")
+
+	parser.add_argument("-y", "--disable-binder-filter", action="store_true", dest="argDisableFilter",
+		 default="False", help="Disable BinderFilter completely")
+
+	parser.add_argument("-z", "--enable-binder-filter", action="store_true", dest="argEnableFilter",
+		 default="True", help="Enable BinderFilter (This is required for any functionality")
 
 	results = parser.parse_args()
 	opts = results._get_kwargs()
@@ -293,8 +316,11 @@ def main(argv):
 		toggleBlockAndModifyMessages(BINDER_FILTER_DISABLE)
 	if results.argEnableBlock is True:
 		toggleBlockAndModifyMessages(BINDER_FILTER_ENABLE)
+	if results.argPrintPermissoins is True:
+		printPermissions()
+	if results.argPrintApplications is True:
+		printApplications()
 
-	
 	debugArray = []
 	for opt in opts:
 		if opt[0] == "levelOnce" or opt[0] == "levelForever":
@@ -311,6 +337,8 @@ def main(argv):
 						debugArray.append(int(level))
 
 				printBinderLog(debugMask, debugArray, opt[0] == "levelForever")
+		elif opt[0] == "packageName" and opt[1] is not None:
+			print getUidStringsForPackages(opt[1])
 
 
 if __name__ == "__main__":

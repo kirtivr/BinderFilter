@@ -780,12 +780,11 @@ static int app_running(char* package_name)
 // returns 1 on context matches rule specifications
 static int context_matches(struct bf_filter_rule* rule, int euid) 
 {
-	if (rule->context == 0) {
-		return 1;
-	}
-
 	if (rule->uid != euid) {
 		return 0;
+	}
+	if (rule->context == 0) {
+		return 1;
 	}
 
 	switch(rule->context) {
@@ -875,9 +874,9 @@ static void apply_filter(char* user_buf, size_t data_size, int euid)
 		}
 	}
 
-	if (strstr(ascii_buffer, "android.content.IIntentSender") != NULL) {
-		print_string(user_buf, data_size, 1500);
-	}
+	// if (strstr(ascii_buffer, "android.content.IIntentSender") != NULL) {
+	// 	print_string(user_buf, data_size, 1500);
+	// }
 	kfree(ascii_buffer);
 }
 
