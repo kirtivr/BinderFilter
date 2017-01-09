@@ -8,15 +8,13 @@
 # Set NFQUEUE handlers
 #
 
-# todo: make sure setting policy checks if binder-filter-block-messages = 1
-# print list of options (debug level, action, context)
-
 import sys, getopt
 from subprocess import call
 import subprocess
 import PrettyPrintBinder
 import argparse
 from argparse import RawTextHelpFormatter
+from enum import Enum
 
 binderFilterPolicyFile = "/data/local/tmp/bf.policy"
 binderFilterContextValuesFile = "/sys/kernel/debug/binder_filter/context_values"
@@ -27,48 +25,51 @@ binderFilterBlockAndModifyMessages = "/sys/module/binder_filter/parameters/filte
 BINDER_FILTER_DISABLE = 0
 BINDER_FILTER_ENABLE = 1
 
-BLOCK_ACTION = 1
-UNBLOCK_ACTION = 2
-MODIFY_ACTION = 3
-UNMODIFY_ACTION = 4
+class Actions(Enum):
+	BLOCK_ACTION = 1
+	UNBLOCK_ACTION = 2
+	MODIFY_ACTION = 3
+	UNMODIFY_ACTION = 4
 
-CONTEXT_NONE = 0
-CONTEXT_WIFI_STATE = 1
-CONTEXT_WIFI_SSID = 2
-CONTEXT_WIFI_NEARBY = 3
-CONTEXT_BT_STATE = 4
-CONTEXT_BT_CONNECTED_DEVICE = 5
-CONTEXT_BT_NEARBY_DEVICE = 6
-CONTEXT_LOCATION = 7
-CONTEXT_APP_INSTALLED = 8
-CONTEXT_APP_RUNNING = 9
-CONTEXT_DATE_DAY = 10
+class Contexts(Enum):
+	CONTEXT_NONE = 0
+	CONTEXT_WIFI_STATE = 1
+	CONTEXT_WIFI_SSID = 2
+	CONTEXT_WIFI_NEARBY = 3
+	CONTEXT_BT_STATE = 4
+	CONTEXT_BT_CONNECTED_DEVICE = 5
+	CONTEXT_BT_NEARBY_DEVICE = 6
+	CONTEXT_LOCATION = 7
+	CONTEXT_APP_INSTALLED = 8
+	CONTEXT_APP_RUNNING = 9
+	CONTEXT_DATE_DAY = 10
 
-CONTEXT_STATE_ON = 1
-CONTEXT_STATE_OFF = 2
-CONTEXT_STATE_UNKNOWN = 3
+class ContextIntValues(Enum):
+	CONTEXT_STATE_ON = 1
+	CONTEXT_STATE_OFF = 2
+	CONTEXT_STATE_UNKNOWN = 3
 
-CONTEXT_TYPE_INT = 1
-CONTEXT_TYPE_STRING = 2
+class ContextTypes(Enum):
+	CONTEXT_TYPE_INT = 1
+	CONTEXT_TYPE_STRING = 2
 
-debugLevels = """
-[BINDER_DEBUG_USER_ERROR = 0]
-[BINDER_DEBUG_FAILED_TRANSACTION = 1]
-[BINDER_DEBUG_DEAD_TRANSACTION = 2]
-[BINDER_DEBUG_OPEN_CLOSE = 3]
-[BINDER_DEBUG_DEAD_BINDER = 4]
-[BINDER_DEBUG_DEATH_NOTIFICATION = 5]
-[BINDER_DEBUG_READ_WRITE = 6]     
-[BINDER_DEBUG_USER_REFS = 7]
-[BINDER_DEBUG_THREADS = 8]
-[BINDER_DEBUG_TRANSACTION = 9]
-[BINDER_DEBUG_TRANSACTION_COMPLETE = 10]
-[BINDER_DEBUG_FREE_BUFFER = 11]
-[BINDER_DEBUG_INTERNAL_REFS = 12]
-[BINDER_DEBUG_BUFFER_ALLOC = 13]
-[BINDER_DEBUG_PRIORITY_CAP = 14]
-[BINDER_DEBUG_BUFFER_ALLOC_ASYNC = 15]
-"""
+class BinderDebugLevels(Enum):
+	BINDER_DEBUG_USER_ERROR = 0
+	BINDER_DEBUG_FAILED_TRANSACTION = 1
+	BINDER_DEBUG_DEAD_TRANSACTION = 2
+	BINDER_DEBUG_OPEN_CLOSE = 3
+	BINDER_DEBUG_DEAD_BINDER = 4
+	BINDER_DEBUG_DEATH_NOTIFICATION = 5
+	BINDER_DEBUG_READ_WRITE = 6
+	BINDER_DEBUG_USER_REFS = 7
+	BINDER_DEBUG_THREADS = 8
+	BINDER_DEBUG_TRANSACTION = 9
+	BINDER_DEBUG_TRANSACTION_COMPLETE = 10
+	BINDER_DEBUG_FREE_BUFFER = 11
+	BINDER_DEBUG_INTERNAL_REFS = 12
+	BINDER_DEBUG_BUFFER_ALLOC = 13
+	BINDER_DEBUG_PRIORITY_CAP = 14
+	BINDER_DEBUG_BUFFER_ALLOC_ASYNC = 15
 
 def printPolicy(format):
 	output = subprocess.Popen(["adb", "shell", "su -c \'", "cat", binderFilterPolicyFile, "\'"], stdout=subprocess.PIPE).communicate()[0]
@@ -89,67 +90,67 @@ def printFormatPolicyFile(file):
 		print "UID: " + items[1]
 		print "Package: " + getPackageNameForUid(items[1])
 		print "Action: " + getStringForAction(items[2])
-		if int(items[3]) != CONTEXT_NONE:
+		if int(items[3]) != Contexts.CONTEXT_NONE:
 			print "Context: " + getStringForContext(items[3])
 			print "Context type: " + getStringForContextType(items[4])
 			print "Context value: " + getStringForContextValue(items[5])
-			if int(items[2]) == MODIFY_ACTION:
+			if int(items[2]) == Actions.MODIFY_ACTION:
 				print "Modify data: " + items[6]
-		if int(items[2]) == MODIFY_ACTION:
+		if int(items[2]) == Actions.MODIFY_ACTION:
 			print "Modify data: " + items[4]
 
 def getStringForAction(action):
-	if int(action) == BLOCK_ACTION:
+	if int(action) == Actions.BLOCK_ACTION:
 		return "Block"
-	elif int(action) == UNBLOCK_ACTION:
+	elif int(action) == Actions.UNBLOCK_ACTION:
 		return "Unblock"
-	elif int(action) == MODIFY_ACTION:
+	elif int(action) == Actions.MODIFY_ACTION:
 		return "Modify"
-	elif int(action) == UNMODIFY_ACTION:
+	elif int(action) == Actions.UNMODIFY_ACTION:
 		return "Unmodify"
 	else:
 		return "Unsupported action"
 
 def getStringForContext(context):
-	if int(context) == CONTEXT_NONE:
+	if int(context) == Contexts.CONTEXT_NONE:
 		return "None"
-	elif int(context) == CONTEXT_WIFI_STATE:
+	elif int(context) == Contexts.CONTEXT_WIFI_STATE:
 		return "Wifi state"
-	elif int(context) == CONTEXT_WIFI_SSID:
+	elif int(context) == Contexts.CONTEXT_WIFI_SSID:
 		return "Wifi SSID"
-	elif int(context) == CONTEXT_WIFI_NEARBY:
+	elif int(context) == Contexts.CONTEXT_WIFI_NEARBY:
 		return "Wifi nearby"
-	elif int(context) == CONTEXT_BT_STATE:
+	elif int(context) == Contexts.CONTEXT_BT_STATE:
 		return "Bluetooth state"
-	elif int(context) == CONTEXT_BT_CONNECTED_DEVICE:
+	elif int(context) == Contexts.CONTEXT_BT_CONNECTED_DEVICE:
 		return "Bluetooth conencted device"
-	elif int(context) == CONTEXT_BT_NEARBY_DEVICE:
+	elif int(context) == Contexts.CONTEXT_BT_NEARBY_DEVICE:
 		return "Bluetooth nearby device"
-	elif int(context) == CONTEXT_LOCATION:
+	elif int(context) == Contexts.CONTEXT_LOCATION:
 		return "Location"
-	elif int(context) == CONTEXT_APP_INSTALLED:
+	elif int(context) == Contexts.CONTEXT_APP_INSTALLED:
 		return "Application installed"
-	elif int(context) == CONTEXT_APP_RUNNING:
+	elif int(context) == Contexts.CONTEXT_APP_RUNNING:
 		return "Application running"
-	elif int(context) == CONTEXT_DATE_DAY:
+	elif int(context) == Contexts.CONTEXT_DATE_DAY:
 		return "Date"
 	else:
 		return "Unsupported context"
 
 def getStringForContextType(contextType):
-	if int(contextType) == CONTEXT_TYPE_INT:
+	if int(contextType) == ContextTypes.CONTEXT_TYPE_INT:
 		return "Integer"
-	elif int(contextType) == CONTEXT_TYPE_STRING:
+	elif int(contextType) == ContextTypes.CONTEXT_TYPE_STRING:
 		return "String"
 	else:
 		return "Unsupported context type"
 
 def getStringForContextValue(contextValue):
-	if int(contextValue) == CONTEXT_STATE_ON:
+	if int(contextValue) == ContextIntValues.CONTEXT_STATE_ON:
 		return "On"
-	elif int(contextValue) == CONTEXT_STATE_OFF:
+	elif int(contextValue) == ContextIntValues.CONTEXT_STATE_OFF:
 		return "Off"
-	elif int(contextValue) == CONTEXT_STATE_UNKNOWN:
+	elif int(contextValue) == ContextIntValues.CONTEXT_STATE_UNKNOWN:
 		return "Unknown"
 	else:
 		return "Unsupported context value"
@@ -162,6 +163,10 @@ def printContextValues():
 def getPackageNameForUid(uid):
 	p1 = subprocess.Popen(["adb", "shell", "dumpsys", "package", "|" , "grep", "-A1", "\'userId=" + str(uid) + "\'"], stdout=subprocess.PIPE)
 	output = p1.communicate()[0]
+
+	if output.count('\n') != 2:
+		return "Package not found for uid " + uid
+
 	package = output.split('\n')[1]
 	package = str.split(package)[1].replace('}','')
 	return package
@@ -177,6 +182,10 @@ def printPermissions():
 
 def printApplications():
 	cmd='adb shell \"su -c \'pm list package\'\"'
+	call(cmd, shell=True)
+
+def printCommands():
+	cmd='cat commandArgs.txt'
 	call(cmd, shell=True)
 
 def togglePrintBufferContents(action):
@@ -204,6 +213,13 @@ def checkFilterEnabled():
 	output = p2.communicate()[0]
 	if int(output) != BINDER_FILTER_ENABLE:
 		print "Please enable BinderFilter: ./binderfilter.py --enable-binder-filter"
+		sys.exit()
+
+def checkBlockingEnabled():
+	p2 = subprocess.Popen(["adb", "shell", "cat", binderFilterBlockAndModifyMessages], stdout=subprocess.PIPE)
+	output = p2.communicate()[0]
+	if int(output) != BINDER_FILTER_ENABLE:
+		print "Please enable BinderFilter blocking and modifying: ./binderfilter.py --enable-block-and-modify-messages"
 		sys.exit()
 
 def printIpcBuffersOnce():
@@ -239,10 +255,118 @@ def printBinderLog(mask, array, forever):
 	checkFilterEnabled()
 	PrettyPrintBinder.PrettyPrint(mask, array, forever)
 
+# message:uid:action_code:context:(context_type:context_val:)(data:)
+def setPolicy(results, opts):
+	message = results.message
+	uid = results.uid
+	action = results.action
+	modifyData = results.modifyData
+	context = results.context
+	contextType = results.contextType
+	contextValue = results.contextValue
+
+	print
+	print("message: ", message)
+	print("uid: ", uid)
+	print("action: ", action)
+	print("modifyData: ", modifyData)
+	print("context: ", context)
+	print("contextType: ", contextType)
+	print("contextValue: ", contextValue)
+
+	validate(message, uid, action, modifyData, context, contextType, contextValue)
+
+	filterline = str(message)+':'+str(uid)+':'+str(action)+':'+str(context)+':'
+	if int(context) != Contexts.CONTEXT_NONE.value:
+		filterline += str(contextType)+':'+str(contextValue)+':'
+	if int(action) == Actions.MODIFY_ACTION.value:
+		filterline += str(modifyData)+':'
+
+	print filterline
+
+def validate(message, uid, action, modifyData, context, contextType, contextValue):
+	if message is None or uid is None or action is None:
+		print "--message-contains, --uid, and --action must be set."
+		sys.exit()
+
+	if context is not None and int(context) != Contexts.CONTEXT_NONE.value and (contextType is None or contextValue is None):
+		print "--context-type and --context-value must be set if --context is not CONTEXT_NONE"
+		sys.exit()
+
+	if int(action) == Actions.MODIFY_ACTION.value and modifyData is None:
+		print "--modify-data must be set if action is modify."
+		sys.exit()
+
+	if len(str(message)) >= 1024:
+		print "strlen(message) should not exceed 1024."
+		sys.exit()
+
+	if "Package not found" in getPackageNameForUid(uid):
+		print getPackageNameForUid(uid)
+		sys.exit()
+
+	if int(action) not in [e.value for e in Actions]:
+		print "Action value not found. Use the --print-command-args flag to see possible values."
+		sys.exit()
+
+	if len(str(modifyData)) >= 1024:
+		print "strlen(modifyData) should not exceed 1024."
+		sys.exit()
+
+	if int(context) not in [e.value for e in Contexts]:
+		print "Context not found. Use the --print-command-args flag to see possible values."
+		sys.exit()
+
+	if int(context) != Contexts.CONTEXT_NONE.value:
+		if int(contextType) not in [e.value for e in ContextTypes]:
+			print "Context type not found. Use the --print-command-args flag to see possible values."
+			sys.exit()
+
+		if int(contextType) == ContextTypes.CONTEXT_TYPE_INT.value:
+			try:
+				badContextValue = False
+				value = int(contextValue)
+			except ValueError:
+			    badContextValue = True
+			if badContextValue or (int(contextValue) not in [e.value for e in ContextIntValues]):
+				print "Context int value not found. Use the --print-command-args flag to see possible values."
+				sys.exit()
+
+		if len(str(contextValue)) >= 1024:
+			print "strlen(contextValue) should not exceed 1024."
+			sys.exit()
+
+	checkFilterEnabled()
+	checkBlockingEnabled()
+
 def main(argv):
 
 	parser = argparse.ArgumentParser(description='Android Binder IPC hook and parser.')
+
+	parser.add_argument("-s", "--set-policy", action="store_true", dest="argSetPolicy",
+		 default="False", help="Set BinderFilter policy. Required: --message-contains, --uid, --action.")
+
+	parser.add_argument("-m", "--message-contains", action="store", dest="message",
+		 help="Set BinderFilter policy: Message to filter on. I.e. \"android.permission.CAMERA\"")
+
+	parser.add_argument("-u", "--uid", action="store", dest="uid",
+		 help="Set BinderFilter policy: Uid to filter on. I.e. \"10082\". Find corresponding Uid for packagename with --get-uid-for [name]")
 	
+	parser.add_argument("-a", "--action", action="store", dest="action",
+		 help="Set BinderFilter policy: Action to perform. 0: Block,1: Unblock, 2: Modify, 3: Unmodify")
+
+	parser.add_argument("--modify-data", action="store", dest="modifyData",
+		 help="Set BinderFilter policy: data to modify message with. Required if --action=3")
+
+	parser.add_argument("--context", action="store", dest="context", default=0,
+		 help="Set BinderFilter policy: context. Default to CONTEXT_NONE. Use the --print-command-args flag to see possible values.")
+
+	parser.add_argument("--context-type", action="store", dest="contextType",
+		 help="Set BinderFilter policy: context type. Required if --context is not CONTEXT_NONE. 1: integer, 2: string")
+
+	parser.add_argument("--context-value", action="store", dest="contextValue",
+		 help="Set BinderFilter policy: context value. Required if --context is not CONTEXT_NONE. If --context-type=1, use 1: ON, 2: OFF")
+
 	parser.add_argument("-p", "--print-policy", action="store_true", dest="argPrintPolicy",
 		 default="False", help="Print current BinderFilter policy")
 
@@ -252,7 +376,7 @@ def main(argv):
 	parser.add_argument("-c", "--print-system-context", action="store_true", dest="argPrintContext",
 		 default="False", help="Print current system context values")
 
-	parser.add_argument("-a", "--disable-ipc-buffers", action="store_true", dest="argDisablePrintBuffer",
+	parser.add_argument("-q", "--disable-ipc-buffers", action="store_true", dest="argDisablePrintBuffer",
 		 default="False", help="Disable BinderFilter parsing and printing of IPC buffer contents")
 
 	parser.add_argument("-b", "--enable-ipc-buffers", action="store_true", dest="argEnablePrintBuffer",
@@ -265,7 +389,7 @@ def main(argv):
 		 default="False", help="Print Android IPC buffer contents forever")
 
 	parser.add_argument("-d", '--print-logs-once', action="store", dest="levelOnce", 
-		nargs="*", help="Print Binder system logs. Optional argument for the specific level of Kernel debug level. " + debugLevels)
+		nargs="*", help="Print Binder system logs. Optional argument for the specific level of Kernel debug level. Use the --print-command-args flag to see possible values.")
 	
 	parser.add_argument("-e", '--print-logs-forever', action="store", dest="levelForever", 
 		nargs="*", help="See --print-logs-once")
@@ -291,9 +415,14 @@ def main(argv):
 	parser.add_argument("-z", "--enable-binder-filter", action="store_true", dest="argEnableFilter",
 		 default="True", help="Enable BinderFilter (This is required for any functionality")
 
+	parser.add_argument("--print-command-args", action="store_true", dest="argPrintCommands",
+		 default="True", help="Print command argument values for --context and --print-logs-once.")
+
 	results = parser.parse_args()
 	opts = results._get_kwargs()
 
+	if results.argSetPolicy is True:
+		setPolicy(results, opts)
 	if results.argPrintPolicy is True:
 		printPolicy(False)
 	if results.argPrintPolicyFormatted is True:
@@ -320,6 +449,8 @@ def main(argv):
 		printPermissions()
 	if results.argPrintApplications is True:
 		printApplications()
+	if results.argPrintCommands is True:
+		printCommands()
 
 	debugArray = []
 	for opt in opts:
@@ -332,7 +463,6 @@ def main(argv):
 					for level in opt[1]:
 						if int(level) < 0 or int(level) > 15:
 							print "Bad debug level argument!"
-							parser.print_help()
 							sys.exit()
 						debugArray.append(int(level))
 
