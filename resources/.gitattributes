@@ -1,2 +1,4 @@
 arm-eabi-4.6/** filter=lfs diff=lfs merge=lfs -text
 libexec/** filter=lfs diff=lfs merge=lfs -text
+android-toolchain-16/** filter=lfs diff=lfs merge=lfs -text
+
