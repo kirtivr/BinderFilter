@@ -9,7 +9,7 @@ cd $NDK/build/tools
 export PATH=/home/dwu/android-toolchain-16/bin:$PATH
 export CC=arm-linux-androideabi-gcc
 
-# $CC $CC -fPIE -pie -o test test.c
+# $CC -fPIE -pie -o test test.c
 # make sure 'readelf -l test | grep -i "file type"' shows 'DYN' file type
 
 # adb push test /sdcard
