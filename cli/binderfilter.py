@@ -265,14 +265,14 @@ def setPolicy(results, opts):
 	contextType = results.contextType
 	contextValue = results.contextValue
 
-	print
-	print("message: ", message)
-	print("uid: ", uid)
-	print("action: ", action)
-	print("modifyData: ", modifyData)
-	print("context: ", context)
-	print("contextType: ", contextType)
-	print("contextValue: ", contextValue)
+	# print
+	# print("message: ", message)
+	# print("uid: ", uid)
+	# print("action: ", action)
+	# print("modifyData: ", modifyData)
+	# print("context: ", context)
+	# print("contextType: ", contextType)
+	# print("contextValue: ", contextValue)
 
 	validate(message, uid, action, modifyData, context, contextType, contextValue)
 
@@ -282,7 +282,55 @@ def setPolicy(results, opts):
 	if int(action) == Actions.MODIFY_ACTION.value:
 		filterline += str(modifyData)+':'
 
+	checkAndCreateMiddleware()
+
+	# call middleware with filterline data
+	# adb shell su -c './data/local/tmp/middleware -a 2 -u 10082 -m test -c 2 -t 2 -v TheKrustyKrab'
+	cmd = 'adb shell \"su -c \'/data/local/tmp/middleware -a ' + str(action) + ' -u ' + str(uid) + ' -m ' + str(message) + ' -c ' + str(context)
+	if modifyData is not None:
+		cmd += ' -d ' + str(modifyData)
+	if int(context) != Contexts.CONTEXT_NONE.value:
+		cmd += ' -t ' + str(contextType)
+		cmd += ' -v ' + str(contextValue)
+	cmd += '\'\"'
+
+	# print cmd
 	print filterline
+
+	call(cmd, shell=True)
+	verifyFilterApplied(filterline, int(action))
+
+def checkAndCreateMiddleware():
+	if checkMiddlewareDoesNotExist() is True:
+		cmd='chmod +x ccAndMove.sh; ./ccAndMove.sh'
+		call(cmd, shell=True)
+
+	if checkMiddlewareDoesNotExist() is True:
+		print "Cannot compile and move Android middleware. Please see documentation/cross-compiling/cross_compiling_c_for_android.txt for cross compiling instructions."
+		sys.exit()
+
+def checkMiddlewareDoesNotExist():
+	p1 = subprocess.Popen(["adb", "shell", "su", "-c", "\'if", "[", "!", "-f", "/data/local/tmp/middleware", "];", 
+							"then", "echo", "dne;", "fi\'"], stdout=subprocess.PIPE)
+	output = p1.communicate()[0]
+	return "dne" in output
+
+def verifyFilterApplied(filterline, action):
+	output = subprocess.Popen(["adb", "shell", "su -c \'", "cat", binderFilterPolicyFile, "\'"], stdout=subprocess.PIPE).communicate()[0]
+	firstLine = output.splitlines()[0]
+
+	if action == Actions.UNBLOCK_ACTION.value or action == Actions.UNMODIFY_ACTION.value:
+		if firstLine == filterline:
+			print "Fatal error: Policy could not be successfully un-applied!"
+			print "Policy remained: " + filterline
+			sys.exit()
+		return
+
+	if firstLine != filterline:
+		print "Fatal error: Policy could not be successfully applied!"
+		print "Policy expected: " + filterline
+		print "\tbut was: " + firstLine
+		sys.exit()
 
 def validate(message, uid, action, modifyData, context, contextType, contextValue):
 	if message is None or uid is None or action is None:

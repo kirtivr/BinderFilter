@@ -30,6 +30,10 @@ struct bf_user_filter {
 #define OPEN_FAILED -4
 #define CREATE_POLICY_FILE_FAILED -5
 
+#define CONTEXT_NONE 0
+#define CONTEXT_TYPE_INT 1
+#define CONTEXT_TYPE_STRING 2
+
 int fd = FILTER_ENABLE_FAILED;
 
 int setup_dev_permissions() {
@@ -90,7 +94,8 @@ int main (int argc, char **argv)
         switch (c)
         {
         case 'm':
-            message = optarg;
+            message = (char*) malloc(strlen(optarg)+1);
+            strcpy(message, optarg);
             break;
         case 'u':
             uid = optarg;
@@ -99,7 +104,8 @@ int main (int argc, char **argv)
             action = optarg;
             break;
         case 'd':
-            modifyData = optarg;
+            modifyData = (char*) malloc(strlen(optarg)+1);
+            strcpy(modifyData, optarg);
             break;
         case 'c':
             context = optarg;
@@ -108,7 +114,8 @@ int main (int argc, char **argv)
             contextType = optarg;
             break;
         case 'v':
-            contextValue = optarg;
+            contextValue = (char*) malloc(strlen(optarg)+1);
+            strcpy(contextValue, optarg);
             break;
         case '?':
             if (isprint (optopt)) {
@@ -123,8 +130,8 @@ int main (int argc, char **argv)
         }
     }
 
-    printf("message: %s, uid: %s, action: %s, modifyData: %s, context: %s, contextType: %s, contextValue: %s\n",
-        message, uid, action, modifyData, context, contextType, contextValue);
+    // printf("message: %s, uid: %s, action: %s, modifyData: %s, context: %s, contextType: %s, contextValue: %s\n",
+    //     message, uid, action, modifyData, context, contextType, contextValue);
 
 
     if (fd < 0) {
@@ -135,7 +142,7 @@ int main (int argc, char **argv)
         }
     }
 
-    printf("fd: %d\n", fd);
+    // printf("fd: %d\n", fd);
 
     if (message == NULL) {
         printf("message was null\n");
@@ -147,19 +154,41 @@ int main (int argc, char **argv)
     }
 
     struct bf_user_filter user_filter;
-     user_filter.action = parseInt(action);
-     user_filter.uid = parseInt(uid);
-     user_filter.message = message;
-     user_filter.data = modifyData;
-     user_filter.context = 0;
+    user_filter.action = parseInt(action);
+    user_filter.uid = parseInt(uid);
+    user_filter.message = message;
+    user_filter.data = modifyData;
+    user_filter.context = parseInt(context);
 
-    printf("New: message: %s, uid: %d, action: %d, modifyData: %s, context: %s, contextType: %s, contextValue: %s\n",
-        user_filter.message, user_filter.uid, user_filter.action, user_filter.data, user_filter.context, contextType, contextValue);
+    if (parseInt(context) != CONTEXT_NONE) {
+        user_filter.context_type = parseInt(contextType);
+        if (parseInt(contextType) == CONTEXT_TYPE_INT) {
+            user_filter.context_int_value = parseInt(contextValue);
+        } else if (parseInt(contextType) == CONTEXT_TYPE_STRING) {
+            if (contextValue == NULL) {
+                printf("context value for string type cannot be null");
+                exit(1);
+            } 
+            user_filter.context_string_value = contextValue;
+        } else {
+            printf("context type %d not valid");
+            exit(1);
+        }
+    }
+
+    // printf("New: message: %s, uid: %d, action: %d, modifyData: %s, context: %d, contextType: %d\n",
+    //     user_filter.message, user_filter.uid, user_filter.action, user_filter.data, user_filter.context, user_filter.context_type);
+
+    // if (parseInt(contextType) == CONTEXT_TYPE_INT) {
+    //     printf("contextValue: %d\n", user_filter.context_int_value);
+    // } else if (parseInt(contextType) == CONTEXT_TYPE_STRING) {
+    //     printf("contextValue: %s\n", user_filter.context_string_value);
+    // } 
 
     // size_t write(int fildes, const void *buf, size_t nbytes);
     int write_len = write(fd, &user_filter, sizeof(user_filter));
 
-    printf("Write_len: %d\n", write_len);
+    // printf("Write_len: %d\n", write_len);
 
     return 0;
 }
