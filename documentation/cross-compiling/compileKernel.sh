@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "remember to call me as source compileKernel.sh"
+echo "Make sure resources/* have 777 access"
 
 export ARCH=arm
 export SUBARCH=arm

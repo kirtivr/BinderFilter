@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b795e7702deb9b3b777d2ce7cc6857d9e0867e024e9da8fe4dc6691e66534018
-size 470
+<!-- Copyright (C) 2009, 2011 Free Software Foundation, Inc.
+
+     Copying and distribution of this file, with or without modification,
+     are permitted in any medium without royalty provided the copyright
+     notice and this notice are preserved.  -->
+
+<!-- The root element of a syscall info is <syscalls-info>.  -->
+
+<!ELEMENT syscalls-info		(syscall*)>
+
+<!ELEMENT syscall		EMPTY>
+<!ATTLIST syscall
+	name			CDATA	#REQUIRED
+	number			CDATA	#REQUIRED>

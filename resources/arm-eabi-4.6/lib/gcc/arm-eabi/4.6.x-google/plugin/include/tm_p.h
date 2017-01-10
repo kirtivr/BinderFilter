@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dcefbcfbdcc1e6587bef74ff2a4ad624ac681674274ac7ad28306a0bcd9845f0
-size 149
+#ifndef GCC_TM_P_H
+#define GCC_TM_P_H
+#ifdef IN_GCC
+# include "config/arm/arm-protos.h"
+# include "tm-preds.h"
+#endif
+#endif /* GCC_TM_P_H */
