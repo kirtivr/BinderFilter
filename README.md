@@ -28,7 +28,7 @@ For the writeup and slides, see http://binderfilter.org/.
 
 ## Usage
 
-`./cli/binderfilter.py --help`
+See https://github.com/dxwu/BinderFilter/wiki/Usage
 
 ## Setup
 
