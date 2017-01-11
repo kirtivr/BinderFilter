@@ -26,6 +26,10 @@ The GPS coordinates of interest are re-cast below.
 See the [wiki](https://github.com/dxwu/BinderFilter/wiki) for documentation.
 For the writeup and slides, see http://binderfilter.org/.
 
+## Usage
+
+`./cli/binderfilter.py --help`
+
 ## Setup
 
 Because we hook an existing Linux driver, BinderFilter code requires a recompilation of the Linux source tree and flashing this new kernel onto an Android phone. We have tested and verified this method on a Google Nexus 7 (2013- flo). To install the pre-compiled kernel image:
@@ -45,7 +49,7 @@ fastboot flash boot ./resources/kernel-image.img
 
 ## Cross-compiling for Android
 
-This is a complex process. Please see "Compile linux kernel for android" in ./documentation/cross-compiling/cross_compiling.txt
+This is a complex process. Please see "Compile linux kernel for android" in ./documentation/cross-compiling/cross_compiling.txt and https://github.com/dxwu/BinderFilter/wiki/Setup 
 
 ## Picky
 
