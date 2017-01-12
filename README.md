@@ -32,7 +32,7 @@ See https://github.com/dxwu/BinderFilter/wiki/Usage
 
 ## Setup
 
-Because we hook an existing Linux driver, BinderFilter code requires a recompilation of the Linux source tree and flashing this new kernel onto an Android phone. We have tested and verified this method on a Google Nexus 7 (2013- flo). To install the pre-compiled kernel image:
+Because we hook an existing Linux driver, BinderFilter code requires a recompilation of the Linux source tree and flashing this new kernel onto an Android phone. We have tested and verified this method on a Google Nexus 7 (2013- flo). For development setup, see the [related documentation](https://github.com/dxwu/BinderFilter/wiki/Setup). To install the pre-compiled kernel image:
 
 1. Root your Android phone
 2. Enable USB debugging

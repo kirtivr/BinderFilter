@@ -802,6 +802,64 @@ static int context_matches(struct bf_filter_rule* rule, int euid)
 	}
 }
 
+// modifies the user_message with char* data 
+// only replaces the original string with as many bytes as the original string
+// NOTE: we're searching for strings here (and in the code in general): lookg
+// at ascii_buffer reduces the original buffer from 16bit chars to 8but chars
+// i.e. original buffer: [(104)(0)(105)(0)]
+//      ascii_buffer:    [(104)(105)]
+// where each () represents 8 bits. This means if you search for "hi" in the
+// ascii_buffer, you don't have to search for "h\000i\000"
+// BUT this also means you can't search for non-string data, i.e. if you have
+// (11)(23)(42)(8) as some sequence of 4 bites, you'll have to search for
+// (11)(42) in ascii_buffer and hope you find it. This is of course a limitation
+// but the most prevalent use case is searching for strings
+static void modify_arbitrary_message(char* ascii_buffer, char* user_buf, char* message, char* data)
+{
+	char* message_location;
+	char* user_message;
+	char* user_data;
+	int starting_string_len = strlen("binderfilter.arbitrary.");
+	int user_message_len = strlen(message) - starting_string_len;
+	int offset;
+	int i;
+
+	if (data == NULL) {
+		return;
+	}
+
+	// printk(KERN_INFO "BINDERFILTER: modifying arbitrary message\n");
+
+	user_message = (char*) kzalloc(user_message_len+1, GFP_KERNEL);
+	strncpy(user_message, message+starting_string_len, user_message_len);
+	user_message[strlen(user_message)] = '\0';
+
+	message_location = strstr(ascii_buffer, user_message);
+	if (message_location != NULL) {
+
+		// 8 bit duplicated to 16 bit chars, hack-y but simple 
+		user_data = (char*) kzalloc(strlen(data) * 2 + 1, GFP_KERNEL);
+		for (i=0; i<strlen(data)*2; i++) {
+			if (i%2) {
+				memset(user_data+i, 0, 1);
+			} else {
+				strncpy(user_data+i, data+(i/2), 1);
+			}
+		}
+		user_data[strlen(user_data)] = '\0';
+
+		offset = (message_location-ascii_buffer) * 2;
+		memcpy(user_buf+offset, user_data, user_message_len*2);
+
+		// printk(KERN_INFO "BINDERFILTER: modified message\n");
+		// print_string(user_buf, 900, 900);
+
+		kfree(user_data);
+	}
+
+	kfree(user_message);
+}
+
 static void modify_camera_message(char* ascii_buffer, char* data)
 {
 	char* message_location;
@@ -830,6 +888,10 @@ static void modify_message(char* user_buf, char* ascii_buffer, char* data, char*
 {	
 	if (data == NULL || message == NULL) {
 		return;
+	}
+
+	if (strstr(message, "binderfilter.arbitrary.") != NULL) {
+		modify_arbitrary_message(ascii_buffer, user_buf, message, data);
 	}
 
 	if (strcmp(message, "android.permission.CAMERA") == 0) {
