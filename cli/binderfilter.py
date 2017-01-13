@@ -15,6 +15,7 @@ import PrettyPrintBinder
 import argparse
 from argparse import RawTextHelpFormatter
 from enum import Enum
+import struct
 
 binderFilterPolicyFile = "/data/local/tmp/bf.policy"
 binderFilterContextValuesFile = "/sys/kernel/debug/binder_filter/context_values"
@@ -164,7 +165,7 @@ def getPackageNameForUid(uid):
 	p1 = subprocess.Popen(["adb", "shell", "dumpsys", "package", "|" , "grep", "-A1", "\'userId=" + str(uid) + "\'"], stdout=subprocess.PIPE)
 	output = p1.communicate()[0]
 
-	if output.count('\n') != 2:
+	if output.count('\n') < 2:
 		return "Package not found for uid " + uid
 
 	package = output.split('\n')[1]
@@ -178,6 +179,8 @@ def getUidStringsForPackages(package):
 
 def printPermissions():
 	cmd='adb shell \"su -c \'pm list permissions\'\"'
+	call(cmd, shell=True)
+	cmd='cat permissions.txt'
 	call(cmd, shell=True)
 
 def printApplications():
@@ -255,6 +258,24 @@ def printBinderLog(mask, array, forever):
 	checkFilterEnabled()
 	PrettyPrintBinder.PrettyPrint(mask, array, forever)
 
+# byte[8] values of latitude,longitude separated by '.' in string form
+# translated for binderfilter to use in the kernel
+# 43.704979, -72.287458 becomes
+# 243.174.122.192.60.218.69.64.79.62.61.182.101.18.82.192.
+def getGpsStringForBinderFilter(latitude, longitude):
+	bLat = bytearray(struct.pack("d", float(latitude)))
+	bLong = bytearray(struct.pack("d", float(longitude)))
+
+	combinedByteArrayString = ""
+
+	for d in bLat:
+		combinedByteArrayString += str(d) + '.'
+	for d in bLong:
+		combinedByteArrayString += str(d) + '.'
+
+	print combinedByteArrayString
+
+
 # message:uid:action_code:context:(context_type:context_val:)(data:)
 def setPolicy(results, opts):
 	message = results.message
@@ -317,7 +338,10 @@ def checkMiddlewareDoesNotExist():
 
 def verifyFilterApplied(filterline, action):
 	output = subprocess.Popen(["adb", "shell", "su -c \'", "cat", binderFilterPolicyFile, "\'"], stdout=subprocess.PIPE).communicate()[0]
-	firstLine = output.splitlines()[0]
+	if len(output) == 0:
+		firstLine = ""
+	else:
+		firstLine = output.splitlines()[0]
 
 	if action == Actions.UNBLOCK_ACTION.value or action == Actions.UNMODIFY_ACTION.value:
 		if firstLine == filterline:
@@ -463,6 +487,13 @@ def main(argv):
 	parser.add_argument("-z", "--enable-binder-filter", action="store_true", dest="argEnableFilter",
 		 default="True", help="Enable BinderFilter (This is required for any functionality")
 
+	parser.add_argument("--get-gps-bytes", action="store_true", dest="argGetGpsBytes",
+		 default="False", help="Get BinderFilter translations of latitude, longitude coordinates. Use with --latitude [LAT] --longitude [LONG]")
+
+	parser.add_argument("--latitude", action="store", dest="latitude", help="Latitude. I.e. 43.704979")
+
+	parser.add_argument("--longitude", action="store", dest="longitude", help="Longitude. I.e. -72.287458")
+
 	parser.add_argument("--print-command-args", action="store_true", dest="argPrintCommands",
 		 default="True", help="Print command argument values for --context and --print-logs-once.")
 
@@ -497,6 +528,8 @@ def main(argv):
 		printPermissions()
 	if results.argPrintApplications is True:
 		printApplications()
+	if results.argGetGpsBytes is True:
+		getGpsStringForBinderFilter(results.latitude, results.longitude)
 	if results.argPrintCommands is True:
 		printCommands()
 
