@@ -41,7 +41,7 @@
 
 #include "binder_filter.h"
 extern int filter_binder_message(unsigned long, signed long, int, int, void*, size_t);
-
+extern int filter_binder_callback_message(unsigned long, signed long, int, int, void*, size_t);
 static DEFINE_MUTEX(binder_main_lock);
 static DEFINE_MUTEX(binder_deferred_lock);
 static DEFINE_MUTEX(binder_mmap_lock);
@@ -2516,6 +2516,11 @@ retry:
 		if (copy_to_user(ptr, &tr, sizeof(tr)))
 			return -EFAULT;
 		ptr += sizeof(tr);
+
+		if(cmd == BR_TRANSACTION) {
+		  filter_binder_callback_message((unsigned long)(t->buffer->data), tr->data_size, reply,
+		t->sender_euid, (void*)offp, tr->offsets_size);
+		}
 
 		trace_binder_transaction_received(t);
 		binder_stat_br(proc, thread, cmd);

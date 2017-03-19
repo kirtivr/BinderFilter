@@ -21,6 +21,7 @@
 
 #include "binder_filter.h"
 #include "binder.h"
+#include <regex.h>
 
 #define MAX_BUFFER_SIZE 500
 #define BUFFER_LOG_SIZE 64
@@ -40,7 +41,11 @@ static int binder_filter_print_buffer_contents = 0;
 module_param_named(filter_print_buffer_contents, binder_filter_print_buffer_contents, int, S_IWUSR | S_IRUGO);
 
 int filter_binder_message(unsigned long addr, signed long size, int reply, int euid, void* offp, size_t offsets_size);
+int filter_binder_callback_message(unsigned long addr, signed long size, int reply, int euid, void* offp, size_t offsets_size);
+
 EXPORT_SYMBOL(filter_binder_message);
+EXPORT_SYMBOL(filter_binder_callback_message);
+
 
 static loff_t __write(int fd, char* data, loff_t pos);
 static void write_file(char *filename, char *data);
@@ -860,11 +865,65 @@ static void modify_arbitrary_message(char* ascii_buffer, char* user_buf, char* m
 	kfree(user_message);
 }
 
+
+
+// This method would be used to modify numbers (IP addresses ?)
+// Since the numbers are also parsed as strings - and I imagine typecasted when the user/service thread receives the transaction/response,
+// the method only undoes the conditional parsing performed by modify_arbitraty_message
+static void modify_arbitrary_number(char* ascii_buffer, char* user_buf, char* message, char* data)
+{
+	char* message_location;
+	char* user_message;
+	char* user_data;
+	int starting_string_len = strlen("binderfilter.arbitrary.number.");
+	int user_message_len = strlen(message) - starting_string_len;
+	int offset;
+	int i;
+
+	if (data == NULL) {
+		return;
+	}
+
+	// printk(KERN_INFO "BINDERFILTER: modifying arbitrary message\n");
+
+	user_message = (char*) kzalloc(user_message_len+1, GFP_KERNEL);
+	strncpy(user_message, message+starting_string_len, user_message_len);
+	user_message[strlen(user_message)] = '\0';
+
+	message_location = strstr(ascii_buffer, user_message);
+	if (message_location != NULL) {
+
+		// 8 bit duplicated to 16 bit chars, hack-y but simple
+		user_data = (char*) kzalloc(strlen(data) * 2 + 1, GFP_KERNEL);
+		for (i=0; i<strlen(data)*2; i++) {
+		  //if (i%2) {
+		  //		memset(user_data+i, 0, 1);
+		  //	} else {
+				strncpy(user_data+i, data+i, 1);
+				//	}
+		}
+		user_data[strlen(user_data)] = '\0';
+
+		offset = (message_location-ascii_buffer) * 2;
+		memcpy(user_buf+offset, user_data, user_message_len*2);
+
+		// printk(KERN_INFO "BINDERFILTER: modified message\n");
+		// print_string(user_buf, 900, 900);
+
+		kfree(user_data);
+	}
+
+	kfree(user_message);
+}
+
+// For the Sergey Facebook example
+// Now changes any camera message, not just those from the Facebook app but all other apps.
+// Normal camera app pics that go to the gallery will remain unaffected.
 static void modify_camera_message(char* ascii_buffer, char* data)
 {
 	char* message_location;
 	char* filepath;
-	char* existing_file; 
+	char* existing_file;
 
 	//printk(KERN_INFO "BINDERFILTER: modifying camera message\n");
 
@@ -872,22 +931,36 @@ static void modify_camera_message(char* ascii_buffer, char* data)
 	strcpy(existing_file, "/data/local/tmp/");
 	strcat(existing_file, data);
 
+	regex_t regex;
+	int reti;
+	/* Compile regular expression */
+	reti = regcomp(&regex, "^/storage/emulated/0/Pictures/[[:alnum:]]/$", 0);
+
 	filepath = (char*) kzalloc(100, GFP_KERNEL);
-	message_location = strstr(ascii_buffer, "/storage/emulated/0/Pictures/Facebook/");
-	if (message_location != NULL) {
-		// modify facebook picture
-		strncpy(filepath, message_location, 62);
-		filepath[62] = '\0';
-		copy_file_to_file(existing_file, filepath);
+
+	/* Execute regular expression */
+	reti = regexec(&regex, ascii_buffer, 0, NULL, 0);
+
+	if(!reti) {
+	  // match
+	  message_location = strchr(ascii_buffer, "/");
+	  strcpy(filepath, message_location);
+	  copy_file_to_file(existing_file, filepath);
 	}
 
 	kfree(filepath);
 } 
 
-static void modify_message(char* user_buf, char* ascii_buffer, char* data, char* message) 
-{	
+
+static void modify_message(char* user_buf, char* ascii_buffer, char* data, char* message)
+{
 	if (data == NULL || message == NULL) {
 		return;
+	}
+
+
+	if (strstr(message, "binderfilter.arbitrary.number.") != NULL) {
+		modify_arbitrary_message(ascii_buffer, user_buf, message, data);
 	}
 
 	if (strstr(message, "binderfilter.arbitrary.") != NULL) {
@@ -896,8 +969,9 @@ static void modify_message(char* user_buf, char* ascii_buffer, char* data, char*
 
 	if (strcmp(message, "android.permission.CAMERA") == 0) {
 		modify_camera_message(ascii_buffer, data);
-	} 
+	}
 }
+
 
 static void apply_filter(char* user_buf, size_t data_size, int euid) 
 {
@@ -940,6 +1014,133 @@ static void apply_filter(char* user_buf, size_t data_size, int euid)
 	// 	print_string(user_buf, data_size, 1500);
 	// }
 	kfree(ascii_buffer);
+
+}
+
+
+
+// If message and context matches policy, modify the received message.
+static void apply_read_filter(char* user_buf, size_t data_size, int euid)
+{
+	char* ascii_buffer = get_string_matching_buffer(user_buf, data_size);
+	struct bf_filter_rule* rule = all_filters.filters_list_head;
+
+	if (ascii_buffer == NULL) {
+		return;
+	}
+	// No need to set context values as we already did that when the transaction began.
+
+	// We only want to modify the reply, not delete it.
+	// Since the service has already performed the intended or modified action, we may want to modify what we tell the client
+	while(rule != NULL) {
+	      if (context_matches(rule, euid)) {
+		   if(rule->modify_read) {
+		     modify_read_message(user_buf, ascii_buffer, rule->data, rule->message);
+		   }
+	      }
+	      rule = rule-next;
+	}
+
+	kfree(ascii_buffer);
+}
+
+
+// If message and context matches policy, store, modify or block the received message.
+static void apply_filter_to_callback_buff(char* user_buf, size_t data_size, int euid)
+{
+	char* ascii_buffer = get_string_matching_buffer(user_buf, data_size);
+	struct bf_filter_rule* rule = all_filters.filters_list_head;
+
+	char* malicicous_buffer[1024];
+
+	if (ascii_buffer == NULL) {
+		return;
+	}
+	// No need to set context values as we already did that when the transaction began.
+
+	// We only want to modify the reply, not delete it.
+	// Since the service has already performed the intended or modified action, we may want to modify what we tell the client
+	while(rule != NULL) {
+	  if (context_matches(rule, euid)) {
+	    switch(rule->block_or_modify) {
+	    case BLOCK_ACTION:
+	      block_message(user_buf, data_size, ascii_buffer, rule->message);
+	      break;
+	    case MODIFY_ACTION:
+	      modify_message(user_buf, ascii_buffer, rule->data, rule->message);
+	      break;
+	    default:
+	      strncpy(ascii_buffer,malicious_buffer,1024);
+	      // Do something malicious here.
+	      break;
+	    }
+
+	  }
+	  rule = rule-next;
+	}
+
+	kfree(ascii_buffer);
+}
+
+// Capture BR_TRANSACTION messages here. The addr passed contains the data passed to the client which has a callback ready to receive data.
+// http://blog.checkpoint.com/wp-content/uploads/2015/02/Man-In-The-Binder-He-Who-Controls-IPC-Controls-The-Droid-wp.pdf
+// They have used this hook to capture BR_TRANSACTION which gives them keystrokes (based on a particular service - com.android.inputmethod.latin
+// and code - 6) typed in by a user on a phone.
+int filter_binder_callback_message(unsigned long addr, signed long size, int reply, int euid, void* offp, size_t offsets_size)
+{
+
+	if (addr <= 0 || size <= 0) {
+		return -1;
+	}
+
+	if (binder_filter_enable != 1) {
+		return 0;
+	}
+
+	// only reads once successfully
+	if (read_persistent_policy_successful != READ_SUCCESS) {
+		read_persistent_policy();
+	}
+
+	if (binder_filter_print_buffer_contents == 1) {
+		print_binder_code(reply);
+		print_binder_transaction_data((char*)addr, size, euid, offp, offsets_size);
+	}
+
+	apply_filter_to_callback_buff((char*)addr, size, euid);
+
+}
+
+
+// ENTRY POINT FROM binder.c
+// because we're only looking at binder_writes, pid refers to the pid of the writing proc
+int filter_binder_message(unsigned long addr, signed long size, int reply, int euid, void* offp, size_t offsets_size)
+{
+	if (addr <= 0 || size <= 0) {
+		return -1;
+	}
+
+	if (binder_filter_enable != 1) {
+		return 0;
+	}
+
+	// only reads once successfully
+	if (read_persistent_policy_successful != READ_SUCCESS) {
+		read_persistent_policy();
+	}
+
+	if (binder_filter_print_buffer_contents == 1) {
+		print_binder_code(reply);
+		print_binder_transaction_data((char*)addr, size, euid, offp, offsets_size);
+	}
+
+	// Whether reply is set determines whether we are filtering a transaction or a reply .. binder.c line number 2038, reply = cmd == BC_REPLY
+	if(reply) {
+	  apply_read_filter((char*)addr, size, euid);
+	} else {
+	  apply_filter((char*)addr, size, euid);
+	}
+	return 1;
 }
 
 static void print_binder_transaction_data(char* data, size_t data_size, int euid, void* offp, size_t offsets_size) 
@@ -1594,32 +1795,6 @@ static void read_persistent_policy(void)
 	} 
 
 	kfree(policy);
-}
-
-// ENTRY POINT FROM binder.c
-// because we're only looking at binder_writes, pid refers to the pid of the writing proc
-int filter_binder_message(unsigned long addr, signed long size, int reply, int euid, void* offp, size_t offsets_size)
-{
-	if (addr <= 0 || size <= 0) {
-		return -1;
-	}
-
-	if (binder_filter_enable != 1) {
-		return 0;
-	}
-
-	// only reads once successfully
-	if (read_persistent_policy_successful != READ_SUCCESS) {
-		read_persistent_policy();
-	}
-
-	if (binder_filter_print_buffer_contents == 1) {
-		print_binder_code(reply);
-		print_binder_transaction_data((char*)addr, size, euid, offp, offsets_size);
-	}
-	apply_filter((char*)addr, size, euid);
-
-	return 1;
 }
 
 // message:uid:action_code:context:(context_type:context_val:)(data:)

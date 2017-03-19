@@ -38,22 +38,22 @@ int fd = FILTER_ENABLE_FAILED;
 
 int setup_dev_permissions() {
     // enable binderfilter
-    if (popen("su -c \'echo 1 > /sys/module/binder_filter/parameters/filter_enable\'", "r") == NULL) {
+    if (popen("su \'echo 1 > /sys/module/binder_filter/parameters/filter_enable\'", "r") == NULL) {
         return FILTER_ENABLE_FAILED;
     }
 
     // chmod binderfilter
-    if (popen("su -c \'chmod 666 /dev/binderfilter\'", "r") == NULL) {
+    if (popen("su \'chmod 666 /dev/binderfilter\'", "r") == NULL) {
         return CHMOD_FAILED;
     }
 
     // change SELinux policy to allow our driver (take on type of binder driver)
-    if (popen("su -c \'chcon u:object_r:binder_device:s0 /dev/binderfilter\'", "r") == NULL) {
+    if (popen("su \'chcon u:object_r:binder_device:s0 /dev/binderfilter\'", "r") == NULL) {
         return CHCON_FAILED;
     }
 
     // touch persistent policy file
-    if (popen("su -c \'if [ ! -f /data/local/tmp/bf.policy ]; then touch /data/local/tmp/bf.policy; chmod 777 /data/local/tmp/bf.policy; fi\'", "r") == NULL) {
+    if (popen("su \'if [ ! -f /data/local/tmp/bf.policy ]; then touch /data/local/tmp/bf.policy; chmod 777 /data/local/tmp/bf.policy; fi\'", "r") == NULL) {
         return CREATE_POLICY_FILE_FAILED;
     }
 

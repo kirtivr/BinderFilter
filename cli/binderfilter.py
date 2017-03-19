@@ -419,7 +419,7 @@ def main(argv):
 		 default="False", help="Set BinderFilter policy. Required: --message-contains, --uid, --action.")
 
 	parser.add_argument("-m", "--message-contains", action="store", dest="message",
-		 help="Set BinderFilter policy: Message to filter on. I.e. \"android.permission.CAMERA\". To modify arbitrary strings, prepend this message with binderfilter.arbitrary.x where x is the string. See the github docs for more information")
+		            help="Set BinderFilter policy: Message to filter on. I.e. \"android.permission.CAMERA\". To modify arbitrary strings, prepend this message with binderfilter.arbitrary.x where x is the string. To modify arbitrary numbers, prepend this message with binderfilter.arbitrary.number.x. See the github docs for more information")
 
 	parser.add_argument("-u", "--uid", action="store", dest="uid",
 		 help="Set BinderFilter policy: Uid to filter on. I.e. \"10082\". Find corresponding Uid for packagename with --get-uid-for [name]")
