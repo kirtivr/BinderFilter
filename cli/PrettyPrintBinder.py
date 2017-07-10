@@ -704,4 +704,4 @@ def PrettyPrint(debugMask, debugArray, printForever, returnDontPrint, visualize=
                                 else:
                                         print translateLog(line,False)[1]
                                         
-		mostRecentTime = getTimeStampFromLine(lines[-1])
+		                mostRecentTime = getTimeStampFromLine(lines[-1])
