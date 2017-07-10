@@ -1,0 +1,5 @@
+digraph {
+	"/system/bin/surfaceflinger"
+	"android:ui"
+	"/system/bin/surfaceflinger" -> android:ui [label=BC_TRANSACTION]
+}

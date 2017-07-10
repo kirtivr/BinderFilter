@@ -620,12 +620,12 @@ def add_edges(graph, edges):
 def visualize(digraph, info):
                 
         if info['op'] == "BR_TRANSACTION" or info['op'] == "BR_REPLY":
-                add_edges(add_nodes(digraph,[info["fromProc"],info["proc"]]),
-                          [(info["fromProc"],info["proc"]),{'label':info['op']}]
+                add_edges(add_nodes(digraph(),[info["fromProc"],info["proc"]]),
+                          [((info["fromProc"],info["proc"]),{'label':info['op']})]
                 ).render("graph")
         elif info['op'] == "BC_TRANSACTION" or info['op'] == "BC_REPLY":
-                add_edges(add_nodes(digraph,[info["sender"],info["target"]]),
-                          [(info["sender"],info["target"]),{'label':info['op']}]
+                add_edges(add_nodes(digraph(),[info["sender"],info["target"]]),
+                          [((info["sender"],info["target"]),{'label':info['op']})]
                 ).render("graph")
         print 'rendered'
         
@@ -960,7 +960,8 @@ def main(argv):
 				                info = printBinderLog(debugMask, debugArray, True, returnDontPrint)
                                                 packAndSendBinderLogs(info)
                                 elif opt[0] == "visualize":
-                                        digraph = functools.partial(gv.Digraph, format='svg')
+                                        digraph = functools.partial(gv.Digraph,format='svg')
+                                        
                                         while True:
                                                 info = printBinderLog(debugMask, debugArray, True, False, True)
                                                 if isValidBinderOp(info):
