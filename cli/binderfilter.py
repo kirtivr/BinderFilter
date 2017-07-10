@@ -18,6 +18,7 @@ from argparse import RawTextHelpFormatter
 from enum import Enum
 import struct
 import re
+import functools
 from scapy.all import *
 
 binderFilterPolicyFile = "/data/local/tmp/bf.policy"
@@ -598,6 +599,35 @@ def packAndSendPacket(packet):
 
         i = IP( dst = "127.0.0.1") / UDP(sport = 8085,dport =8085) / Raw (load=sPacket)
         send(i)
+
+def add_nodes(graph, nodes):
+    for n in nodes:
+        if isinstance(n, tuple):
+            graph.node(n[0], **n[1])
+        else:
+            graph.node(n)
+    return graph
+
+
+def add_edges(graph, edges):
+    for e in edges:
+        if isinstance(e[0], tuple):
+            graph.edge(*e[0], **e[1])
+        else:
+            graph.edge(*e)
+    return graph
+
+def visualize(digraph, info):
+                
+        if info['op'] == "BR_TRANSACTION" or info['op'] == "BR_REPLY":
+                add_edges(add_nodes(digraph,[info["fromProc"],info["proc"]]),
+                          [(info["fromProc"],info["proc"]),{'label':info['op']}]
+                ).render("graph")
+        elif info['op'] == "BC_TRANSACTION" or info['op'] == "BC_REPLY":
+                add_edges(add_nodes(digraph,[info["sender"],info["target"]]),
+                          [(info["sender"],info["target"]),{'label':info['op']}]
+                ).render("graph")
+        print 'rendered'
         
 def sniffBuffers():
         checkIpcBuffersAndFilterEnabled()
@@ -930,12 +960,12 @@ def main(argv):
 				                info = printBinderLog(debugMask, debugArray, True, returnDontPrint)
                                                 packAndSendBinderLogs(info)
                                 elif opt[0] == "visualize":
+                                        digraph = functools.partial(gv.Digraph, format='svg')
                                         while True:
                                                 info = printBinderLog(debugMask, debugArray, True, False, True)
                                                 if isValidBinderOp(info):
-                                                       # print info
-                                                        pass
-                                                #visualize(info)
+                                                        print 'visualizing'
+                                                        visualize(digraph,info[1])
                                 else:
                                         printBinderLog(debugMask, debugArray, opt[0] == "levelForever",returnDontPrint)                        
                 elif opt[0] == "packageName" and opt[1] is not None:
