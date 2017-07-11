@@ -600,33 +600,88 @@ def packAndSendPacket(packet):
         i = IP( dst = "127.0.0.1") / UDP(sport = 8085,dport =8085) / Raw (load=sPacket)
         send(i)
 
-def add_nodes(graph, nodes):
-    for n in nodes:
-        if isinstance(n, tuple):
-            graph.node(n[0], **n[1])
-        else:
-            graph.node(n)
-    return graph
+def add_nodes(graph, nodes, style):
+        for n in nodes:
+                if isinstance(n, tuple):
+                        graph.node(n[0], **n[1])
+                else:
+                        graph.node(n)
+
+        graph.node_attr.update(style)
+
+        return graph
 
 
 def add_edges(graph, edges):
-    for e in edges:
-        if isinstance(e[0], tuple):
-            graph.edge(*e[0], **e[1])
-        else:
-            graph.edge(*e)
-    return graph
+        print edges
+        for e in edges:
+                print e
+                if e[2] == "BR_TRANSACTION":
+                        graph.edge(e[0], e[1], color='cyan', style='filled')
+                elif e[2] == "BR_REPLY":
+                        graph.edge(e[0], e[1], color='cyan', style='dotted',arrowhead='open')
+                elif e[2] == "BC_TRANSACTION":
+                        graph.edge(e[0], e[1], color='white', style='filled')
+                elif e[2] == "BC_REPLY":
+                        graph.edge(e[0], e[1], color='white', style='dotted',arrowhead='open')
+                                
+        graph_style = {
+                'label': 'Binder Call Graph',
+                'fontsize': '8',
+                'fontcolor': 'white',
+                'bgcolor': '#333333',
+                'rankdir': 'BT',
+        }
+        
+        graph.graph_attr.update(graph_style)
+        
+        return graph
 
-def visualize(digraph, info):
-                
+def visualize(digraph, info, nodes, edges, mode):
+
+        node_style = {
+                'fontname': 'Helvetica',
+                'fontcolor': 'white',
+                'color': 'white',
+                'style': 'filled',
+                'fillcolor': '#006699',
+        }
+        
         if info['op'] == "BR_TRANSACTION" or info['op'] == "BR_REPLY":
-                add_edges(add_nodes(digraph(),[info["fromProc"],info["proc"]]),
-                          [((info["fromProc"],info["proc"]),{'label':info['op']})]
+
+                nodes.append(info["fromProc"])
+                nodes.append(info["proc"])
+
+                if mode == 'abstract':
+                        if ((info["fromProc"],info["proc"],info['op']) not in edges):
+                                edges.append((info["fromProc"],info["proc"],info['op']))
+                else:
+                        edges.append((info["fromProc"],info["proc"],info['op']))
+                        
+                # render !
+                add_edges(add_nodes(digraph(),nodes,node_style),
+                          edges
                 ).render("graph")
+                
         elif info['op'] == "BC_TRANSACTION" or info['op'] == "BC_REPLY":
-                add_edges(add_nodes(digraph(),[info["sender"],info["target"]]),
-                          [((info["sender"],info["target"]),{'label':info['op']})]
+                nodes.append(info["sender"])
+                nodes.append(info["target"])
+
+                
+                if mode == 'abstract':
+                        if ((info["sender"],info["target"],info['op']) not in edges):
+                                edges.append((info["sender"],info["target"],info['op']))
+                else:
+                        edges.append((info["sender"],info["target"],info['op']))
+                        
+                # render !
+                add_edges(add_nodes(digraph(),nodes,node_style),
+                          edges
                 ).render("graph")
+        
+        else:
+                return
+
         print 'rendered'
         
 def sniffBuffers():
@@ -896,7 +951,10 @@ def main(argv):
                 help="Sniff BinderFilter logs. Allows a user to filter specific process calls using wireshark")
         
         parser.add_argument("-v","--visualize", action="store", dest="visualize",
-                            nargs="*",help="Visualize binder transactions using graphviz")
+                            nargs="*",help="Visualize binder transactions using graphviz." 
+                            "pass true or abstract as modes, true gives the real, live picture"
+                            "while abstract prunes duplicate edges between nodes to give a cleaner"
+                            "picture")
         
         parser.add_argument("-snb", "--sniff-binder-logs", action="store", dest="sniffForever",
                             nargs="*",help="Sniff Android's native binder logs. Allows a user to filter specific process calls using wireshark")
@@ -940,8 +998,9 @@ def main(argv):
 		printCommands()
 
 	debugArray = []
-	for opt in opts:
-		if opt[0] == "levelOnce" or opt[0] == "levelForever" or opt[0] == "sniffForever" or opt[0] == "visualize":
+        
+        for opt in opts:
+		if opt[0] == "levelOnce" or opt[0] == "levelForever" or opt[0] == "sniffForever":
 
                         returnDontPrint = opt[0] == "sniffForever"
                         
@@ -959,16 +1018,29 @@ def main(argv):
                                         while True:
 				                info = printBinderLog(debugMask, debugArray, True, returnDontPrint)
                                                 packAndSendBinderLogs(info)
-                                elif opt[0] == "visualize":
-                                        digraph = functools.partial(gv.Digraph,format='svg')
-                                        
-                                        while True:
-                                                info = printBinderLog(debugMask, debugArray, True, False, True)
-                                                if isValidBinderOp(info):
-                                                        print 'visualizing'
-                                                        visualize(digraph,info[1])
                                 else:
-                                        printBinderLog(debugMask, debugArray, opt[0] == "levelForever",returnDontPrint)                        
+                                        printBinderLog(debugMask, debugArray, opt[0] == "levelForever",returnDontPrint)           
+                elif opt[0] == "visualize":
+                        debugMask = 1111111111111111 #default
+                        digraph = functools.partial(gv.Digraph,format='svg',engine='neato')
+                                        
+                        nodes = []
+                        edges = []
+
+                        print opt[1]
+                        
+                        if type(opt[1]) is list and len(opt[1]) > 0:
+                                mode = opt[1][0]
+                        else:
+                                print 'mode autoset to abstract'
+                                mode = 'abstract'
+
+                        while True:
+                                info = printBinderLog(debugMask, debugArray, True, False, True)
+                                if isValidBinderOp(info):
+                                        print 'visualizing'
+                                        visualize(digraph,info[1],nodes,edges,mode)
+                                            
                 elif opt[0] == "packageName" and opt[1] is not None:
 			print getUidStringsForPackages(opt[1])
 
