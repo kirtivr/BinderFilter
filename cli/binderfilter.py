@@ -861,7 +861,12 @@ def validate(message, uid, action, modifyData, context, contextType, contextValu
 	checkBlockingEnabled()
 
 def main(argv):
-        ret = subprocess.check_output("adb root",shell=True)
+        try:
+                ret = subprocess.check_output("adb root",shell=True)
+        except subprocess.CalledProcessError as e:
+                print e.output
+                print 'Please check if you have a rooted device connected'
+                sys.exit(0)
         
 	parser = argparse.ArgumentParser(description='Android Binder IPC hook and parser.')
 
@@ -1022,17 +1027,14 @@ def main(argv):
                                         printBinderLog(debugMask, debugArray, opt[0] == "levelForever",returnDontPrint)           
                 elif opt[0] == "visualize":
                         debugMask = 1111111111111111 #default
-                        digraph = functools.partial(gv.Digraph,format='svg',engine='neato')
+                        digraph = functools.partial(gv.Digraph,format='svg')
                                         
                         nodes = []
                         edges = []
-
-                        print opt[1]
                         
                         if type(opt[1]) is list and len(opt[1]) > 0:
                                 mode = opt[1][0]
                         else:
-                                print 'mode autoset to abstract'
                                 mode = 'abstract'
 
                         while True:

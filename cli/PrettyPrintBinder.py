@@ -1,4 +1,4 @@
-#!/usr/bin/python
+g#!/usr/bin/python
 # David Wu
 # todo: add filters, 
 # 		change for different kernel versions (i.e. 3.18 BR_TRANSACTION logging)
@@ -689,7 +689,7 @@ def PrettyPrint(debugMask, debugArray, printForever, returnDontPrint, visualize=
        
 	if printForever == False:
 		for line in getDmesg().splitlines():
-                        translateLog(line)
+                        translateLog(line, False)
 		sys.exit()
 
 	mostRecentTime = 0
