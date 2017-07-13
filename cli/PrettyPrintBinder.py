@@ -1,4 +1,4 @@
-g#!/usr/bin/python
+#!/usr/bin/python
 # David Wu
 # todo: add filters, 
 # 		change for different kernel versions (i.e. 3.18 BR_TRANSACTION logging)
