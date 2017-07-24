@@ -600,6 +600,61 @@ def packAndSendPacket(packet):
         i = IP( dst = "127.0.0.1") / UDP(sport = 8085,dport =8085) / Raw (load=sPacket)
         send(i)
 
+def getSequenceDiagram( text, outputFile, style = 'default' ):
+    request = {}
+    request["message"] = text
+    request["style"] = style
+    request["apiVersion"] = "1"
+
+    url = urllib.urlencode(request)
+
+    f = urllib.urlopen("http://www.websequencediagrams.com/", url)
+    line = f.readline()
+    f.close()
+
+    expr = re.compile("(\?(img|pdf|png|svg)=[a-zA-Z0-9]+)")
+    m = expr.search(line)
+
+    if m == None:
+        print "Invalid response from server."
+        return False
+
+    urllib.urlretrieve("http://www.websequencediagrams.com/" + m.group(0),
+            outputFile )
+
+    return True
+                
+def printSequenceDiagram(procs):
+        if not procs or len(procs) != 2:
+                print "Please enter the names of the communicating programs. For ex: com.android.phone com.android.systemui"
+                exit(1)
+        p1 = getUidStringsForPackages(procs[0])
+        p2 = getUidStringsForPackages(procs[1])
+        #print p1
+        uidpatt = re.compile("userId=[0-9]+")
+        uid1 = uidpatt.findall(p1)
+        uid2 = uidpatt.findall(p2)
+
+        if len(uid1) > 1 or len(uid2) > 1:
+                print "Program names are too general. Please be more specific"
+                exit(1)
+        elif len(uid1) == 0 or len(uid2) == 0:
+                print "One or both of the program names were not found. "
+                exit(1)
+                
+        uid1 = uid1[0][7:]
+        uid2 = uid2[0][7:]
+
+        logs = getTraceLogs(uid1,uid2)
+        
+        style = "qsd"
+        text = "alice->bob: authentication request\nbob-->alice: response"
+        pngFile = "sequence.png"
+
+        getSequenceDiagram(text, pngFile, style)
+        print 'Check sequence.png for the sequence diagram!'
+
+
 def add_nodes(graph, nodes, style):
         for n in nodes:
                 if isinstance(n, tuple):
@@ -682,7 +737,7 @@ def visualize(digraph, info, nodes, edges, mode):
         else:
                 return
 
-        print 'rendered'
+        #print 'rendered'
         
 def sniffBuffers():
         checkIpcBuffersAndFilterEnabled()
@@ -954,15 +1009,19 @@ def main(argv):
 
         parser.add_argument("-t", "--sniff-buffers", action="store_true", dest="argSniffBuffers",
                 help="Sniff BinderFilter logs. Allows a user to filter specific process calls using wireshark")
+
+        parser.add_argument("-sd", "--sequence-diag", action="store", dest="argSequence", 
+                            nargs="*", help="Show a sequence diagram between any two applications. "
+                            "Please enter the names of the two processes")
         
-        parser.add_argument("-v","--visualize", action="store", dest="visualize",
-                            nargs="*",help="Visualize binder transactions using graphviz." 
+        parser.add_argument("-v","--visualize", action="store", dest="argVisualize",
+                            nargs="*", help="Visualize binder transactions using graphviz." 
                             "pass true or abstract as modes, true gives the real, live picture"
                             "while abstract prunes duplicate edges between nodes to give a cleaner"
                             "picture")
         
-        parser.add_argument("-snb", "--sniff-binder-logs", action="store", dest="sniffForever",
-                            nargs="*",help="Sniff Android's native binder logs. Allows a user to filter specific process calls using wireshark")
+        parser.add_argument("-snb", "--sniff-binder-logs", action="store", dest="argSniffForever",
+                            nargs="*", help="Sniff Android's native binder logs. Allows a user to filter specific process calls using wireshark")
         
 	results = parser.parse_args()
 	opts = results._get_kwargs()
@@ -1001,13 +1060,13 @@ def main(argv):
 		getGpsStringForBinderFilter(results.latitude, results.longitude)
 	if results.argPrintCommands is True:
 		printCommands()
-
+                
 	debugArray = []
         
         for opt in opts:
-		if opt[0] == "levelOnce" or opt[0] == "levelForever" or opt[0] == "sniffForever":
+		if opt[0] == "levelOnce" or opt[0] == "levelForever" or opt[0] == "argSniffForever":
 
-                        returnDontPrint = opt[0] == "sniffForever"
+                        returnDontPrint = opt[0] == "argSniffForever"
                         
 			if opt[1] is not None: 		# None means the flag was not set
 				if not opt[1]:			# not means args to --print-logs-once or --print-logs-forever were empty
@@ -1025,7 +1084,7 @@ def main(argv):
                                                 packAndSendBinderLogs(info)
                                 else:
                                         printBinderLog(debugMask, debugArray, opt[0] == "levelForever",returnDontPrint)           
-                elif opt[0] == "visualize":
+                elif opt[0] == "argVisualize" and opt[1] is not None:
                         debugMask = 1111111111111111 #default
                         digraph = functools.partial(gv.Digraph,format='svg')
                                         
@@ -1038,11 +1097,12 @@ def main(argv):
                                 mode = 'abstract'
 
                         while True:
-                                info = printBinderLog(debugMask, debugArray, True, False, True)
+                                info = printBinderLog(debugMask, debugArray, True, returnDontPrint, True)
                                 if isValidBinderOp(info):
-                                        print 'visualizing'
+                                        #print 'visualizing'
                                         visualize(digraph,info[1],nodes,edges,mode)
-                                            
+                elif opt[0] == "argSequence" and opt[1] is not None:
+                        printSequenceDiagram(opt[1])
                 elif opt[0] == "packageName" and opt[1] is not None:
 			print getUidStringsForPackages(opt[1])
 
