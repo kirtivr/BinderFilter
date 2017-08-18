@@ -1,0 +1,53 @@
+#[ 2159.006957] binder: 188:276 BR_TRANSACTION 325830 14054:14054, cmd -2144833022size 100-0 ptr b6982028-b698208c
+def translateLog(line,makeDict):
+        '''
+
+        Wireshark logging and graphviz visualization is currently enabled
+        for BR_TRANSACTION, BR_REPLY, BC_TRANSACTION & BC_REPLY.
+
+        '''
+
+        if line == "":
+		return ("discard","empty")
+        
+	timestamp = line[1:line.find(']')]
+	timestamp = timestamp.strip()	# handle 1-4 digit timestamps
+	timestamp = translateTimestamp(timestamp)
+	line = line[line.find(']')+2:]	# strip the timestamp
+        #print line
+        
+        # BINDER_DEBUG_OPEN_CLOSE
+	if "binder_open" in line:
+		return ("open",translateBinderOpen(line, timestamp, False))
+	elif "binder_mmap" in line:
+		return ("mmap",translateBinderMmap(line, timestamp, False))
+	elif "binder_flush" in line:
+		return ("flush",translateBinderFlush(line, timestamp, False))
+	elif "binder_release" in line and "active" in line:
+		return ("release",translateBinderRelease(line, timestamp, False))
+	elif "open vm area" in line:
+		return ("openvm",translateBinderOpenVma(line, timestamp, False))
+	elif "close vm area" in line:
+		return ("closevm",translateBinderCloseVma(line, timestamp, False))
+
+	# BINDER_DEBUG_TRANSACTION
+	elif "BR_TRANSACTION" in line:
+		return ("BR_TRANSACTION",translateBinderReturn(line, timestamp, makeDict))
+	elif "BR_REPLY" in line:
+		return ("BR_REPLY",translateBinderReturn(line, timestamp, makeDict))
+	elif "BC_TRANSACTION" in line:
+		return ("BC_TRANSACTION",translateBinderCommandTransaction(line, timestamp, makeDict))
+	elif "BC_REPLY" in line:
+		return ("BC_REPLY",translateBinderCommandReply(line, timestamp, makeDict))
+	elif "buffer release" in line:
+		return ("BUFFER_RELEASE",translateBinderBufferRelease(line, timestamp, False))
+
+	# BINDER_DEBUG_READ_WRITE
+	elif "write" in line:
+		return ("write",traslateBinderWrite(line, timestamp, False))
+	elif "wrote" in line:
+		return ("wrote",translateBinderWrote(line, timestamp, False))
+	else:
+		return ("discard","not found")
+
+

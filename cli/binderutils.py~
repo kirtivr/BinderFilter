@@ -1,0 +1,35 @@
+# [122214.186086]   [seconds.milliseconds]
+# time printed will be based on local system time (i.e. computer time, not android time)
+def translateTimestamp(ts):
+	secondsPassed = float(ts) - float(startingTimestamp)
+	hts = (startingSystemTime + timedelta(seconds=secondsPassed)).time()
+	#return str(hts)[:str(hts).find('.')+3]
+	return hts
+
+def getProcessNameFor(pid):
+	val = subprocess.check_output(["adb", "shell", "ps", "-p", str(pid)])
+	val = val[val.find('\n')+1:]
+	val = val[val.rfind(' ')+1:]
+	val = val.rstrip()
+	if val == "":
+		return "process exited"
+	return val
+
+# might be able to do some of the shell commands in python equivalents to speed it up
+def getDmesg():
+	p1 = Popen(["adb", "shell", "dmesg"], stdout=PIPE)
+	p2 = Popen(["grep", "-v", "BINDERFILTER"], stdin=p1.stdout, stdout=PIPE)
+        p3 = Popen(["grep", "binder"], stdin=p2.stdout, stdout=PIPE)
+        return p3.communicate()[0]
+
+def getTimeStampFromLine(l):
+	a = l.find('[')
+	b = l.find(']', a)
+	return l[a+1:b]
+
+def generateDebugMask(l):
+    debugMask = 0
+    for i in l:
+	debugMask += 1 << i
+
+    return debugMask

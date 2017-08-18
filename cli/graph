@@ -1,9 +1,129 @@
 digraph {
 	graph [bgcolor="#333333" fontcolor=white fontsize=8 label="Binder Call Graph" rankdir=BT]
 	node [color=white fillcolor="#006699" fontcolor=white fontname=Helvetica style=filled]
-	"process exited"
-	"/system/bin/surfaceflinger"
-	"process exited"
-	"/system/bin/surfaceflinger"
-	"process exited" -> "/system/bin/surfaceflinger" [color=cyan style=filled]
+	0
+	10429
+	10429
+	959
+	10429
+	959
+	959
+	10429
+	959
+	10429
+	0
+	10429
+	0
+	10429
+	10429
+	959
+	10429
+	959
+	959
+	10429
+	0
+	10429
+	10429
+	959
+	10429
+	959
+	959
+	10429
+	0
+	10429
+	959
+	10429
+	959
+	10429
+	0
+	10429
+	0
+	10429
+	959
+	10429
+	0
+	10429
+	959
+	1823
+	10429
+	959
+	0
+	959
+	10429
+	959
+	0
+	1823
+	0
+	959
+	959
+	10429
+	0
+	10429
+	959
+	1823
+	0
+	1823
+	959
+	10429
+	0
+	10429
+	959
+	10429
+	0
+	10429
+	959
+	10429
+	0
+	10429
+	10429
+	959
+	10429
+	959
+	959
+	1823
+	0
+	959
+	10429
+	959
+	0
+	1823
+	959
+	10429
+	959
+	10429
+	0
+	10429
+	0
+	10429
+	10429
+	959
+	10429
+	959
+	959
+	10429
+	0
+	10429
+	10429
+	959
+	10429
+	959
+	959
+	10429
+	0
+	10429
+	10429
+	959
+	10429
+	959
+	959
+	10429
+	0 -> 10429 [arrowhead=open color=cyan style=dotted]
+	10429 -> 959 [color=white style=filled]
+	10429 -> 959 [color=cyan style=filled]
+	959 -> 10429 [color=white style=filled]
+	959 -> 10429 [arrowhead=open color=white style=dotted]
+	0 -> 10429 [color=cyan style=filled]
+	959 -> 1823 [color=white style=filled]
+	0 -> 959 [color=cyan style=filled]
+	0 -> 1823 [color=cyan style=filled]
 }

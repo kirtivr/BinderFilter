@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # David Wu
-# todo: add filters, 
-# 		change for different kernel versions (i.e. 3.18 BR_TRANSACTION logging)
-# 		
+# Visualizations, packet forwarding by Kirti Vardhan Rathore
+# todo: add filters
 # line numbers from http://androidxref.com/kernel_3.4/xref/drivers/staging/android/binder.c
 
 
@@ -32,7 +31,7 @@ import os, sys, getopt, time
 import subprocess
 from subprocess import Popen, PIPE
 import datetime
-from datetime import timedelta
+import binderutils as buu
 
 # set at the beginning of running, used to print human readable timestamps
 startingSystemTime = ""
@@ -52,7 +51,7 @@ def translateLog(line,makeDict):
         
 	timestamp = line[1:line.find(']')]
 	timestamp = timestamp.strip()	# handle 1-4 digit timestamps
-	timestamp = translateTimestamp(timestamp)
+        timestamp = translateTimestamp(timestamp)
 	line = line[line.find(']')+2:]	# strip the timestamp
         #print line
         
@@ -71,7 +70,7 @@ def translateLog(line,makeDict):
 		return ("closevm",translateBinderCloseVma(line, timestamp, False))
 
 	# BINDER_DEBUG_TRANSACTION
-	elif "BR_TRANSACTION" in line and "cmd" in line:
+	elif "BR_TRANSACTION" in line:
 		return ("BR_TRANSACTION",translateBinderReturn(line, timestamp, makeDict))
 	elif "BR_REPLY" in line:
 		return ("BR_REPLY",translateBinderReturn(line, timestamp, makeDict))
@@ -100,15 +99,15 @@ def translateBinderOpen(line, timestamp, makeDict):
 	c2 = line.find(':', c1)
 	pid1 = line[c1 : c2]
 	pid2 = line[c2+1:]
-	name = getProcessNameFor(pid2)
+	name = buu.getProcessNameFor(pid2)
         
         if makeDict:
                 binderDict = {}
                 binderDict.timestamp = timestamp
                 binderDict.pidfrom = pid1
-                binderDict.procfrom = getProcessNameFor(pid1)
+                binderDict.procfrom = buu.getProcessNameFor(pid1)
                 binderDict.pidto = pid2
-                binderDict.procto = getProcessNameFor(pid2)
+                binderDict.procto = buu.getProcessNameFor(pid2)
 
         print("[%s] binder_open: group leader pid %s, current pid %s (%s)" % (timestamp, pid1, pid2, name))
 
@@ -128,13 +127,13 @@ def translateBinderMmap(line, timestamp, makeDict):
 	size = splitLine[3][1:]
 	flags = splitLine[6]
 	prot = splitLine[8]
-	name = getProcessNameFor(pid)
+	name = buu.getProcessNameFor(pid)
 
         if makeDict:
                 binderDict = {}
                 binderDict.op = "binder_mmap"
                 binderDict.pid = pid
-                binderDict.proc = getProcessNameFor(pid)
+                binderDict.proc = buu.getProcessNameFor(pid)
                 binderDict.vma = vma
                 binderDict.vmaStart = vmaStart
                 binderDict.vmaEnd = vmaEnd
@@ -160,11 +159,11 @@ def translateBinderFlush(line, timestamp, makeDict):
                 binderDict = {}
                 binderDict.op = "binder_flush"
                 binderDict.pid = pid
-                binderDict.proc = getProcessNameFor(pid)
+                binderDict.proc = buu.getProcessNameFor(pid)
                 binderDict.num = num
                 return binderDict
         
-	return ("[%s] binder_flush: pid %s (%s) woke %s threads" % (timestamp, pid, getProcessNameFor(pid), num))
+	return ("[%s] binder_flush: pid %s (%s) woke %s threads" % (timestamp, pid, buu.getProcessNameFor(pid), num))
 
 # binder.c#3120
 # binder_release: 18298 threads 3, nodes 1 (ref 0), refs 2, active transactions 0, buffers 0, pages 1	
@@ -188,7 +187,7 @@ def translateBinderRelease(line, timestamp, makeDict):
                 binderDict = {}
                 binderDict.op = "binder_release"
                 binderDict.pid = pid
-                binderDict.proc = getProcessNameFor(pid)
+                binderDict.proc = buu.getProcessNameFor(pid)
                 binderDict.threads = threads
                 binderDict.nodes = nodes
                 binderDict.irefs = irefs
@@ -199,7 +198,7 @@ def translateBinderRelease(line, timestamp, makeDict):
                 return binderDict
         
 	print("[%s] binder_release: pid %s (%s) released %s threads, %s nodes, %s incoming refs, %s outgoing refs, %s active transactions, %s buffers, %s pages" % 
-		(timestamp, pid, getProcessNameFor(pid), threads, nodes, irefs, orefs, ats, buffers, pages))
+		(timestamp, pid, buu.getProcessNameFor(pid), threads, nodes, irefs, orefs, ats, buffers, pages))
 
 # binder.c#2812
 # binder_debug(BINDER_DEBUG_OPEN_CLOSE,
@@ -221,7 +220,7 @@ def translateBinderOpenVma(line, timestamp, makeDict):
                 binderDict = {}
                 binderDict.op = "binder_openvm"
                 binderDict.pid = pid
-                binderDict.proc = getProcessNameFor(pid)
+                binderDict.proc = buu.getProcessNameFor(pid)
                 binderDict.vma = vma
                 binderDict.vmaStart = vmaStart
                 binderDict.vmaEnd = vmaEnd
@@ -231,7 +230,7 @@ def translateBinderOpenVma(line, timestamp, makeDict):
                 return binderDict
         
 	print("[%s] binder: pid %s (%s) opened vm area addr %s-%s, size %s, flags %s, prot %s" %
-	 (timestamp, pid, getProcessNameFor(pid), vmaStart, vmaEnd, size, flags, prot))
+	 (timestamp, pid, buu.getProcessNameFor(pid), vmaStart, vmaEnd, size, flags, prot))
 
 # binder.c#2822
 # binder: 12098 close vm area ae942000-aea40000 (1016 K) vma 2220051 pagep 79f
@@ -254,7 +253,7 @@ def translateBinderCloseVma(line, timestamp, makeDict):
                 binderDict = {}
                # binderDict'op'] = "binder_closevm"
                # binderDict['pid'] = pid
-                binderDict.proc = getProcessNameFor(pid)
+                binderDict.proc = buu.getProcessNameFor(pid)
                 binderDict.vma = vma
                 binderDict.vmaStart = vmaStart
                 binderDict.vmaEnd = vmaEnd
@@ -264,7 +263,7 @@ def translateBinderCloseVma(line, timestamp, makeDict):
                 return binderDict
         
 	return ("[%s] binder: pid %s (%s) closed vm area addr %s-%s, size %s, flags %s, prot %s" % 
-		(timestamp, pid, getProcessNameFor(pid), vmaStart, vmaEnd, size, flags, prot))
+		(timestamp, pid, buu.getProcessNameFor(pid), vmaStart, vmaEnd, size, flags, prot))
 
 # binder.c#2496
 # binder: 188:276 BR_TRANSACTION 325830 14054:14054, cmd -2144833022size 100-0 ptr b6982028-b698208c
@@ -302,23 +301,26 @@ def translateBinderReturn(line, timestamp, makeDict):
 	bufferDataAddress = bufferAddresses[:bufferAddresses.find('-')]
 	bufferOffsetsAddress = bufferAddresses[bufferAddresses.find('-')+1:]
 
-	fromString = "process pid " + fromProcPid + " (" + getProcessNameFor(fromProcPid) + "), thread pid " + fromThreadPid
+	fromString = "process pid " + fromProcPid + " (" + buu.getProcessNameFor(fromProcPid) + "), thread pid " + fromThreadPid
 
         if fromProcPid == "0":
 		fromString = "n/a"
 
         if makeDict:
                 binderDict = {}
-                binderDict['op'] = "BR_TRANSACTION"
+                if "BR_TRANSACTION" in line :
+                        binderDict['op'] = "BR_TRANSACTION"
+                else :
+                        binderDict['op'] = "BR_REPLY"
                 binderDict['pid'] = pid
                 binderDict['procpid'] = procPid
-                binderDict['proc'] = getProcessNameFor(procPid)
+                binderDict['proc'] = buu.getProcessNameFor(procPid)
                 binderDict['threadPid'] = threadPid
                 binderDict['cmd'] = cmd
                 binderDict['transactionDebugId'] = transactionDebugId
                 binderDict['fromPid'] = fromPid
                 binderDict['fromProcPid'] = fromProcPid
-                binderDict['fromProc'] = getProcessNameFor(fromProcPid) 
+                binderDict['fromProc'] = buu.getProcessNameFor(fromProcPid) 
                 binderDict['fromThreadPid'] = fromThreadPid
                 binderDict['cmdUInt'] = cmdUInt
                 binderDict['bufferSize'] = bufferSize
@@ -332,7 +334,7 @@ def translateBinderReturn(line, timestamp, makeDict):
         
 	return ("[%s] binder_return %s: process pid %s (%s), thread pid %s, from %s, \
 transaction id %s, command value %s, data address %s, data size %s, offsets address %s, offsets size %s" % 
-		(timestamp, cmd, procPid, getProcessNameFor(procPid), threadPid, fromString, transactionDebugId, 
+		(timestamp, cmd, procPid, buu.getProcessNameFor(procPid), threadPid, fromString, transactionDebugId, 
 			cmdUInt, bufferDataAddress, bufferDataSize, bufferOffsetsAddress, bufferOffsetsSize))
 
 # binder.c#1542
@@ -376,11 +378,11 @@ def translateBinderCommandReply(line, timestamp, makeDict):
         if makeDict:
                 binderDict = {}
                 binderDict['op'] = "BC_REPLY"
-                binderDict['sender'] = getProcessNameFor(senderPid)
+                binderDict['sender'] = buu.getProcessNameFor(senderPid)
                 binderDict['senderPid'] = senderPid
                 binderDict['senderThread'] = senderThread
                 binderDict['debugId'] = debugId
-                binderDict['target'] = getProcessNameFor(targetPid)
+                binderDict['target'] = buu.getProcessNameFor(targetPid)
                 binderDict['targetPid'] = targetPid
                 binderDict['targetThread'] = targetThread
                 binderDict['addrs'] = addrs
@@ -394,7 +396,7 @@ def translateBinderCommandReply(line, timestamp, makeDict):
         
 	return ("[%s] binder_command BC_REPLY: process pid %s (%s), thread pid %s -> process pid %s (%s), thread pid %s \
 transaction id %s, data address %s, data size %s, offsets address %s, offsets size %s %s" % 
-		(timestamp, senderPid, getProcessNameFor(senderPid), senderThread, targetPid, getProcessNameFor(targetPid),
+		(timestamp, senderPid, buu.getProcessNameFor(senderPid), senderThread, targetPid, buu.getProcessNameFor(targetPid),
 		targetThread, debugId, bufferAddr, bufferSize, offsetsAddr, offsetsSize, extra))
 
 # binder.c#1550
@@ -435,13 +437,13 @@ def translateBinderCommandTransaction(line, timestamp, makeDict):
         if makeDict:
                 binderDict = {}
                 binderDict['op'] = "BC_TRANSACTION"
-                binderDict['sender'] = getProcessNameFor(senderPid)
+                binderDict['sender'] = buu.getProcessNameFor(senderPid)
                 binderDict['senderPid'] = senderPid
                 binderDict['senderThread'] = senderThread
                 binderDict['debugId'] = debugId
                 binderDict['targetNodeDebugId'] = targetNodeDebugId
                 binderDict['targetPid'] = targetPid
-                binderDict['target'] = getProcessNameFor(targetPid)
+                binderDict['target'] = buu.getProcessNameFor(targetPid)
                 binderDict['addrs'] = addrs
                 binderDict['bufferAddr'] = bufferAddr
                 binderDict['offsetsAddr'] = offsetsAddr
@@ -453,7 +455,7 @@ def translateBinderCommandTransaction(line, timestamp, makeDict):
         
 	return ("[%s] binder_command BC_TRANSACTION: process pid %s (%s), thread pid %s -> process pid %s (%s), node id %s \
 transaction id %s, data address %s, data size %s, offsets address %s, offsets size %s %s" % 
-		(timestamp, senderPid, getProcessNameFor(senderPid), senderThread, targetPid, getProcessNameFor(targetPid),
+		(timestamp, senderPid, buu.getProcessNameFor(senderPid), senderThread, targetPid, buu.getProcessNameFor(targetPid),
 		targetNodeDebugId, debugId, bufferAddr, bufferSize, offsetsAddr, offsetsSize, extra))
 
 # binder_debug(BINDER_DEBUG_TRANSACTION,
@@ -532,7 +534,7 @@ def translateBinderBufferRelease(line, timestamp, makeDict):
                 binderDict['extra'] = extra
                 return binderDict
         return ("[%s] binder: process pid %s (%s) buffer release id %s, data size %s, offsets size %s %s %s" %
-	 (timestamp, pid, getProcessNameFor(pid), debugId, sizeData, sizeOffsets, failedAt, extra))
+	 (timestamp, pid, buu.getProcessNameFor(pid), debugId, sizeData, sizeOffsets, failedAt, extra))
 
 # binder.c#2707
 # binder: 9489:9489 write 44 at acb0aa00, read 256 at acb0a500
@@ -556,7 +558,7 @@ def traslateBinderWrite(line, timestamp, makeDict):
                 binderDict = {}
                 binderDict.op = "binder_write"
                 binderDict.pid = pid
-                binderDict.proc = getProcessNameFor(pid)
+                binderDict.proc = buu.getProcessNameFor(pid)
                 binderDict.threadpid = threadpid
                 binderDict.writesize = writeSize
                 binderDict.readSize = readSize
@@ -564,7 +566,7 @@ def traslateBinderWrite(line, timestamp, makeDict):
                 binderDict.readAddr = readAddr
                 return binder_dict
 	return ("[%s] binder: process pid %s (%s), thread pid %s, writing %s bytes at addr %s reading %s bytes at addr %s" %
-	 (timestamp, procPid, getProcessNameFor(procPid), threadPid, writeSize, writeAddr, readSize, readAddr))
+	 (timestamp, procPid, buu.getProcessNameFor(procPid), threadPid, writeSize, writeAddr, readSize, readAddr))
 
 # binder.c#2733
 # binder: 635:646 wrote 8 of 8, read return 48 of 256
@@ -588,7 +590,7 @@ def translateBinderWrote(line, timestamp, makeDict):
                 binderDict = {}
                 binderDict.op = "binder_wrote"
                 binderDict.pid = pid
-                binderDict.proc = getProcessNameFor(pid)
+                binderDict.proc = buu.getProcessNameFor(pid)
                 binderDict.threadpid = threadpid
                 binderDict.writesize = writeSize
                 binderDict.readSize = readSize
@@ -597,68 +599,23 @@ def translateBinderWrote(line, timestamp, makeDict):
                 return binder_dict
         
 	return ("[%s] binder: process pid %s (%s), thread pid %s, wrote %s of %s bytes, read %s of %s bytes" %
-	 (timestamp, procPid, getProcessNameFor(procPid), threadPid, writeConsumed, writeSize, readConsumed, readSize))
+	 (timestamp, procPid, buu.getProcessNameFor(procPid), threadPid, writeConsumed, writeSize, readConsumed, readSize))
 
 
 # [122214.186086]   [seconds.milliseconds]
 # time printed will be based on local system time (i.e. computer time, not android time)
 def translateTimestamp(ts):
-	secondsPassed = float(ts) - float(startingTimestamp)
-	hts = (startingSystemTime + timedelta(seconds=secondsPassed)).time()
-	#return str(hts)[:str(hts).find('.')+3]
-	return hts
+    secondsPassed = float(ts) - float(startingTimestamp)
+    hts = (startingSystemTime + timedelta(seconds=secondsPassed)).time()
+    #return str(hts)[:str(hts).find('.')+3]
+    return hts
 
-def getProcessNameFor(pid):
-	val = subprocess.check_output(["adb", "shell", "ps", "-p", str(pid)])
-	val = val[val.find('\n')+1:]
-	val = val[val.rfind(' ')+1:]
-	val = val.rstrip()
-	if val == "":
-		return "process exited"
-	return val
-
-# might be able to do some of the shell commands in python equivalents to speed it up
-def getDmesg():
-	p1 = Popen(["adb", "shell", "dmesg"], stdout=PIPE)
-	p2 = Popen(["grep", "-v", "BINDERFILTER"], stdin=p1.stdout, stdout=PIPE)
-        p3 = Popen(["grep", "binder"], stdin=p2.stdout, stdout=PIPE)
-        return p3.communicate()[0]
-
-def getTimeStampFromLine(l):
-	a = l.find('[')
-	b = l.find(']', a)
-	return l[a+1:b]
-
-def systemChecks():
-	# check for kernel version (and also adb shell access)
-	val=""
-	try: 
-		val = subprocess.check_output(["adb", "shell", "cat", "/proc/version"])
-	except subprocess.CalledProcessError:
-		sys.exit()
-
-	version = val[len("Linux version "):val.find('-')]
-	if int(version[0]) < 3 or (int(version[2:][0:version[2:].find('.')]) < 4):
-		print "Linux kernel version", version, "is older than 3.4.0, logging may not be accurate!!"
-
-	try:
-		val = subprocess.check_output("adb shell \"ls /data\" ",shell=True)
-	except subprocess.CalledProcessError:
-		sys.exit()
-        
-def generateDebugMask(l):
-	debugMask = 0
-	for i in l:
-		debugMask += 1 << i
-
-	return debugMask
-
-def PrettyPrint(debugMask, debugArray, printForever, returnDontPrint, visualize=False):
+def PrettyPrint(debugMask, debugArray, printForever, returnDontPrint):
 
 	if debugMask == 0:
-		debugMask = generateDebugMask(debugArray)
+		debugMask = buu.generateDebugMask(debugArray)
 
-	systemChecks()
+	buu.systemChecks()
 
         # set the kernel module parameter for binder_debug() statements
 	cmd='adb shell \"echo \'' + str(debugMask) + '\' > /sys/module/binder/parameters/debug_mask \"'
@@ -679,7 +636,7 @@ def PrettyPrint(debugMask, debugArray, printForever, returnDontPrint, visualize=
         output = p3.communicate()[0]
 
         if output:
-                firstTime = getTimeStampFromLine(output.splitlines()[0])
+                firstTime = buu.getTimeStampFromLine(output.splitlines()[0])
 	else :
                 firstTime = 0
         
@@ -688,24 +645,20 @@ def PrettyPrint(debugMask, debugArray, printForever, returnDontPrint, visualize=
 	startingTimestamp = firstTime
        
 	if printForever == False:
-		for line in getDmesg().splitlines():
+		for line in buu.getDmesg().splitlines():
                         translateLog(line, False)
 		sys.exit()
 
 	mostRecentTime = 0
-        #print getDmesg()
-        #print '+++++++++++++++++++++++++++++++++++++++++++++++++'
-        f = open('dmesg_logs','w')
         while True:
-                s = getDmesg()
-                f.write(s)
+                s = buu.getDmesg()
 		lines = s.splitlines()
                 
                 for line in lines:
-			if (getTimeStampFromLine(line) > mostRecentTime):
-                                if returnDontPrint or visualize:
+			if (buu.getTimeStampFromLine(line) > mostRecentTime):
+                                if returnDontPrint:
                                         return translateLog(line,True)
                                 else:
                                         print translateLog(line,False)[1]
                                         
-		                mostRecentTime = getTimeStampFromLine(lines[-1])
+		                mostRecentTime = buu.getTimeStampFromLine(lines[-1])
