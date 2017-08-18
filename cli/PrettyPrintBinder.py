@@ -693,10 +693,14 @@ def PrettyPrint(debugMask, debugArray, printForever, returnDontPrint, visualize=
 		sys.exit()
 
 	mostRecentTime = 0
-
+        #print getDmesg()
+        #print '+++++++++++++++++++++++++++++++++++++++++++++++++'
+        f = open('dmesg_logs','w')
         while True:
-		lines = getDmesg().splitlines()
-
+                s = getDmesg()
+                f.write(s)
+		lines = s.splitlines()
+                
                 for line in lines:
 			if (getTimeStampFromLine(line) > mostRecentTime):
                                 if returnDontPrint or visualize:

@@ -38,3 +38,6 @@ internal features as the death noti cation.
 
 == If one process sends 'data' to another process it is called a transaction - ? == 
 example of a one way communication - death notification.
+* Packages to install
+graphviz
+scapy

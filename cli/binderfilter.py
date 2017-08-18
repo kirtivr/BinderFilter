@@ -260,7 +260,6 @@ def isValidBinderOp(info):
 
 def printIpcBuffersForever():
 	checkIpcBuffersAndFilterEnabled()
-
 	mostRecentTime = 0
 	while True:
 		lines = getDmesg().splitlines()
