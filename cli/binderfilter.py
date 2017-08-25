@@ -269,77 +269,27 @@ def printBinderLog(mask, array, forever, returnDontPrint):
                 PrettyPrintBinder.PrettyPrint(mask, array, forever, returnDontPrint)
         
 def packAndSendBinderLogs(info):
+        print info
         packetType = info[0]
-        if packetType == 'discard':
-                # do not send this packet. Return
-                return
-        elif packetType == "open":
-                #[%s] binder_open: group leader pid %s, current pid %s (%s) % (timestamp, pid1, pid2, name)
-                offsetFormatStr = "L" +str(offsetSize)+"c"
-                print info
-        elif packetType == "mmap":
-                #"[%s] binder_mmap: pid %s (%s) mapped addr %s-%s, size %s, flags %s, prot %s" % 
-		#  (timestamp, pid, name, vmaStart, vmaEnd, size, flags, prot)
-                print info
-        elif packetType == "flush":
-                #("[%s] binder_flush: pid %s (%s) woke %s threads" % (timestamp, pid, getProcessNameFor(pid), num)
-                print info
-        elif packetType == "release":
-                #"[%s] binder_release: pid %s (%s) released %s threads, %s nodes, %s incoming refs, %s outgoing refs, %s active transactions, %s buffers, %s pages" % 
-	#	(timestamp, pid, getProcessNameFor(pid), threads, nodes, irefs, orefs, ats, buffers, pages)
-                print info
-        elif packetType == "openvm":
-                #"[%s] binder: pid %s (%s) opened vm area addr %s-%s, size %s, flags %s, prot %s" %
-#	 (timestamp, pid, getProcessNameFor(pid), vmaStart, vmaEnd, size, flags, prot)
-                print info
-        elif packetType == "closevm":
-                #"[%s] binder: pid %s (%s) closed vm area addr %s-%s, size %s, flags %s, prot %s" % 
-#		(timestamp, pid, getProcessNameFor(pid), vmaStart, vmaEnd, size, flags, prot)
-                print info
-        elif packetType == "BR_TRANSACTION":
-                #return ("[%s] binder_return %s: process pid %s (%s), thread pid %s, from %s, \
-#transaction id %s, command value %s, data address %s, data size %s, offsets address %s, offsets size %s" % 
-#		(timestamp, cmd, procPid, getProcessNameFor(procPid), threadPid, fromString, transactionDebugId, 
-#			cmdUInt, bufferDataAddress, bufferDataSize, bufferOffsetsAddress, bufferOffsetsSize))
+        # We are only interested in Binder transactions
+
+        if packetType == "BR_TRANSACTION":
                 sPacket = info
                 i = IP( dst = "127.0.0.1") / UDP(sport = 8087,dport =8087) / Raw (load=sPacket)
                 send(i)
-                print info
         elif packetType == "BR_REPLY":
-                 #return ("[%s] binder_return %s: process pid %s (%s), thread pid %s, from %s, \
-#transaction id %s, command value %s, data address %s, data size %s, offsets address %s, offsets size %s" % 
-#		(timestamp, cmd, procPid, getProcessNameFor(procPid), threadPid, fromString, transactionDebugId, 
-#			cmdUInt, bufferDataAddress, bufferDataSize, bufferOffsetsAddress, bufferOffsetsSize))
-                print info
+                sPacket = info
+                i = IP( dst = "127.0.0.1") / UDP(sport = 8087,dport =8087) / Raw (load=sPacket)
+                send(i)
         elif packetType == "BC_TRANSACTION":
-#                "[%s] binder_command BC_TRANSACTION: process pid %s (%s), thread pid %s -> process pid %s (%s), node id %s \
-#transaction id %s, data address %s, data size %s, offsets address %s, offsets size %s %s" % 
-#		(timestamp, senderPid, getProcessNameFor(senderPid), senderThread, targetPid, getProcessNameFor(targetPid),
-#		targetNodeDebugId, debugId, bufferAddr, bufferSize, offsetsAddr, offsetsSize, extra))
                 sPacket = info
                 i = IP( dst = "127.0.0.1") / UDP(sport = 8086,dport =8086) / Raw (load=sPacket)
                 send(i)
-                print info
         elif packetType == "BC_REPLY":
-                #"[%s] binder_command BC_REPLY: process pid %s (%s), thread pid %s -> process pid %s (%s), thread pid %s \
-#transaction id %s, data address %s, data size %s, offsets address %s, offsets size %s %s" % 
-#		(timestamp, senderPid, getProcessNameFor(senderPid), senderThread, targetPid, getProcessNameFor(targetPid),
-#		targetThread, debugId, bufferAddr, bufferSize, offsetsAddr, offsetsSize, extra)
-                print info
-        elif packetType == "BUFFER_RELEASE":
-#"[%s] binder: process pid %s (%s) buffer release id %s, data size %s, offsets size %s %s %s" %
-#	 (timestamp, pid, getProcessNameFor(pid), debugId, sizeData, sizeOffsets, failedAt, extra)
-                print info
-        elif packetType == "write":
-                #"[%s] binder: process pid %s (%s), thread pid %s, writing %s bytes at addr %s reading %s bytes at addr %s" %
-	 #(timestamp, procPid, getProcessNameFor(procPid), threadPid, writeSize, writeAddr, readSize, readAddr))
-                print info
-        elif packetType == "wrote":
-                #[%s] binder: process pid %s (%s), thread pid %s, wrote %s of %s bytes, read %s of %s bytes" %
-	# (timestamp, procPid, getProcessNameFor(procPid), threadPid, writeConsumed, writeSize, readConsumed, readSize)
-                print info
-        
-        print packetType
+                sPacket = info
+                i = IP( dst = "127.0.0.1") / UDP(sport = 8088,dport =8088) / Raw (load=sPacket)
+                send(i)
+
     
 def unformatBuffer(buff):
         if buff == "":

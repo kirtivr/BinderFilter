@@ -1,0 +1,43 @@
+* Explaining the graph
+The Android system service uses a special notification feature of the Binder,
+that is called link  to  death mechanism.  This facility allows processes to get
+informed when a Binder of a certain process is terminated. In particular, this is
+the way the Android window manager establishes a link to death relation to the
+callback Binder interface of each window, to get informed if the window is closed.
+
+=== process exited sending BR_TRANSACTION (a write from their binder interfaces) makes sense now.
+
+Each Binder is uniquely identifiable, that means it can act as shared token.
+Under the assumption the Binder is not published via the
+service manager
+, the
+Binder identi cation is only known by the involved communicating parties, in-
+cluding remote process, local process and the system.  Consequently a Binder
+may be used as a security access token. The token can also be shared across
+multiple processes.
+Another security feature is that a callee process can identify his caller process
+by UID and PID. Combined with the Android security model, a process can be
+identi ed. Another feature, but in this work not analyzed, is the shared memory
+mechanism, where via binder framework a heap can be shared.
+
+Summarized, the Binder and its framework support many features to ensure a
+well object oriented interprocess communication.
+
+4.4.1. Communication Model
+The Binder framework communication is a client server model. A client will initi-
+ate a communication and wait for response from a server. The Binder framework
+uses a client-side proxy for communication. On the server side, a thread pool
+exists for working on requests.
+
+If one process sends data to another process, it is called transaction. Along with
+each transmission payload data is submitted. The data is called transaction data.
+
+Therefore a transaction implies two messages, a transaction request and its
+reply. The one way communication of the Binder facilities section is limited to
+internal features as the death noti cation.
+
+== If one process sends 'data' to another process it is called a transaction - ? == 
+example of a one way communication - death notification.
+* Packages to install
+graphviz
+scapy

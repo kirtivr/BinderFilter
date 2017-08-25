@@ -55,6 +55,11 @@ def getDmesg():
     p3 = Popen(["grep", "binder"], stdin=p2.stdout, stdout=PIPE)
     return p3.communicate()[0]
 
+
+def getTransactionLog():
+    p1 = subprocess.Popen(["adb", "shell", "cat /sys/kernel/debug/binder/transaction_log"], stdout=subprocess.PIPE)
+    return p1.communicate()[0]
+
 def getTimeStampFromLine(l):
     a = l.find('[')
     b = l.find(']', a)
