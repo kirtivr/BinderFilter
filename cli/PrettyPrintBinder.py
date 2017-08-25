@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # David Wu
-# Visualizations, packet forwarding by Kirti Vardhan Rathore
+# Packet forwarding by Kirti Vardhan Rathore
 # todo: add filters
 # line numbers from http://androidxref.com/kernel_3.4/xref/drivers/staging/android/binder.c
 
