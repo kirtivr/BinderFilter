@@ -37,7 +37,7 @@ def systemChecks():
 	    sys.exit()
 
 def getProcessNameFor(pid):
-    if False:
+    try:
         val = subprocess.check_output(["adb", "shell", "ps", "-p", str(pid)])
         val = val[val.find('\n')+1:]
         val = val[val.rfind(' ')+1:]
@@ -45,9 +45,9 @@ def getProcessNameFor(pid):
         if val == "":
 	    return "process exited"
         return val
-    else:
-        return str(pid)
-    
+    except subprocess.CalledProcessError:
+        return "unknown"
+
 # might be able to do some of the shell commands in python equivalents to speed it up
 def getDmesg():
     p1 = Popen(["adb", "shell", "dmesg"], stdout=PIPE)

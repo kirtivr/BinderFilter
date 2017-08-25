@@ -7,9 +7,12 @@ import datetime
 import urllib
 import re
 import subprocess
+from subprocess import Popen, PIPE
 from datetime import timedelta
 
 from argparse import RawTextHelpFormatter
+
+transactionDebugInfo = {}
 
 def getSequenceDiagram( text, outputFile, style = 'default' ):
     request = {}
@@ -41,21 +44,19 @@ def printSequenceDiagram(sequences):
 
     for seq in sequences:
         if seq['op'] == "BR_TRANSACTION":
-            sender = 'binder'
+            sender = '/dev/bider'
             target = seq["fromProc"]
         elif seq['op'] == "BR_REPLY":
-            sender = 'binder'
+            sender = '/dev/binder'
             target = seq['fromProc']
         elif seq['op'] == "BC_TRANSACTION":
             sender = seq["sender"]
-            target = 'binder'
+            target = '/dev/binder'
         elif seq['op'] == "BC_REPLY":
             sender = seq["sender"]
-            target = 'binder'
+            target = '/dev/binder'
 
         text = text + str(sender) + '->' + str(target) + ': '+ seq['op'] + '\n'
-
-    print text
     
     pngFile = "sequence.png"
 
@@ -76,9 +77,7 @@ def add_nodes(graph, nodes, style):
 
 
 def add_edges(graph, edges):
-    #print edges
     for e in edges:
-     #   print e
         if e[2] == "BR_TRANSACTION":
             graph.edge(e[0], e[1], color='cyan', style='filled')
         elif e[2] == "BR_REPLY":
@@ -141,7 +140,7 @@ def visualize(digraph, info, nodes, edges, mode):
 def translateLog(line, sttime, systime):
     if line == "":
         return None
-    
+    #print line
     timestamp = line[1:line.find(']')]
     timestamp = timestamp.strip()	# handle 1-4 digit timestamps
     timestamp = translateTimestamp(timestamp, sttime, systime)
@@ -159,6 +158,18 @@ def translateLog(line, sttime, systime):
 
     return None
 
+def addToDebugInfo(pid, tid, fromPid, fromThreadPid):
+    global transactionDebugInfo
+    transactionDebugInfo[(pid,tid)] = (fromPid,fromThreadPid)
+
+def resolveInfoForPair(pid, tid):
+    #print transactionDebugInfo
+    if (pid,tid) in transactionDebugInfo:
+        retval = transactionDebugInfo[(pid,tid)]
+        del transactionDebugInfo[(pid,tid)]
+        return retval
+    else:
+        return -1
 
 # BR_TRANSACTION
 def translateBinderReturn(line, timestamp):
@@ -171,6 +182,8 @@ def translateBinderReturn(line, timestamp):
     c2 = fromPid.find(':')
     fromProcPid = fromPid[:c2]
     fromThreadPid = fromPid[c2+1:-1]
+    debugId = splitLine[3]
+
     binderDict = {}
     if "BR_TRANSACTION" in line :
         binderDict['op'] = "BR_TRANSACTION"
@@ -180,10 +193,29 @@ def translateBinderReturn(line, timestamp):
     binderDict['procpid'] = procPid
     binderDict['proc'] = buu.getProcessNameFor(procPid)
     binderDict['threadPid'] = threadPid
-    binderDict['fromPid'] = fromPid
-    binderDict['fromProcPid'] = fromProcPid
-    binderDict['fromProc'] = buu.getProcessNameFor(fromProcPid) 
-    binderDict['fromThreadPid'] = fromThreadPid
+    binderDict['debugId'] = debugId
+    
+    # If PID is 0, this is a one way async transaction
+    # Info from corr. binder command can help us resolve the PID
+    
+    if fromProcPid == 0:
+        resolvedInfo = resolveInfoForPair(procPid,threadPid)
+        if resolvedInfo == -1:
+            binderDict['fromPid'] = fromProcPid
+            if fromProcPid == 0:
+                binderDict['fromProc'] = 'One way'
+            else:
+                binderDict['fromProc'] = buu.getProcessNameFor(fromProcPid) 
+            binderDict['fromThreadPid'] = fromThreadPid
+        else:
+            binderDict['fromPid'] = resolvedInfo[0]
+            binderDict['fromProc'] = buu.getProcessNameFor(resolvedInfo[0]) 
+            binderDict['fromThreadPid'] = resolvedInfo[1]
+    else:
+        binderDict['fromPid'] = fromProcPid
+        binderDict['fromProc'] = buu.getProcessNameFor(fromProcPid) 
+        binderDict['fromThreadPid'] = fromThreadPid
+      
     binderDict['timestamp'] = timestamp
         
     return binderDict
@@ -193,7 +225,7 @@ def translateBinderCommandReply(line, timestamp):
     sender = splitLine[1]
     senderPid = sender[:sender.find(':')]
     senderThread = sender[sender.find(':')+1:]
-
+    debugId = splitLine[3]
     target = splitLine[5]
     targetPid = target[:target.find(':')]
     targetThread = target[target.find(':')+1:]
@@ -205,6 +237,9 @@ def translateBinderCommandReply(line, timestamp):
     binderDict['target'] = buu.getProcessNameFor(targetPid)
     binderDict['targetPid'] = targetPid
     binderDict['targetThread'] = targetThread
+    binderDict['debugId'] = debugId
+    # Add debug ID to global dict, helping resolve sender PID for BR_REPLY
+    addToDebugInfo(targetPid, targetThread, senderPid, senderThread)
     binderDict['timestamp'] = timestamp
     
     return binderDict
@@ -216,6 +251,7 @@ def translateBinderCommandTransaction(line, timestamp):
     senderPid = sender[:sender.find(':')]
     senderThread = sender[sender.find(':')+1:]
     targetPid = splitLine[5]
+    debugId = splitLine[8]
 
     binderDict = {}
     binderDict['op'] = "BC_TRANSACTION"
@@ -224,6 +260,9 @@ def translateBinderCommandTransaction(line, timestamp):
     binderDict['senderThread'] = senderThread
     binderDict['targetPid'] = targetPid
     binderDict['target'] = buu.getProcessNameFor(targetPid)
+    binderDict['debugId'] = debugId
+    # Add debug ID to global dict, helping resolve sender PID for BR_TRANSACTION
+    addToDebugInfo(targetPid, debugId, senderPid, senderThread)
     binderDict['timestamp'] = timestamp
     
     return binderDict
@@ -288,9 +327,7 @@ def getBinderLog(debugMask, debugArray):
             mostRecentTime = buu.getTimeStampFromLine(lines[-1])
 
 def main(argv):
-    # demo
-    if False:
-        buu.getRoot()
+    buu.getRoot()
     
     parser = argparse.ArgumentParser(description='Android Binder IPC visualizer')
 
@@ -324,30 +361,12 @@ def main(argv):
             else:
                 mode = 'abstract'
 
-            if True:
-                with open('dmesg_logs','r') as dmesg_logs:
-                    s = dmesg_logs.read()
-                    lines = s.splitlines()
             
-                    if lines:
-                        firstTime = buu.getTimeStampFromLine(lines[0])
-	            else :
-                        firstTime = 0
-
-	            startingSystemTime = datetime.datetime.now()
-                    startingTimestamp = firstTime
-
-                    for line in lines :
-                        info = translateLog(line, startingTimestamp, startingSystemTime)
-                        if isValidBinderOp(info):
-                            visualize(digraph,info,nodes,edges,mode)
-                
-            else:
-                while True:
-                    info = getBinderLog(debugMask, debugArray)
-                    print info
-                    if isValidBinderOp(info):
-                        visualize(digraph,info,nodes,edges,mode)
+            while True:
+                info = getBinderLog(debugMask, debugArray)
+                print info
+                if isValidBinderOp(info):
+                    visualize(digraph,info,nodes,edges,mode)
                 
         elif opt[0] == "argSequence" and opt[1] is not None:
             fail = False
@@ -363,50 +382,31 @@ def main(argv):
             if len(pid1) == 0 or len(pid2) == 0:
                 print "One or both of the program names were not found. "
                 exit(1)
-    
-            if True:
-                with open('dmesg_logs','r') as dmesg_logs:
-                    s = dmesg_logs.read()
-                    lines = s.splitlines()
-            
-                    if lines:
-                        firstTime = buu.getTimeStampFromLine(lines[0])
-	            else :
-                        firstTime = 0
-                    
-	            startingSystemTime = datetime.datetime.now()
-                    startingTimestamp = firstTime
-                    sequence = []
+            sequence=[]
 
-                    for line in lines :
-                        info = translateLog(line, startingTimestamp, startingSystemTime)
-                        nodes = []
-                        
-                        if info:
-                            if info['op'] == "BR_TRANSACTION" or info['op'] == "BR_REPLY":
-                                nodes.append(info["fromProc"])
-                                nodes.append(info["proc"])
-                            elif info['op'] == "BC_TRANSACTION" or info['op'] == "BC_REPLY":
-                                nodes.append(info["sender"])
-                                nodes.append(info["target"])
+            while True:
+                info = getBinderLog(debugMask, debugArray)
 
-                            if set(nodes) == set(procs):
-                                
-                                sequence.append(info)
-                            
-                    if sequence:
-                        # we are only printing a 100 sequences since more than that and cloudflare kicks in
-                        if len(sequence) > 100:
-                            printSequenceDiagram(sequence[:100])
-                        else:
-                            printSequenceDiagram(sequence)
+                nodes = []
+
+                if info and isValidBinderOp(info):
+                    if info['op'] == "BR_TRANSACTION" or info['op'] == "BR_REPLY":
+                        nodes.append(info["fromProc"])
+                        nodes.append(info["proc"])
+                    elif info['op'] == "BC_TRANSACTION" or info['op'] == "BC_REPLY":
+                        nodes.append(info["sender"])
+                        nodes.append(info["target"])
+                    #print nodes
+                    if nodes and set(nodes) == set(procs):    
+                        sequence.append(info)
+                        if len(sequence) > 5:
+                            # we are only printing 20 sequences. Feel free to remove the restriction if you would like
+                            printSequenceDiagram(sequence[:20])
+
+
                 
-            else:
-                while True:
-                    info = getBinderLog(debugMask, debugArray)
-                    if isValidBinderOp(info):
-                        printSequenceDiagram(opt[1])
-
+        
+            
     if fail:
         print 'Please use -v for call graph, -s for sequence diagram'
 if __name__ == "__main__":

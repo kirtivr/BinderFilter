@@ -1,129 +1,256 @@
 digraph {
 	graph [bgcolor="#333333" fontcolor=white fontsize=8 label="Binder Call Graph" rankdir=BT]
 	node [color=white fillcolor="#006699" fontcolor=white fontname=Helvetica style=filled]
-	0
-	10429
-	10429
-	959
-	10429
-	959
-	959
-	10429
-	959
-	10429
-	0
-	10429
-	0
-	10429
-	10429
-	959
-	10429
-	959
-	959
-	10429
-	0
-	10429
-	10429
-	959
-	10429
-	959
-	959
-	10429
-	0
-	10429
-	959
-	10429
-	959
-	10429
-	0
-	10429
-	0
-	10429
-	959
-	10429
-	0
-	10429
-	959
-	1823
-	10429
-	959
-	0
-	959
-	10429
-	959
-	0
-	1823
-	0
-	959
-	959
-	10429
-	0
-	10429
-	959
-	1823
-	0
-	1823
-	959
-	10429
-	0
-	10429
-	959
-	10429
-	0
-	10429
-	959
-	10429
-	0
-	10429
-	10429
-	959
-	10429
-	959
-	959
-	1823
-	0
-	959
-	10429
-	959
-	0
-	1823
-	959
-	10429
-	959
-	10429
-	0
-	10429
-	0
-	10429
-	10429
-	959
-	10429
-	959
-	959
-	10429
-	0
-	10429
-	10429
-	959
-	10429
-	959
-	959
-	10429
-	0
-	10429
-	10429
-	959
-	10429
-	959
-	959
-	10429
-	0 -> 10429 [arrowhead=open color=cyan style=dotted]
-	10429 -> 959 [color=white style=filled]
-	10429 -> 959 [color=cyan style=filled]
-	959 -> 10429 [color=white style=filled]
-	959 -> 10429 [arrowhead=open color=white style=dotted]
-	0 -> 10429 [color=cyan style=filled]
-	959 -> 1823 [color=white style=filled]
-	0 -> 959 [color=cyan style=filled]
-	0 -> 1823 [color=cyan style=filled]
+	"com.android.launcher3"
+	"/system/bin/surfaceflinger"
+	"com.android.systemui"
+	system_server
+	"com.android.systemui"
+	system_server
+	"com.android.systemui"
+	system_server
+	"com.android.systemui"
+	system_server
+	"com.android.systemui"
+	system_server
+	system_server
+	"com.android.systemui"
+	system_server
+	"/system/bin/surfaceflinger"
+	system_server
+	"/system/bin/surfaceflinger"
+	system_server
+	"/system/bin/surfaceflinger"
+	"com.android.systemui"
+	system_server
+	"com.android.systemui"
+	system_server
+	"com.android.systemui"
+	system_server
+	"com.android.systemui"
+	system_server
+	"com.android.systemui"
+	system_server
+	system_server
+	"/system/bin/surfaceflinger"
+	system_server
+	"/system/bin/surfaceflinger"
+	unknown
+	system_server
+	unknown
+	system_server
+	system_server
+	"/system/bin/surfaceflinger"
+	unknown
+	system_server
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	system_server
+	system_server
+	"/system/bin/surfaceflinger"
+	system_server
+	"/system/bin/servicemanager"
+	"/system/bin/surfaceflinger"
+	system_server
+	"/system/bin/surfaceflinger"
+	system_server
+	unknown
+	"/system/bin/surfaceflinger"
+	"/system/bin/surfaceflinger"
+	system_server
+	unknown
+	system_server
+	"com.facebook.katana"
+	system_server
+	"com.android.systemui"
+	"/system/bin/surfaceflinger"
+	"com.p3app2"
+	system_server
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	"/system/bin/surfaceflinger"
+	"/system/bin/surfaceflinger"
+	"com.p3app2"
+	"com.p3app2"
+	"/system/bin/surfaceflinger"
+	unknown
+	"com.p3app2"
+	system_server
+	"com.p3app2"
+	system_server
+	"com.android.inputmethod.latin"
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	"com.android.inputmethod.latin"
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	"com.android.inputmethod.latin"
+	"/system/bin/surfaceflinger"
+	"com.android.inputmethod.latin"
+	"com.android.inputmethod.latin"
+	"/system/bin/surfaceflinger"
+	unknown
+	"com.p3app2"
+	"/system/bin/surfaceflinger"
+	"com.p3app2"
+	system_server
+	"com.android.inputmethod.latin"
+	"com.p3app2"
+	"/system/bin/surfaceflinger"
+	unknown
+	system_server
+	"/system/bin/surfaceflinger"
+	system_server
+	unknown
+	system_server
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	"com.android.systemui"
+	unknown
+	"com.android.systemui"
+	unknown
+	"com.android.systemui"
+	system_server
+	"/system/bin/servicemanager"
+	unknown
+	"com.android.systemui"
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	system_server
+	"/system/bin/surfaceflinger"
+	system_server
+	unknown
+	system_server
+	system_server
+	"com.android.settings"
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	system_server
+	unknown
+	"/system/bin/surfaceflinger"
+	"com.android.launcher3"
+	system_server
+	"com.android.launcher3"
+	"/system/bin/surfaceflinger"
+	"com.android.launcher3"
+	"/system/bin/surfaceflinger"
+	"com.android.launcher3"
+	"/system/bin/surfaceflinger"
+	unknown
+	"com.android.launcher3"
+	"com.android.launcher3"
+	"/system/bin/surfaceflinger"
+	system_server
+	"com.google.jannh.pointerleak"
+	unknown
+	system_server
+	unknown
+	"com.android.launcher3"
+	system_server
+	"/system/bin/surfaceflinger"
+	system_server
+	"/system/bin/surfaceflinger"
+	"/system/bin/surfaceflinger"
+	"com.facebook.katana"
+	"/system/bin/surfaceflinger"
+	system_server
+	"com.android.systemui"
+	"/system/bin/surfaceflinger"
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	"/system/bin/surfaceflinger"
+	system_server
+	"/system/bin/audioserver"
+	unknown
+	"/system/bin/surfaceflinger"
+	"/system/bin/surfaceflinger"
+	"com.android.systemui"
+	"/system/bin/surfaceflinger"
+	"com.facebook.katana"
+	"com.facebook.katana"
+	"/system/bin/surfaceflinger"
+	unknown
+	"/system/bin/surfaceflinger"
+	"com.facebook.katana"
+	"/system/bin/surfaceflinger"
+	unknown
+	system_server
+	unknown
+	system_server
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	"com.android.inputmethod.latin"
+	unknown
+	"com.android.inputmethod.latin"
+	"com.android.inputmethod.latin"
+	"com.facebook.katana"
+	unknown
+	"/system/bin/surfaceflinger"
+	unknown
+	"com.android.inputmethod.latin"
+	unknown
+	"com.android.inputmethod.latin"
+	"com.facebook.katana"
+	system_server
+	unknown
+	system_server
+	unknown
+	system_server
+	system_server
+	"/system/bin/surfaceflinger"
+	"com.facebook.katana"
+	system_server
+	system_server
+	"/system/bin/surfaceflinger"
+	"com.android.launcher3" -> "/system/bin/surfaceflinger" [color=cyan style=filled]
+	"com.android.systemui" -> system_server [color=white style=filled]
+	system_server -> "com.android.systemui" [color=white style=filled]
+	system_server -> "/system/bin/surfaceflinger" [color=white style=filled]
+	system_server -> "/system/bin/surfaceflinger" [color=cyan style=filled]
+	"com.android.systemui" -> system_server [color=cyan style=filled]
+	unknown -> system_server [arrowhead=open color=cyan style=dotted]
+	unknown -> system_server [color=cyan style=filled]
+	unknown -> "/system/bin/surfaceflinger" [color=cyan style=filled]
+	system_server -> "/system/bin/servicemanager" [color=cyan style=filled]
+	"/system/bin/surfaceflinger" -> system_server [arrowhead=open color=white style=dotted]
+	"/system/bin/surfaceflinger" -> system_server [color=white style=filled]
+	"com.facebook.katana" -> system_server [color=cyan style=filled]
+	"com.android.systemui" -> "/system/bin/surfaceflinger" [color=cyan style=filled]
+	"com.p3app2" -> system_server [color=cyan style=filled]
+	"/system/bin/surfaceflinger" -> "com.p3app2" [arrowhead=open color=white style=dotted]
+	"com.p3app2" -> "/system/bin/surfaceflinger" [color=white style=filled]
+	unknown -> "com.p3app2" [color=cyan style=filled]
+	system_server -> "com.p3app2" [arrowhead=open color=white style=dotted]
+	system_server -> "com.android.inputmethod.latin" [arrowhead=open color=white style=dotted]
+	unknown -> "com.android.inputmethod.latin" [arrowhead=open color=cyan style=dotted]
+	unknown -> "com.android.inputmethod.latin" [color=cyan style=filled]
+	"/system/bin/surfaceflinger" -> "com.android.inputmethod.latin" [arrowhead=open color=white style=dotted]
+	"com.android.inputmethod.latin" -> "/system/bin/surfaceflinger" [color=cyan style=filled]
+	"/system/bin/surfaceflinger" -> "com.p3app2" [color=white style=filled]
+	"com.p3app2" -> "/system/bin/surfaceflinger" [color=cyan style=filled]
+	unknown -> "com.android.systemui" [arrowhead=open color=cyan style=dotted]
+	unknown -> "com.android.systemui" [color=cyan style=filled]
+	system_server -> "com.android.settings" [color=white style=filled]
+	"com.android.launcher3" -> system_server [color=cyan style=filled]
+	"com.android.launcher3" -> "/system/bin/surfaceflinger" [color=white style=filled]
+	unknown -> "com.android.launcher3" [arrowhead=open color=cyan style=dotted]
+	system_server -> "com.google.jannh.pointerleak" [color=white style=filled]
+	"/system/bin/surfaceflinger" -> "com.facebook.katana" [arrowhead=open color=white style=dotted]
+	"com.android.systemui" -> "/system/bin/surfaceflinger" [color=white style=filled]
+	system_server -> "/system/bin/audioserver" [color=cyan style=filled]
+	"/system/bin/surfaceflinger" -> "com.android.systemui" [arrowhead=open color=white style=dotted]
+	"com.facebook.katana" -> "/system/bin/surfaceflinger" [color=cyan style=filled]
+	"com.android.inputmethod.latin" -> "com.facebook.katana" [color=white style=filled]
+	"com.facebook.katana" -> system_server [color=white style=filled]
 }
