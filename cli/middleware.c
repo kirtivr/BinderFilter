@@ -6,7 +6,7 @@
 #include <fcntl.h>
 
 // Calls into BinderFilter kernel driver on behalf of binderfilter.py (which cannot make these kernel calls)
-// based on the Android JNI/NDK version https://github.com/dxwu/Picky/blob/master/app/src/main/jni/picky-jni.c 
+// based on the Android JNI/NDK version https://github.com/BinderFilter/Picky/blob/master/app/src/main/jni/picky-jni.c 
 // no validation, no frills
 
 // cross-compile for arm and push to android
