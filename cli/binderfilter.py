@@ -334,23 +334,6 @@ def unformatBuffer(buff):
         return unformattedCharBuffer
 
 def packAndGetPacket(info):
-#        binderDict = {}
-#        binderDict['op'] = "BC_TRANSACTION"
-#        binderDict['sender'] = getProcessNameFor(senderPid)
-#        binderDict['senderPid'] = senderPid
-#                binderDict['senderThread'] = senderThread
-#                binderDict['debugId'] = debugId
-#                binderDict['targetNodeDebugId'] = targetNodeDebugId
-#                binderDict['targetPid'] = targetPid
-#                binderDict['target'] = getProcessNameFor(targetPid)
-#                binderDict['addrs'] = addrs
-#                binderDict['bufferAddr'] = bufferAddr
-#                binderDict['offsetsAddr'] = offsetsAddr
-#                binderDict['sizes'] = sizes
-#                binderDict['bufferSize'] = bufferSize
-#                binderDict['offsetsSize'] = offsetsSize
-#                binderDict['extra'] = extra
-        
         typeTr = 0
         if info['op'] == 'BC_TRANSACTION':
                 typeTr = 1
