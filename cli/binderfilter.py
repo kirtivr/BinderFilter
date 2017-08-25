@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 # David Wu
+# Pkt frwrdng code written by Kirti Vardhan Rathore
+#
 # Command line BinderFilter
 # 
 # Set policy: block, modify, specify app and arbitrary strings
