@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # David Wu
 # Packet forwarding by Kirti Vardhan Rathore
-# todo: add filters
+# todo: add filters, document packet forwarding better
 # line numbers from http://androidxref.com/kernel_3.4/xref/drivers/staging/android/binder.c
 
 
