@@ -23,16 +23,16 @@ The GPS coordinates of interest are re-cast below.
 
 ## Documentation
 
-See the [wiki](https://github.com/dxwu/BinderFilter/wiki) for documentation.
-For the writeup and slides, see http://binderfilter.org/.
+See the [wiki](https://github.com/BinderFilter/BinderFilter/wiki) for documentation.
+For the writeup and slides, see https://binderfilter.github.io/.
 
 ## Usage
 
-See https://github.com/dxwu/BinderFilter/wiki/Usage
+See https://github.com/BinderFilter/BinderFilter/wiki/Usage
 
 ## Setup
 
-Because we hook an existing Linux driver, BinderFilter code requires a recompilation of the Linux source tree and flashing this new kernel onto an Android phone. We have tested and verified this method on a Google Nexus 7 (2013- flo). For development setup, see the [related documentation](https://github.com/dxwu/BinderFilter/wiki/Setup). To install the pre-compiled kernel image:
+Because we hook an existing Linux driver, BinderFilter code requires a recompilation of the Linux source tree and flashing this new kernel onto an Android phone. We have tested and verified this method on a Google Nexus 7 (2013- flo). For development setup, see the [related documentation](https://github.com/BinderFilter/BinderFilter/wiki/Setup). To install the pre-compiled kernel image:
 
 1. Root your Android phone
 2. Enable USB debugging
@@ -49,11 +49,11 @@ fastboot flash boot ./resources/kernel-image.img
 
 ## Cross-compiling for Android
 
-This is a complex process. Please see "Compile linux kernel for android" in ./documentation/cross-compiling/cross_compiling.txt and https://github.com/dxwu/BinderFilter/wiki/Setup 
+This is a complex process. Please see "Compile linux kernel for android" in ./documentation/cross-compiling/cross_compiling.txt and https://github.com/BinderFilter/BinderFilter/wiki/Setup 
 
 ## Picky
 
-Picky is the Android application that allows users to set firewall policy. See github.com/dxwu/Picky.
+Picky is the Android application that allows users to set firewall policy. See github.com/BinderFilter/BinderFilter/Picky.
 
 ## Presentations 
 
@@ -61,4 +61,5 @@ This project has been presented at Summercon 2016 and Shmoocon 2017.
 
 ## Contributors 
 
-This project started as a Senior Honors Thesis at Dartmouth College. Sergey Bratus advised and designed the project, and David Wu is the main contributer. Ionic Security has provided funding for testing phones and tablets. 
+This project started as a Senior Honors Thesis at Dartmouth College. Sergey Bratus advised and designed the project, and David Wu is the main contributer. Kirti Vardhan Rathore is the current maintainer for the project.
+Ionic Security has provided funding for testing phones and tablets. 
