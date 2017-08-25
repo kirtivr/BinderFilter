@@ -1,5 +1,4 @@
 -- Written by Kirti Vardhan Rathore
--- Advised by Sergey Bratus
 -- based on the trivial protocol example provided at  https://wiki.wireshark.org/Lua/Dissectors#Examples
 -- declare our protocol
 bfilter_proto = Proto("bfilter","Binder Filter Protocol")
