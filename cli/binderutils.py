@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Kirti Vardhan Rathore
+# Kirti Vardhan Rathore, David Wu
 
 import sys, time
 import subprocess
