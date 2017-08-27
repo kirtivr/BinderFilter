@@ -136,25 +136,38 @@ picture of the system.
 When we read /sys/kernel/debug/binder/transaction_log the logs look something like this :
 
 30319178: reply from 437:579 to 959:980 node 0 handle -1 size 0:0
+
 30319179: async from 959:980 to 437:0 node 2955 handle 6 size 80:0
+
 30319180: async from 1339:1339 to 437:0 node 5854 handle 39 size 80:0
+
 30319181: call  from 959:980 to 437:0 node 14 handle 1 size 1056:80
+
 30319182: reply from 437:445 to 959:980 node 0 handle -1 size 0:0
+
 30319183: async from 1339:1339 to 437:0 node 5854 handle 39 size 80:0
+
 30319184: async from 1339:1339 to 437:0 node 5854 handle 39 size 80:0
+
 30319185: async from 437:500 to 959:0 node 993 handle 2 size 68:0
+
 30319189: async from 1339:1339 to 437:0 node 5854 handle 39 size 80:0
+
 30319190: async from 1339:1339 to 437:0 node 5854 handle 39 size 80:0
+
 30319191: async from 437:498 to 959:0 node 993 handle 2 size 68:0
+
 30319192: async from 1859:1859 to 437:0 node 17327 handle 18 size 80:0
+
 30319193: async from 437:499 to 959:0 node 993 handle 2 size 68:0
+
 30319194: call  from 1859:1963 to 437:0 node 30318980 handle 8 size 96:0
+
 30319195: reply from 437:447 to 1859:1963 node 0 handle -1 size 24:0
+
 30319196: call  from 1859:1963 to 437:0 node 30318980 handle 8 size 84:0
 
-The relevant code that prints the above is:
-----------------------------------------------------------------------------
-In binder.c:3614,
+The relevant code that prints the above is binder.c:3614,
 
 static void print_binder_transaction_log_entry(struct seq_file *m,
 					struct binder_transaction_log_entry *e)
