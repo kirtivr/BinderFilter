@@ -130,8 +130,8 @@ is the line that prints BR_TRANSACTION/BR_REPLY logs.
 
 Losing information about the sender of one way calls may be convenient for binder policy but is inconvenient if we want to get an overall
 picture of the system.
-
-*** Luckily, we can correlate information from another log to find out who is talking to who
+-----
+** Enter /sys/kernel/debug/binder/transaction_log !
 
 When we read /sys/kernel/debug/binder/transaction_log the logs look something like this :
 
