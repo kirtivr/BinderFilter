@@ -104,8 +104,7 @@ Method binder_ioctl (Line 3243) is called every time a process makes an IPC call
 |___ We are only interested in BINDER_WRITE_READ (the others are bookkeeping commands)
 
 |_  binder_ioctl_write_read (Line 3269)	  
-|
---------------------------------------------------
+                               |
 |                                                 |
 Write Buffer Size > 0  (Line )          Read Buffer Size > 0 (Line ) 			  
 (BC_TRANSACTION,BC_REPLY)               (BR_TRANSACTION, BR_REPLY)
