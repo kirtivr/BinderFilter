@@ -78,7 +78,7 @@ Flag to transact(int, Parcel, Parcel, int): this is a one-way call, meaning that
 Check :
 https://android.googlesource.com/platform/frameworks/native/+/bd558d61871218f5b13df2fe4b7cc3b530ee947c/include/binder/IBinder.h
 Line 47:
-~ enum {
+#+BEGIN_SRC C enum {
         FIRST_CALL_TRANSACTION  = 0x00000001,
         LAST_CALL_TRANSACTION   = 0x00ffffff,
         PING_TRANSACTION        = B_PACK_CHARS('_','P','N','G'),
@@ -87,7 +87,7 @@ Line 47:
         SYSPROPS_TRANSACTION    = B_PACK_CHARS('_', 'S', 'P', 'R'),
         // Corresponds to TF_ONE_WAY -- an asynchronous call.
         FLAG_ONEWAY             = 0x00000001 
-}; ~
+}; #+END_SRC
 -----
 
 Note the reference to TF_ONE_WAY . This is defined in
