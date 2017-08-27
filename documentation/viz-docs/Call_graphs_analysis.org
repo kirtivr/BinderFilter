@@ -98,6 +98,7 @@ Here is a step through of binder.c at :
 
 https://github.com/torvalds/linux/blob/ae75d1aefe04c30de9b344abc69939cf7b537ac6/drivers/android/binder.c
 
+#+BEGIN_CENTER
 Method binder_ioctl (Line 3243) is called every time a process makes an IPC call through /dev/binder.
 |
 swtich(cmd) on the command passed to the binder drive (Line 3267)
@@ -115,7 +116,7 @@ binder_debug -- print details                                  binder_transactio
                                                                       \
 								      binder_debug -- print details (Line 1975)
 
-
+#+END_CENTER
 
 The actual logs that we parse and create sequence diagrams come from the output of 
 dmesg -n 7 (log level 7).
