@@ -92,13 +92,14 @@ Line 47:
 
 Note the reference to TF_ONE_WAY . This is defined in
 https://github.com/torvalds/linux/blob/master/include/uapi/linux/android/binder.h
+#+
 enum transaction_flags {
 	TF_ONE_WAY	= 0x01,	/* this is a one-way call: async, no return */
 	TF_ROOT_OBJECT	= 0x04,	/* contents are the component's root object */
 	TF_STATUS_CODE	= 0x08,	/* contents are a 32-bit status code */
 	TF_ACCEPT_FDS	= 0x10,	/* allow replies with file descriptors */
 };
-
+#+
 This flag is checked whenever Binder receives a new transaction.
 
 **** Binder's obfuscation
