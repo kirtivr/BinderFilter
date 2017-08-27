@@ -111,7 +111,7 @@ read_size > 0  (Line 3175)               write_size > 0 (Line 3162)
 
 (BR_TRANSACTION,BR_REPLY)                     (BC_TRANSACTION, BC_REPLY)
 
-/                                                    \
+         /                                                    \
 
 binder_thread_read (Line 2654)                        binder_thread_write (Line 2252)                                         
      
