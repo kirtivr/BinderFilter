@@ -75,7 +75,7 @@ BR_REPLY - Binder forwards the reply to the client. This can also be one way in 
 In this case the client does not know who the message came from, but receives it anyway.
 
 The sequence diagram of a two way transaction should look like this:
-
+#+verbatim
  +-----+                 +---------+                    +------+
  |  P1 |                 | Binder  |                    |  P2  |
  +-----+                 +---------+                    +------+
@@ -91,7 +91,7 @@ may receive multiple other replies      BC_REPLY           |  .... processing
     |                         |
     |    BR_REPLY             |
     | <---------------------- |
-
+#+verbatim
 
 *** Hooking the right logs
 How are we sure we caught all the transactions that go through binder ?
