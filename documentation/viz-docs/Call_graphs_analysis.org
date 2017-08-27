@@ -78,7 +78,8 @@ Flag to transact(int, Parcel, Parcel, int): this is a one-way call, meaning that
 Check :
 https://android.googlesource.com/platform/frameworks/native/+/bd558d61871218f5b13df2fe4b7cc3b530ee947c/include/binder/IBinder.h
 Line 47:
-#+BEGIN_SRC C enum {
+#+BEGIN_SRC C
+enum {
         FIRST_CALL_TRANSACTION  = 0x00000001,
         LAST_CALL_TRANSACTION   = 0x00ffffff,
         PING_TRANSACTION        = B_PACK_CHARS('_','P','N','G'),
@@ -93,25 +94,25 @@ Line 47:
 
 Note the reference to TF_ONE_WAY . This is defined in
 https://github.com/torvalds/linux/blob/master/include/uapi/linux/android/binder.h
-#+
+#+BEGIN_SRC
 enum transaction_flags {
 	TF_ONE_WAY	= 0x01,	/* this is a one-way call: async, no return */
 	TF_ROOT_OBJECT	= 0x04,	/* contents are the component's root object */
 	TF_STATUS_CODE	= 0x08,	/* contents are a 32-bit status code */
 	TF_ACCEPT_FDS	= 0x10,	/* allow replies with file descriptors */
 };
-#+
+#+END_SRC C
 This flag is checked whenever Binder receives a new transaction.
 
 **** Binder's obfuscation
 
 See line 1994:1997 in https://github.com/torvalds/linux/blob/ae75d1aefe04c30de9b344abc69939cf7b537ac6/drivers/android/binder.c
-
+#+BEGIN_SRC C
 if (!reply && !(tr->flags & TF_ONE_WAY))
     t->from = thread;
 else
     t->from = NULL;
-
+#+END_SRC
 Here t is a variable of type binder_transaction defined in the file on line 343.
 What Binder did was that it removed all information about the client (t->from set to NULL) before forwarding the message to the service.
 We imagine this is to ensure that one way calls remain one way and that there is no way to reply to the client.
@@ -170,7 +171,7 @@ When we read /sys/kernel/debug/binder/transaction_log the logs look something li
 30319196: call  from 1859:1963 to 437:0 node 30318980 handle 8 size 84:0
 
 The relevant code that prints the above is binder.c:3614,
-
+#+BEGIN_SRC C
 static void print_binder_transaction_log_entry(struct seq_file *m,
 					struct binder_transaction_log_entry *e)
 {
@@ -181,8 +182,9 @@ static void print_binder_transaction_log_entry(struct seq_file *m,
 		   e->from_thread, e->to_proc, e->to_thread, e->to_node,
 		   e->target_handle, e->data_size, e->offsets_size);
 }
-
+#+END_SRC
 where the linked list binder_transaction_log_entry is populated from :
+#+BEGIN_SRC C
 binder_transaction(
     struct binder_proc *proc,
     struct binder_thread *thread,
@@ -192,7 +194,9 @@ binder_transaction(
 ...
 e = binder_transaction_log_add(&binder_transaction_log); // Line 1850
 ...
-} in binder.c https://github.com/torvalds/linux/blob/ae75d1aefe04c30de9b344abc69939cf7b537ac6/drivers/android/binder.c
+} 
+#+END_SRC
+in binder.c https://github.com/torvalds/linux/blob/ae75d1aefe04c30de9b344abc69939cf7b537ac6/drivers/android/binder.c
 
 Note that this entry is added before line 1994 in the same function where 'from' information is erased.
 
