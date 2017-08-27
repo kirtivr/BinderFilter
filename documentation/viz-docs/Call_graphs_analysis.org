@@ -78,11 +78,15 @@ The sequence diagram of a two way transaction should look like this:
 
 #+BEGIN_CENTER
 
+
 | P1               | /dev/binder      | P2        |
 |------------------+------------------+-----------|
 | BC_TRANSACTION > |                  |           |
+|                  |                  |           |
 |                  | BR_TRANSACTION > |           |
+|                  |                  |           |
 |                  |                  | <BC_REPLY |
+|                  |                  |           |
 | < BR_REPLY       |                  |           |
 
 #+END_CENTER
