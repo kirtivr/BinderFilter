@@ -118,6 +118,7 @@ What Binder did was that it removed all information about the client (t->from se
 We imagine this is to ensure that one way calls remain one way and that there is no way to reply to the client.
 
 As we saw previously , line 2937 in binder.c (https://github.com/torvalds/linux/blob/ae75d1aefe04c30de9b344abc69939cf7b537ac6/drivers/android/binder.c)
+#+BEGIN_SRC C
 binder_debug(
     BINDER_DEBUG_TRANSACTION,
     "%d:%d %s %d %d:%d, cmd %d size %zd-%zd ptr %016llx-%016llx\n",
@@ -129,6 +130,7 @@ binder_debug(
     t->buffer->data_size, t->buffer->offsets_size,
     (u64)tr.data.ptr.buffer, (u64)tr.data.ptr.offsets
 ); 
+#+END_SRC
 is the line that prints BR_TRANSACTION/BR_REPLY logs.
 
 Losing information about the sender of one way calls may be convenient for binder policy but is inconvenient if we want to get an overall
