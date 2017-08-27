@@ -77,17 +77,17 @@ In this case the client does not know who the message came from, but receives it
 The sequence diagram of a two way transaction should look like this:
 
 #+BEGIN_CENTER
- |-----|                 |--------- |                   |------|
- |  P1 |                 | Binder  |                    |  P2  |
- |-----|                 |---------|                    |-----   |
+ | --- |                 | ------- |                    | ------ |
+ |  P1 |                 | Binder  |                    |  P2    |
+ | --- |                 | ------- |                    | ------ |
     |                         |                            |
     |     BC_TRANSACTION      |                            |
-    ------------------------> |                            |
+       ---------------------> |                            |
     |                         |    BR_TRANSACTION          |
-    |                          ---------------------------->
+    |                           ------------------------>
 one thread waits for the reply,                            |
 may receive multiple other replies      BC_REPLY           |  .... processing
-    |                         |<---------------------------|
+    |                         |  <-----------------------  |
     | <---- unrelated replies processed in other threads   |
     |                         |
     |    BR_REPLY             |
