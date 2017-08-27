@@ -99,19 +99,18 @@ Here is a step through of binder.c at :
 https://github.com/torvalds/linux/blob/ae75d1aefe04c30de9b344abc69939cf7b537ac6/drivers/android/binder.c
 
 Method binder_ioctl (Line 3243) is called every time a process makes an IPC call through /dev/binder.
-|__ swtich(cmd) on the command passed to the binder drive (Line 3267)
-
-|___ We are only interested in BINDER_WRITE_READ (the others are bookkeeping commands)
-
-|_  binder_ioctl_write_read (Line 3269)	  
+|
+swtich(cmd) on the command passed to the binder drive (Line 3267)
+|  We are only interested in BINDER_WRITE_READ (the others are bookkeeping commands)
+| binder_ioctl_write_read (Line 3269)	  
 --------------------------------|------------------
 |                                                 |
-read_size > 0  (Line 3175)          write_size > 0 (Line 3162)  			  
-(BR_TRANSACTION,BR_REPLY)               (BC_TRANSACTION, BC_REPLY)
-/                                               \
-binder_thread_read (Line 2654)                  binder_thread_write (Line 2252)                                                                                                     |
-|                                                            |
-binder_debug -- print details                               binder_transaction method called (Line 2451) 
+read_size > 0  (Line 3175)               write_size > 0 (Line 3162)  			  
+(BR_TRANSACTION,BR_REPLY)                     (BC_TRANSACTION, BC_REPLY)
+/                                                    \
+binder_thread_read (Line 2654)                        binder_thread_write (Line 2252)                                               |                                                             |
+      |                                                             |
+binder_debug -- print details                                  binder_transaction method called (Line 2451) 
 (Line 2937)                                                          \
                                                                       \
 								      binder_debug -- print details (Line 1975)
