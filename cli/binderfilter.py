@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 # David Wu
+# Pkt frwrdng code written by Kirti Vardhan Rathore
+#
 # Command line BinderFilter
 # 
 # Set policy: block, modify, specify app and arbitrary strings
@@ -9,6 +11,7 @@
 #
 
 import sys, getopt
+import graphviz as gv
 from subprocess import call
 import subprocess
 import PrettyPrintBinder
@@ -16,6 +19,9 @@ import argparse
 from argparse import RawTextHelpFormatter
 from enum import Enum
 import struct
+import re
+import functools
+from scapy.all import *
 
 binderFilterPolicyFile = "/data/local/tmp/bf.policy"
 binderFilterContextValuesFile = "/sys/kernel/debug/binder_filter/context_values"
@@ -73,12 +79,10 @@ class BinderDebugLevels(Enum):
 	BINDER_DEBUG_BUFFER_ALLOC_ASYNC = 15
 
 def printPolicy(format):
-	output = subprocess.Popen(["adb", "shell", "su -c \'", "cat", binderFilterPolicyFile, "\'"], stdout=subprocess.PIPE).communicate()[0]
-
-	if format is False:
-		print output
-		return
-
+        output = subprocess.check_output("adb shell \"cat "+ str(binderFilterPolicyFile)+ "\"", shell=True)
+        if format is False:
+                print output
+                return
 	printFormatPolicyFile(output)
 
 # message:uid:action_code:context:(context_type:context_val:)(data:)
@@ -155,9 +159,9 @@ def getStringForContextValue(contextValue):
 		return "Unknown"
 	else:
 		return "Unsupported context value"
-
+#requires root
 def printContextValues():
-	cmd='adb shell \"su -c \'cat ' + binderFilterContextValuesFile + '\'\"'
+	cmd='adb shell \"cat ' + binderFilterContextValuesFile+ "\""
 	call(cmd, shell=True)
 
 #adb shell "dumpsys package | grep -A1 'userId=10082'"
@@ -178,13 +182,13 @@ def getUidStringsForPackages(package):
 	return output
 
 def printPermissions():
-	cmd='adb shell \"su -c \'pm list permissions\'\"'
+	cmd='adb shell \"pm list permissions\"'
 	call(cmd, shell=True)
 	cmd='cat permissions.txt'
 	call(cmd, shell=True)
 
 def printApplications():
-	cmd='adb shell \"su -c \'pm list package\'\"'
+	cmd='adb shell \"pm list packages\"'
 	call(cmd, shell=True)
 
 def printCommands():
@@ -192,28 +196,29 @@ def printCommands():
 	call(cmd, shell=True)
 
 def togglePrintBufferContents(action):
-	cmd='adb shell \"su -c \'echo ' + str(action) + ' > ' + binderFilterEnablePrintBufferContents + '\'\"'
+        cmd='adb shell \"echo ' + str(action) + ' > ' + binderFilterEnablePrintBufferContents + "\""
 	call(cmd, shell=True)
 
 def toggleFilterEnable(action):
-	cmd='adb shell \"su -c \'echo ' + str(action) + ' > ' + binderFilterEnable + '\'\"'
+	cmd='adb shell  \"echo ' + str(action) + ' > ' + binderFilterEnable  + "\""
 	call(cmd, shell=True)
 
+#requires root
 def toggleBlockAndModifyMessages(action):
-	cmd='adb shell \"su -c \'echo ' + str(action) + ' > ' + binderFilterBlockAndModifyMessages + '\'\"'
+	cmd='adb shell \"echo ' + str(action) + ' > ' + binderFilterBlockAndModifyMessages + "\""
 	call(cmd, shell=True)
 
 def checkIpcBuffersAndFilterEnabled():
 	p1 = subprocess.Popen(["adb", "shell", "cat", binderFilterEnablePrintBufferContents], stdout=subprocess.PIPE)
 	output = p1.communicate()[0]
-	if int(output) != BINDER_FILTER_ENABLE:
+        #print "test " + output
+        if int(output) != BINDER_FILTER_ENABLE:
 		print "Please enable IPC buffers: ./binderfilter.py --enable-ipc-buffers"
 		sys.exit()
 	checkFilterEnabled()
 
 def checkFilterEnabled():
-	p2 = subprocess.Popen(["adb", "shell", "cat", binderFilterEnable], stdout=subprocess.PIPE)
-	output = p2.communicate()[0]
+	output = subprocess.check_output("adb shell \"cat "+str(binderFilterEnable)+ "\"", shell=True)
 	if int(output) != BINDER_FILTER_ENABLE:
 		print "Please enable BinderFilter: ./binderfilter.py --enable-binder-filter"
 		sys.exit()
@@ -227,7 +232,7 @@ def checkBlockingEnabled():
 
 def printIpcBuffersOnce():
 	checkIpcBuffersAndFilterEnabled()
-	cmd='adb shell dmesg | grep "BINDERFILTER"'
+	cmd='adb shell \'dmesg | grep "BINDERFILTER"\''
 	call(cmd, shell=True)
 
 def getDmesg():
@@ -241,9 +246,12 @@ def getTime(line):
 	b = line.find(']', a)
 	return line[a+1:b]
 
+def getTimePrefix(line):
+        a = line.find('.')
+        return line[:a]
+
 def printIpcBuffersForever():
 	checkIpcBuffersAndFilterEnabled()
-
 	mostRecentTime = 0
 	while True:
 		lines = getDmesg().splitlines()
@@ -254,9 +262,287 @@ def printIpcBuffersForever():
 
 		mostRecentTime = getTime(lines[-1])
 
-def printBinderLog(mask, array, forever):
+def printBinderLog(mask, array, forever, returnDontPrint):
 	checkFilterEnabled()
-	PrettyPrintBinder.PrettyPrint(mask, array, forever)
+
+        if returnDontPrint == True:
+                return PrettyPrintBinder.PrettyPrint(mask, array, forever, returnDontPrint)
+        else:
+                PrettyPrintBinder.PrettyPrint(mask, array, forever, returnDontPrint)
+        
+def packAndSendBinderLogs(info):
+        print info
+        packetType = info[0]
+        # We are only interested in Binder transactions
+
+        if packetType == "BR_TRANSACTION":
+                sPacket = info
+                i = IP( dst = "127.0.0.1") / UDP(sport = 8087,dport =8087) / Raw (load=sPacket)
+                send(i)
+        elif packetType == "BR_REPLY":
+                sPacket = info
+                i = IP( dst = "127.0.0.1") / UDP(sport = 8087,dport =8087) / Raw (load=sPacket)
+                send(i)
+        elif packetType == "BC_TRANSACTION":
+                sPacket = info
+                i = IP( dst = "127.0.0.1") / UDP(sport = 8086,dport =8086) / Raw (load=sPacket)
+                send(i)
+        elif packetType == "BC_REPLY":
+                sPacket = info
+                i = IP( dst = "127.0.0.1") / UDP(sport = 8088,dport =8088) / Raw (load=sPacket)
+                send(i)
+
+    
+def unformatBuffer(buff):
+        if buff == "":
+                return []
+        #buff = "(-55)(97)"
+        ptr = buff[1:-1]
+        #print ptr
+        binaryDataPattern = re.compile("\(\-?[0-9]*\)",re.MULTILINE)
+        stringDataPattern = re.compile("[a-zA-Z\.\-\_]+",re.MULTILINE)
+        anyDataPattern = re.compile(".",re.MULTILINE)
+
+        unformattedCharBuffer = []
+        
+        #return list(ptr)
+        while len(ptr) > 0:
+                m = binaryDataPattern.match(ptr)
+
+                if m:
+                        charVal = chr(int(m.group()[1:-1]))
+                        unformattedCharBuffer.append(charVal)
+                        ptr = ptr[len(m.group()):]
+                        continue
+                m = stringDataPattern.match(ptr)
+                
+                if m:
+                        #print m.group()
+                        for c in m.group():
+                                unformattedCharBuffer.append(c)
+                        ptr = ptr[len(m.group()):]
+                        continue
+                
+                m = anyDataPattern.match(ptr)
+
+                if m:
+                        # mishappen random noise
+                        # print m.group()
+                        for c in m.group():
+                                unformattedCharBuffer.append(c)
+                                ptr = ptr[len(m.group()):]
+                        continue
+        
+        return unformattedCharBuffer
+
+def packAndGetPacket(info):
+        typeTr = 0
+        if info['op'] == 'BC_TRANSACTION':
+                typeTr = 1
+        elif info['op'] == 'BR_TRANSACTION' :
+                typeTr = 2
+                
+        
+        timePrefix = ""
+        timePrefixLength = 0
+        trType = 0
+        senderEuid = 0
+        dataSize = 0
+        offsetSize = 0
+        data = ""
+        offset = ""
+
+        # get timestamp from first line
+        firstLine = packet[0]
+        timePrefix = getTimePrefix(getTime(firstLine))
+        
+        inputString = ""
+        # merge all the lines into one big string
+        for line in packet:
+                inputString = inputString + line
+
+        #print inputString
+
+        # get the transaction type
+        trpatt = re.compile("BC\_\w+",re.MULTILINE)
+        m = trpatt.search(inputString)
+        if m:
+                if m.group() == "BC_TRANSACTION":
+                        trType = 1
+                else:
+                        trType = 2
+        
+        # get the uid
+        uidpatt = re.compile("uid:\s[0-9]+",re.MULTILINE)
+        m = uidpatt.search(inputString)
+        
+        if m:
+                idpatt = re.compile("[0-9]+",re.MULTILINE)
+                n = idpatt.search(m.group(0))
+                senderEuid = n.group()
+                
+        # get the buffer contents
+        bufpatt = re.compile("\{[^\{]*\}",re.DOTALL)
+        m = bufpatt.findall(inputString)
+        
+        #print '\n\n'
+        
+        data = m[0] if len(m) > 0 else ""
+        offset = m[1] if len(m) > 1 else ""
+
+        data = unformatBuffer(data)
+        offset = unformatBuffer(offset)
+        #print len(data)
+        #print(data)
+        dataSize = 0 if data == [] else len(data)
+        offsetSize = 0 if offset == [] else len(offset)
+
+        # create the damn struct
+        dataFormatStr = "L" +str(dataSize)+"c"
+        offsetFormatStr = "L" +str(offsetSize)+"c"
+        structFormatString = ">I"+"H"+"I"+dataFormatStr+offsetFormatStr
+
+        #print structFormatString
+
+        values = [long(timePrefix),trType,long(senderEuid),dataSize]
+        #print values
+        if dataSize > 0:
+                values = values + data
+        #print values                
+
+        #print offsetSize
+        #print offset
+        
+        values.append(offsetSize)
+        #print values
+        if offsetSize > 0:
+                 values = values + offset
+        
+        #print values
+        structPacket = struct.Struct(structFormatString)
+        sPacket = structPacket.pack(*values)
+        hexdump(sPacket)
+
+        i = IP( dst = "127.0.0.1") / UDP(sport = 8085,dport =8085) / Raw (load=sPacket)
+        send(i)
+        
+def packAndSendPacket(packet):
+        # packet structure
+        # 4 bytes - timestamp
+        # type - 2 bytes
+        # euid - 4 byte integer
+        # --case -- data contents = null, then set data size to zero and send no data
+        # data size - 4 bytes
+        # data - variable length stream of bytes
+        # offsets size - 4 bytes integer
+        # offset data - variable size steam of bytes
+        # BINDERFILTER: type BINDER_TYPE_FD, handle %u - 4 bytes unsigned - find a good name for this handle ... also not sure what it is for yet
+        
+        typeLine = True
+        timePrefix = ""
+        timePrefixLength = 0
+        trType = 0
+        senderEuid = 0
+        dataSize = 0
+        offsetSize = 0
+        data = ""
+        offset = ""
+
+        # get timestamp from first line
+        firstLine = packet[0]
+        timePrefix = getTimePrefix(getTime(firstLine))
+        
+        inputString = ""
+        # merge all the lines into one big string
+        for line in packet:
+                inputString = inputString + line
+
+        #print inputString
+
+        # get the transaction type
+        trpatt = re.compile("BC\_\w+",re.MULTILINE)
+        m = trpatt.search(inputString)
+        if m:
+                if m.group() == "BC_TRANSACTION":
+                        trType = 1
+                else:
+                        trType = 2
+        
+        # get the uid
+        uidpatt = re.compile("uid:\s[0-9]+",re.MULTILINE)
+        m = uidpatt.search(inputString)
+        
+        if m:
+                idpatt = re.compile("[0-9]+",re.MULTILINE)
+                n = idpatt.search(m.group(0))
+                senderEuid = n.group()
+                
+        # get the buffer contents
+        bufpatt = re.compile("\{[^\{]*\}",re.DOTALL)
+        m = bufpatt.findall(inputString)
+        
+        #print '\n\n'
+        
+        data = m[0] if len(m) > 0 else ""
+        offset = m[1] if len(m) > 1 else ""
+
+        data = unformatBuffer(data)
+        offset = unformatBuffer(offset)
+        #print len(data)
+        #print(data)
+        dataSize = 0 if data == [] else len(data)
+        offsetSize = 0 if offset == [] else len(offset)
+
+        # create the damn struct
+        dataFormatStr = "L" +str(dataSize)+"c"
+        offsetFormatStr = "L" +str(offsetSize)+"c"
+        structFormatString = ">I"+"H"+"I"+dataFormatStr+offsetFormatStr
+
+        #print structFormatString
+
+        values = [long(timePrefix),trType,long(senderEuid),dataSize]
+        #print values
+        if dataSize > 0:
+                values = values + data
+        #print values                
+
+        #print offsetSize
+        #print offset
+        
+        values.append(offsetSize)
+        #print values
+        if offsetSize > 0:
+                 values = values + offset
+        
+        #print values
+        structPacket = struct.Struct(structFormatString)
+        sPacket = structPacket.pack(*values)
+        hexdump(sPacket)
+
+        i = IP( dst = "127.0.0.1") / UDP(sport = 8085,dport =8085) / Raw (load=sPacket)
+        send(i)
+
+def sniffBuffers():
+        checkIpcBuffersAndFilterEnabled()
+        mostRecentTime=0
+        packetLines = []
+        # clip out the incomplete packet we might sniff
+        newPacket = False
+        
+        while True:
+                lines = getDmesg().splitlines()
+                for line in lines:
+                        if (getTime(line) > mostRecentTime):
+                                if ("BC_" in line):
+                                        if newPacket == True:
+                                                packAndSendPacket(packetLines)
+                                        packetLines = [line]
+                                        newPacket = True
+                                elif newPacket:
+                                        packetLines.append(line)
+                mostRecentTime = getTime(lines[-1])
+                
+
 
 # byte[8] values of latitude,longitude separated by '.' in string form
 # translated for binderfilter to use in the kernel
@@ -275,7 +561,7 @@ def getGpsStringForBinderFilter(latitude, longitude):
 
 	print combinedByteArrayString
 
-
+# requires root
 # message:uid:action_code:context:(context_type:context_val:)(data:)
 def setPolicy(results, opts):
 	message = results.message
@@ -287,16 +573,16 @@ def setPolicy(results, opts):
 	contextValue = results.contextValue
 
 	# print
-	# print("message: ", message)
-	# print("uid: ", uid)
-	# print("action: ", action)
-	# print("modifyData: ", modifyData)
-	# print("context: ", context)
-	# print("contextType: ", contextType)
-	# print("contextValue: ", contextValue)
+        print("message: ", message)
+        print("uid: ", uid)
+        print("action: ", action)
+	print("modifyData: ", modifyData)
+        print("context: ", context)
+        print("contextType: ", contextType)
+        print("contextValue: ", contextValue)
 
 	validate(message, uid, action, modifyData, context, contextType, contextValue)
-
+        #print 'here without shells'
 	filterline = str(message)+':'+str(uid)+':'+str(action)+':'+str(context)+':'
 	if int(context) != Contexts.CONTEXT_NONE.value:
 		filterline += str(contextType)+':'+str(contextValue)+':'
@@ -306,14 +592,14 @@ def setPolicy(results, opts):
 	checkAndCreateMiddleware()
 
 	# call middleware with filterline data
-	# adb shell su -c './data/local/tmp/middleware -a 2 -u 10082 -m test -c 2 -t 2 -v TheKrustyKrab'
-	cmd = 'adb shell \"su -c \'/data/local/tmp/middleware -a ' + str(action) + ' -u ' + str(uid) + ' -m ' + str(message) + ' -c ' + str(context)
+	# adb shell su 0 './data/local/tmp/middleware -a 2 -u 10082 -m test -c 2 -t 2 -v TheKrustyKrab'
+	cmd = 'adb shell \"/data/local/tmp/middleware -a ' + str(action) + ' -u ' + str(uid) + ' -m ' + str(message) + ' -c ' + str(context)
 	if modifyData is not None:
 		cmd += ' -d ' + str(modifyData)
 	if int(context) != Contexts.CONTEXT_NONE.value:
 		cmd += ' -t ' + str(contextType)
 		cmd += ' -v ' + str(contextValue)
-	cmd += '\'\"'
+	cmd += '\"'
 
 	# print cmd
 	print filterline
@@ -329,15 +615,16 @@ def checkAndCreateMiddleware():
 	if checkMiddlewareDoesNotExist() is True:
 		print "Cannot compile and move Android middleware. Please see documentation/cross-compiling/cross_compiling_c_for_android.txt for cross compiling instructions."
 		sys.exit()
-
+#requires root
 def checkMiddlewareDoesNotExist():
-	p1 = subprocess.Popen(["adb", "shell", "su", "-c", "\'if", "[", "!", "-f", "/data/local/tmp/middleware", "];", 
-							"then", "echo", "dne;", "fi\'"], stdout=subprocess.PIPE)
+	p1 = subprocess.Popen(["adb", "shell", "if", "[", "!", "-f", "/data/local/tmp/middleware", "];", 
+							"then", "echo", "dne;", "fi"], stdout=subprocess.PIPE)
 	output = p1.communicate()[0]
 	return "dne" in output
 
+#requires root
 def verifyFilterApplied(filterline, action):
-	output = subprocess.Popen(["adb", "shell", "su -c \'", "cat", binderFilterPolicyFile, "\'"], stdout=subprocess.PIPE).communicate()[0]
+	output = subprocess.Popen(["adb", "shell", "cat", binderFilterPolicyFile], stdout=subprocess.PIPE).communicate()[0]
 	if len(output) == 0:
 		firstLine = ""
 	else:
@@ -352,20 +639,20 @@ def verifyFilterApplied(filterline, action):
 
 	if firstLine != filterline:
 		print "Fatal error: Policy could not be successfully applied!"
-		print "Policy expected: " + filterline
-		print "\tbut was: " + firstLine
-		sys.exit()
+	print "Policy expected: " + filterline
+        print "\tbut was: " + firstLine
+	sys.exit()
 
 def validate(message, uid, action, modifyData, context, contextType, contextValue):
-	if message is None or uid is None or action is None:
+        if message is None or uid is None or action is None:
 		print "--message-contains, --uid, and --action must be set."
 		sys.exit()
 
 	if context is not None and int(context) != Contexts.CONTEXT_NONE.value and (contextType is None or contextValue is None):
-		print "--context-type and --context-value must be set if --context is not CONTEXT_NONE"
-		sys.exit()
+                print "--context-type and --context-value must be set if --context is not CONTEXT_NONE"
+                sys.exit()
 
-	if int(action) == Actions.MODIFY_ACTION.value and modifyData is None:
+	if int(action) == Actions.MODIFY_ACTION and modifyData is None:
 		print "--modify-data must be set if action is modify."
 		sys.exit()
 
@@ -394,7 +681,7 @@ def validate(message, uid, action, modifyData, context, contextType, contextValu
 			print "Context type not found. Use the --print-command-args flag to see possible values."
 			sys.exit()
 
-		if int(contextType) == ContextTypes.CONTEXT_TYPE_INT.value:
+                if int(contextType) == ContextTypes.CONTEXT_TYPE_INT.value:
 			try:
 				badContextValue = False
 				value = int(contextValue)
@@ -412,14 +699,20 @@ def validate(message, uid, action, modifyData, context, contextType, contextValu
 	checkBlockingEnabled()
 
 def main(argv):
-
+        try:
+                ret = subprocess.check_output("adb root",shell=True)
+        except subprocess.CalledProcessError as e:
+                print e.output
+                print 'Please check if you have a rooted device connected'
+                sys.exit(0)
+        
 	parser = argparse.ArgumentParser(description='Android Binder IPC hook and parser.')
 
 	parser.add_argument("-s", "--set-policy", action="store_true", dest="argSetPolicy",
 		 default="False", help="Set BinderFilter policy. Required: --message-contains, --uid, --action.")
 
 	parser.add_argument("-m", "--message-contains", action="store", dest="message",
-		            help="Set BinderFilter policy: Message to filter on. I.e. \"android.permission.CAMERA\". To modify arbitrary strings, prepend this message with binderfilter.arbitrary.x where x is the string. To modify arbitrary numbers, prepend this message with binderfilter.arbitrary.number.x. See the github docs for more information")
+		 help="Set BinderFilter policy: Message to filter on. I.e. \"android.permission.CAMERA\". To modify arbitrary strings, prepend this message with binderfilter.arbitrary.x where x is the string. See the github docs for more information")
 
 	parser.add_argument("-u", "--uid", action="store", dest="uid",
 		 help="Set BinderFilter policy: Uid to filter on. I.e. \"10082\". Find corresponding Uid for packagename with --get-uid-for [name]")
@@ -472,7 +765,7 @@ def main(argv):
 	parser.add_argument("-j", "--print-permissions", action="store_true", dest="argPrintPermissoins",
 		help="Print all Android system permissions from the packagemanager")
 
-	parser.add_argument("-k", "--print-applications", action="store_true", dest="argPrintApplications",
+        parser.add_argument("-k", "--print-applications", action="store_true", dest="argPrintApplications",
 		help="Print all Android applications installed")
 
 	parser.add_argument("-w", "--disable-block-and-modify-messages", action="store_true", dest="argDisableBlock",
@@ -497,6 +790,12 @@ def main(argv):
 	parser.add_argument("--print-command-args", action="store_true", dest="argPrintCommands",
 		 default="True", help="Print command argument values for --context and --print-logs-once.")
 
+        parser.add_argument("-t", "--sniff-buffers", action="store_true", dest="argSniffBuffers",
+                help="Sniff BinderFilter logs. Allows a user to filter specific process calls using wireshark")
+        
+        parser.add_argument("-snb", "--sniff-binder-logs", action="store", dest="argSniffForever",
+                            nargs="*", help="Sniff Android's native binder logs. Allows a user to filter specific process calls using wireshark")
+        
 	results = parser.parse_args()
 	opts = results._get_kwargs()
 
@@ -515,8 +814,10 @@ def main(argv):
 	if results.argPrintBuffersOnce is True:
 		printIpcBuffersOnce()
 	if results.argPrintBuffersForever is True:
-		printIpcBuffersForever() 
-	if results.argDisableFilter is True:
+		printIpcBuffersForever()
+        if results.argSniffBuffers is True:
+                sniffBuffers()
+        if results.argDisableFilter is True:
 		toggleFilterEnable(BINDER_FILTER_DISABLE)
 	if results.argEnableFilter is True:
 		toggleFilterEnable(BINDER_FILTER_ENABLE)
@@ -532,10 +833,14 @@ def main(argv):
 		getGpsStringForBinderFilter(results.latitude, results.longitude)
 	if results.argPrintCommands is True:
 		printCommands()
-
+                
 	debugArray = []
-	for opt in opts:
-		if opt[0] == "levelOnce" or opt[0] == "levelForever":
+        
+        for opt in opts:
+		if opt[0] == "levelOnce" or opt[0] == "levelForever" or opt[0] == "argSniffForever":
+
+                        returnDontPrint = opt[0] == "argSniffForever"
+                        
 			if opt[1] is not None: 		# None means the flag was not set
 				if not opt[1]:			# not means args to --print-logs-once or --print-logs-forever were empty
 					debugMask = 1111111111111111
@@ -546,9 +851,13 @@ def main(argv):
 							print "Bad debug level argument!"
 							sys.exit()
 						debugArray.append(int(level))
-
-				printBinderLog(debugMask, debugArray, opt[0] == "levelForever")
-		elif opt[0] == "packageName" and opt[1] is not None:
+                                if returnDontPrint:
+                                        while True:
+				                info = printBinderLog(debugMask, debugArray, True, returnDontPrint)
+                                                packAndSendBinderLogs(info)
+                                else:
+                                        printBinderLog(debugMask, debugArray, opt[0] == "levelForever",returnDontPrint)           
+                elif opt[0] == "packageName" and opt[1] is not None:
 			print getUidStringsForPackages(opt[1])
 
 
